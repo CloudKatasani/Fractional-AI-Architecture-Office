@@ -1,0 +1,327 @@
+# Shared catalog content used by both tenants. Tenant catalogs add industry-specific entries.
+
+genai_vendors_known: [OpenMind Studio, CopyGenie AI, ChatAssist Pro, DraftWise AI, LexiGen, PromptForge, Anthropic Claude, Azure OpenAI, Bedrock]
+approved_genai_platforms: [Anthropic Claude, Azure OpenAI, Bedrock]
+approved_cloud_regions: [us-east-1, us-west-2, eastus2]
+
+standards:
+  - id: STD-API-01
+    title: API-first for customer channels
+    domain: api
+    severity: high
+    rule_text: Customer-facing channels (portal, mobile, chatbot, IVR) must consume business capabilities through managed, versioned APIs. No channel may embed back-end business logic or call systems of record directly.
+    checks:
+      - {type: pattern_any, patterns: ["portal (will )?(query|read)s? the .* (database|tables) directly", "mobile app (will )?connect(s)? directly to"]}
+  - id: STD-API-02
+    title: API gateway mandatory for external exposure
+    domain: api
+    severity: high
+    rule_text: Any API exposed outside the corporate network must be published through the enterprise API gateway with authentication, rate limiting and logging.
+    checks:
+      - {type: pattern_any, patterns: ["expose[sd]? .{0,60}(directly|without the gateway|bypass(ing)? the gateway)", "public endpoint .{0,40}without (the )?gateway"]}
+  - id: STD-API-03
+    title: Strong authentication for confidential data APIs
+    domain: security
+    severity: high
+    rule_text: APIs returning confidential or restricted data must use OAuth2 or mTLS. API keys alone or anonymous access are not permitted.
+    checks:
+      - {type: pattern_any, patterns: ["(static|shared) api key", "no authentication", "anonymous access"]}
+  - id: STD-INT-01
+    title: Event-driven integration for high-volume state changes
+    domain: integration
+    severity: medium
+    rule_text: High-volume or near-real-time state changes are published as events on the enterprise streaming platform rather than polled point-to-point.
+    checks:
+      - {type: pattern_any, patterns: ["poll(s|ing)? .{0,40}every (\\d+ )?(second|seconds|minute)"]}
+  - id: STD-INT-02
+    title: No direct database links across application boundaries
+    domain: integration
+    severity: high
+    rule_text: Applications must not read from or write to another application's database (DB links, shared schemas, direct SQL). Use published APIs or events.
+    checks:
+      - {type: pattern_any, patterns: ["direct (database|db) (access|connection|link|query|read)", "\\bdb[ _-]?link", "query (the )?.{0,40}(tables|schema) directly", "read[- ]only (account|user) on the .{0,40}database", "writes? .{0,40}into the shared database"]}
+  - id: STD-INT-03
+    title: Integrations must be registered and approved
+    domain: integration
+    severity: medium
+    rule_text: Every integration between applications is registered in the integration catalog and approved by architecture before go-live.
+    checks: []
+  - id: STD-DATA-01
+    title: Data classification required before integration
+    domain: data
+    severity: high
+    rule_text: Every design that moves or stores data must state the classification (public, internal, confidential, restricted) of each data flow.
+    checks:
+      - {type: missing_all, patterns: ["classification", "classified as", "\\b(confidential|restricted) data\\b"]}
+  - id: STD-DATA-02
+    title: PII masked in non-production
+    domain: data
+    severity: high
+    rule_text: Personal data must be masked or synthesised before it is copied into any non-production environment.
+    checks:
+      - {type: pattern_any, patterns: ["(copy|copies|replicate[sd]?) .{0,40}production .{0,40}(to|into) (the )?(test|uat|dev|qa)", "unmasked"]}
+  - id: STD-DATA-03
+    title: Shared datasets need an owner and a data contract
+    domain: data
+    severity: medium
+    rule_text: Datasets consumed by more than one team must have a named owner and a published data contract (schema, SLA, quality rules).
+    checks: []
+  - id: STD-SEC-01
+    title: Approved identity provider only
+    domain: security
+    severity: high
+    rule_text: All workforce and customer authentication uses the approved enterprise identity platform. Local user stores are not permitted.
+    checks:
+      - {type: pattern_any, patterns: ["local user (store|table|accounts)", "own (login|user database)"]}
+  - id: STD-SEC-02
+    title: Threat model required for internet-facing or restricted-data systems
+    domain: security
+    severity: medium
+    rule_text: Systems that are internet-facing or process restricted data require a threat model reviewed by security architecture.
+    checks: []
+  - id: STD-CLD-01
+    title: Cloud tagging mandatory
+    domain: cloud
+    severity: medium
+    rule_text: Every cloud resource carries app, env and owner tags. Untagged resources are reported weekly and may be shut down.
+    checks: []
+  - id: STD-CLD-02
+    title: Approved cloud regions only
+    domain: cloud
+    severity: high
+    rule_text: Workloads run only in approved cloud regions.
+    checks: []
+  - id: STD-NFR-01
+    title: Availability targets by criticality
+    domain: nfr
+    severity: medium
+    rule_text: Tier-1 systems target 99.95% availability with tested failover; tier-2 target 99.9%.
+    checks: []
+  - id: STD-NFR-03
+    title: No long synchronous call chains on real-time paths
+    domain: nfr
+    severity: high
+    rule_text: Real-time user paths must not depend on synchronous call chains of more than three hops. Use asynchronous messaging, caching or aggregation.
+    checks:
+      - {type: sync_chain, max_hops: 3}
+  - id: STD-AI-01
+    title: Approved generative AI platforms only
+    domain: ai
+    severity: high
+    rule_text: Generative AI capabilities must be built on an approved platform from the approved GenAI list. Unapproved vendors require an exception and a data protection review.
+    checks:
+      - {type: unapproved_vendor}
+  - id: STD-AI-02
+    title: Production AI must be registered and evaluated
+    domain: ai
+    severity: high
+    rule_text: Every AI model, prompt application or agent in production is registered in the model registry with an owner, a risk tier and a current evaluation.
+    checks:
+      - {type: pattern_any, patterns: ["no (formal )?evaluation", "skip (the )?model registry"]}
+  - id: STD-AI-03
+    title: Human oversight for AI decisions affecting individuals
+    domain: ai
+    severity: high
+    rule_text: AI outputs that affect individuals' rights, prices, eligibility or employment require documented human oversight and an appeal route.
+    checks:
+      - {type: pattern_any, patterns: ["fully automated (decision|approval|pricing)", "without human review"]}
+  - id: STD-TECH-01
+    title: Supported framework versions only
+    domain: technology
+    severity: medium
+    rule_text: Applications run on vendor-supported runtimes and frameworks. End-of-life frameworks must have an upgrade plan within two quarters.
+    checks:
+      - {type: pattern_any, patterns: ["(java|jdk) ?(6|7|8)\\b", "angularjs", "\\.net framework 3\\.5", "python 2"]}
+  - id: STD-TECH-02
+    title: Infrastructure as code for cloud workloads
+    domain: technology
+    severity: low
+    rule_text: Cloud workloads are provisioned from version-controlled infrastructure-as-code.
+    checks:
+      - {type: pattern_any, patterns: ["provisioned manually", "click-ops", "manually in the console"]}
+  - id: STD-OBS-01
+    title: Centralised logging and monitoring
+    domain: operations
+    severity: low
+    rule_text: Applications ship logs and metrics to the enterprise observability platform.
+    checks: []
+
+patterns:
+  - id: PAT-01
+    name: API Gateway Facade
+    when_to_use: Expose a system of record to channels or partners through a managed, secured, versioned API.
+    keywords: [api, expose, channel, portal, partner, mobile, lookup, customer, external]
+    nfrs: [security, reuse]
+    components: [Consumer, API Gateway, Facade Service, System of Record, Identity Provider]
+    standard_ids: [STD-API-01, STD-API-02, STD-API-03, STD-SEC-01]
+    diagram_mermaid: |
+      flowchart LR
+        C[Channel / Partner] -->|OAuth2| G[API Gateway]
+        G --> F[Facade Service]
+        F --> S[(System of Record)]
+        G -.-> IdP[Identity Provider]
+  - id: PAT-02
+    name: Event Streaming Backbone
+    when_to_use: High-volume, near-real-time state changes consumed by several downstream systems.
+    keywords: [event, stream, real-time, meter, usage, telemetry, notification, high-volume, kafka, publish]
+    nfrs: [throughput, decoupling, latency]
+    components: [Producer, Schema Registry, Event Broker, Stream Processor, Consumers]
+    standard_ids: [STD-INT-01, STD-INT-04, STD-INT-05]
+    diagram_mermaid: |
+      flowchart LR
+        P[Producer] --> B{{Event Broker}}
+        SR[Schema Registry] -.-> B
+        B --> SP[Stream Processor]
+        B --> C1[Consumer A]
+        SP --> C2[Consumer B]
+  - id: PAT-03
+    name: Change Data Capture to Lakehouse
+    when_to_use: Replicate operational data into the analytics platform without touching source databases from consumers.
+    keywords: [analytics, replicate, warehouse, lake, reporting, cdc, insights, dashboard]
+    nfrs: [freshness, isolation]
+    components: [Source DB, CDC Connector, Event Broker, Lakehouse Raw, Curated Layer, BI]
+    standard_ids: [STD-INT-02, STD-DATA-01, STD-DATA-03]
+    diagram_mermaid: |
+      flowchart LR
+        S[(Source DB)] --> CDC[CDC Connector]
+        CDC --> B{{Broker}}
+        B --> R[(Lakehouse Raw)]
+        R --> CU[(Curated)]
+        CU --> BI[BI / Data Products]
+  - id: PAT-04
+    name: Strangler Fig Migration
+    when_to_use: Incrementally replace a legacy or end-of-support system while keeping consumers stable.
+    keywords: [migrate, legacy, replace, consolidate, retire, modernize, end of support]
+    nfrs: [risk reduction, continuity]
+    components: [Consumers, Routing Facade, Legacy System, New Service]
+    standard_ids: [STD-API-01, STD-TECH-01]
+    diagram_mermaid: |
+      flowchart LR
+        C[Consumers] --> R[Routing Facade]
+        R -->|legacy routes| L[Legacy System]
+        R -->|migrated routes| N[New Service]
+  - id: PAT-05
+    name: Backend for Frontend
+    when_to_use: A channel needs an aggregated, channel-specific API over several back-end services.
+    keywords: [mobile, app, portal, aggregate, channel, ui, frontend]
+    nfrs: [latency, channel autonomy]
+    components: [Mobile App, BFF, API Gateway, Domain APIs, Cache]
+    standard_ids: [STD-API-01, STD-NFR-03]
+    diagram_mermaid: |
+      flowchart LR
+        M[Mobile App] --> G[API Gateway] --> BFF[BFF]
+        BFF --> A1[Domain API 1]
+        BFF --> A2[Domain API 2]
+        BFF -.-> CA[(Cache)]
+  - id: PAT-06
+    name: Managed File Transfer
+    when_to_use: Batch exchange with external parties that cannot consume APIs.
+    keywords: [file, batch, partner, regulator, bank, csv, sftp, nightly]
+    nfrs: [auditability]
+    components: [Source, MFT Platform, Partner, Audit Log]
+    standard_ids: [STD-DATA-01, STD-INT-03]
+    diagram_mermaid: |
+      flowchart LR
+        S[Source] --> MFT[MFT Platform] --> P[Partner]
+        MFT -.-> A[(Audit Log)]
+  - id: PAT-07
+    name: Governed Data Product
+    when_to_use: A domain dataset is consumed by several teams and needs an owner, contract and SLA.
+    keywords: [data product, dataset, domain, share, contract, analytics, quality]
+    nfrs: [quality, discoverability]
+    components: [Domain Sources, Data Product Pipeline, Output Port, Data Contract, Catalog]
+    standard_ids: [STD-DATA-01, STD-DATA-03]
+    diagram_mermaid: |
+      flowchart LR
+        S1[Source 1] --> PP[Product Pipeline]
+        S2[Source 2] --> PP
+        PP --> OP[(Output Port)]
+        DC[Data Contract] -.-> OP
+        OP --> CAT[Catalog]
+  - id: PAT-08
+    name: Retrieval-Augmented Generation on Approved Platform
+    when_to_use: Answer questions or draft text grounded in enterprise documents using an approved GenAI platform.
+    keywords: [genai, chatbot, assistant, knowledge, documents, rag, summarize, draft, question, llm]
+    nfrs: [groundedness, privacy]
+    components: [User Channel, Orchestrator, Retriever, Vector Index, Approved LLM Platform, Guardrails, Eval Harness]
+    standard_ids: [STD-AI-01, STD-AI-02, STD-DATA-01]
+    diagram_mermaid: |
+      flowchart LR
+        U[User] --> O[Orchestrator]
+        O --> R[Retriever] --> V[(Vector Index)]
+        O --> L[Approved LLM Platform]
+        O --> GR[Guardrails]
+        E[Eval Harness] -.-> O
+  - id: PAT-09
+    name: Agent with Tools and Human Approval
+    when_to_use: An AI agent takes actions in enterprise systems; actions are proposed, approved by a human and logged.
+    keywords: [agent, agentic, automate, action, self-healing, tools, workflow]
+    nfrs: [safety, auditability]
+    components: [Agent Runtime, Tool Registry, Approval Gate, Target Systems, Audit Log, Approved LLM Platform]
+    standard_ids: [STD-AI-01, STD-AI-02, STD-AI-03]
+    diagram_mermaid: |
+      flowchart LR
+        A[Agent Runtime] --> T[Tool Registry]
+        A --> L[Approved LLM]
+        T --> AG{Approval Gate}
+        AG -->|approved| S[Target Systems]
+        AG -.-> AU[(Audit Log)]
+  - id: PAT-11
+    name: Orchestrated Saga
+    when_to_use: A multi-step business transaction spans several systems and must compensate on failure.
+    keywords: [order, workflow, transaction, provisioning, multi-step, orchestration, compensation]
+    nfrs: [consistency, resilience]
+    components: [Orchestrator, Step Services, Event Broker, Compensation Handlers]
+    standard_ids: [STD-INT-01, STD-NFR-03]
+    diagram_mermaid: |
+      flowchart LR
+        O[Saga Orchestrator] --> S1[Step 1]
+        O --> S2[Step 2]
+        O --> S3[Step 3]
+        S2 -.->|failure| C[Compensation]
+  - id: PAT-12
+    name: Batch ML Scoring Pipeline
+    when_to_use: Classic ML predictions computed on a schedule and written back for operational use.
+    keywords: [predict, forecast, score, model, ml, classification, anomaly, risk score]
+    nfrs: [reproducibility]
+    components: [Feature Store, Training Pipeline, Model Registry, Batch Scoring, Consuming App, Monitoring]
+    standard_ids: [STD-AI-02, STD-DATA-03]
+    diagram_mermaid: |
+      flowchart LR
+        FS[(Feature Store)] --> TR[Training] --> MR[Model Registry]
+        MR --> BS[Batch Scoring] --> APP[Consuming App]
+        BS -.-> MON[Monitoring]
+
+policies:
+  - id: POL-01
+    title: PII datasets must have a retention period
+    rule: Every dataset containing personal data must define retention_days.
+    regulation: Privacy (enterprise policy)
+    severity: high
+    check: {type: pii_requires_retention}
+  - id: POL-02
+    title: No restricted data in non-production
+    rule: Pipelines must not write restricted or PII data into non-production environments unless masked.
+    regulation: Privacy (enterprise policy)
+    severity: high
+    check: {type: no_restricted_nonprod}
+  - id: POL-03
+    title: BI must not read PII directly
+    rule: BI dashboards consume curated, de-identified datasets; direct reads of PII source datasets are not permitted.
+    regulation: Privacy (enterprise policy)
+    severity: medium
+    check: {type: no_bi_direct_pii}
+  - id: POL-04
+    title: Every dataset has an accountable owner
+    rule: Every dataset must have an owner_user_id.
+    regulation: Data governance policy
+    severity: medium
+    check: {type: owner_required}
+  - id: POL-05
+    title: Customer-facing AI requires model evaluation
+    rule: AI assets linked to customer-facing use cases must have eval_status of passed before production use.
+    regulation: Model risk standard
+    severity: high
+    check: {type: ai_eval_required}
+
+ai_eval_statuses: [passed, in_progress, failed, none]

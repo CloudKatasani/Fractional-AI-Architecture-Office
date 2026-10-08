@@ -1,0 +1,1 @@
+Assessed {{ f.n }} capabilities. Hottest: {% for h in f.hot %}{{ h.name }} [{{ h.ref }}] (heat {{ h.heat }}, {{ h.apps }} apps){% if not loop.last %}; {% endif %}{% endfor %}. {{ f.no_apps }} have no application and {{ f.too_many }} have more than six.

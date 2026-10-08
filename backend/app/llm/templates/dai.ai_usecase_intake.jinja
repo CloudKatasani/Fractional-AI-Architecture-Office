@@ -1,0 +1,1 @@
+Ranked {{ f.n }} AI use cases. Top: {% for t in f.top %}{{ t.title }} [{{ t.ref }}] ({{ t.score }}){% if not loop.last %}; {% endif %}{% endfor %}. {{ f.blocked }} have data-readiness blockers.

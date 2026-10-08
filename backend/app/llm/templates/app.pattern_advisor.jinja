@@ -1,0 +1,1 @@
+For "{{ f.text }}": {% if f.top %}recommend {{ f.top }} [{{ f.ref }}]{% if f.second %}, alternative {{ f.second }}{% endif %}.{% if f.reuse %} Reuse {{ f.reuse | join(', ') }}.{% endif %}{% else %}no reference pattern matched.{% endif %}

@@ -1,0 +1,1095 @@
+# NorthGrid Energy — electric and gas utility (synthetic). Hand-authored industry catalog.
+tenant:
+  id: northgrid
+  name: NorthGrid Energy
+  industry: Electric and gas utility, 2.1M customers, regulated
+  employees: 4800
+  it_spend_usd: 95000000
+  notes: Mix of on-prem OT and cloud IT; NERC CIP applies to OT; SAP IS-U style CIS for billing
+  boundary_label: IT/OT
+  approved_regions: [us-east-1, us-east-2, us-west-2]
+  home_region: us-east-1
+  email_domain: northgrid.example
+  cost_center_prefix: NG
+
+users:
+  - {key: pa, name: Avery Lindqvist, role: principal_architect, title: Principal Architect (Fractional Architecture Office)}
+  - {key: cio, name: Dana Okafor, role: cio, title: Chief Information Officer}
+  - {key: own_grid, name: Marcus Feld, role: app_owner, title: Director, Grid Operations Technology}
+  - {key: own_cust, name: Priya Raman, role: app_owner, title: Director, Customer Systems}
+  - {key: own_asset, name: Tomasz Wierzbicki, role: app_owner, title: Director, Asset & Field Systems}
+  - {key: own_corp, name: Elena Marsh, role: app_owner, title: Manager, Corporate Applications}
+  - {key: own_data, name: Jordan Achebe, role: app_owner, title: Manager, Analytics Platforms}
+  - {key: sec, name: Hannah Voss, role: security_architect, title: Lead Security Architect, IT/OT}
+  - {key: dgl, name: Samuel Ortiz, role: data_governance_lead, title: Data Governance Lead}
+  - {key: risk, name: Grace Mbeki, role: risk_officer, title: Chief Risk & Compliance Officer}
+  - {key: tl, name: Leo Brandt, role: tech_lead, title: Engineering Lead, Digital Platforms}
+
+# Owner assignment for applications/datasets by L1 capability
+owner_by_l1:
+  Generation Management: own_grid
+  Transmission & Distribution Operations: own_grid
+  Grid Modernization: own_grid
+  Asset Management: own_asset
+  Outage Management: own_grid
+  Metering & Meter Data: own_cust
+  Customer Service & Billing: own_cust
+  Energy Trading & Settlement: own_corp
+  Regulatory Compliance & Reporting: own_corp
+  Field Workforce Management: own_asset
+  Vegetation Management: own_asset
+  Safety & Environmental: own_asset
+  Corporate: own_corp
+  Enterprise Data & Analytics: own_data
+  Cybersecurity (IT/OT): sec
+
+capabilities:
+  - name: Generation Management
+    importance: 3
+    maturity: 3
+    keywords: [generation, plant, dispatch, fuel, renewable]
+    children:
+      - {name: Plant Operations, children: [Unit Dispatch, Plant Maintenance]}
+      - {name: Fuel Management}
+      - {name: Renewable Asset Performance, maturity: 2}
+  - name: Transmission & Distribution Operations
+    importance: 5
+    maturity: 3
+    keywords: [grid, scada, ems, distribution, transmission, switching, substation, control room]
+    children:
+      - {name: Grid Control & SCADA, maturity: 4, children: [Energy Management, Distribution Management]}
+      - {name: Switching & Clearance}
+      - {name: Substation Operations}
+  - name: Grid Modernization
+    importance: 5
+    maturity: 2
+    keywords: [modernization, der, distributed energy, demand response, automation, ev, smart grid, decarbonization]
+    children:
+      - {name: DER Integration, maturity: 1, children: [DER Forecasting, DER Control]}
+      - {name: Demand Response}
+      - {name: Advanced Distribution Automation}
+  - name: Asset Management
+    importance: 4
+    maturity: 3
+    keywords: [asset, transformer, maintenance, work order, inspection, reliability, condition]
+    children:
+      - {name: Asset Registry & Health, children: [Transformer Health]}
+      - {name: Work Management}
+      - {name: Inspection Management, maturity: 2}
+  - name: Outage Management
+    importance: 5
+    maturity: 2
+    keywords: [outage, restoration, storm, reliability, saidi, saifi, trouble call]
+    children:
+      - {name: Outage Detection & Restoration, maturity: 2, children: [Storm Response]}
+      - {name: Outage Communications, maturity: 2}
+      - {name: Reliability Reporting}
+  - name: Metering & Meter Data
+    importance: 4
+    maturity: 3
+    keywords: [meter, ami, interval, mdm, usage, metering, theft]
+    children:
+      - {name: AMI Operations}
+      - {name: Meter Data Management, children: [Revenue Protection]}
+      - {name: Meter-to-Cash Validation}
+  - name: Customer Service & Billing
+    importance: 4
+    maturity: 3
+    keywords: [customer, billing, bill, portal, contact center, payment, experience, rate, tariff, digital]
+    children:
+      - {name: Billing & Rates, children: [Rate Case Modeling]}
+      - {name: Customer Contact}
+      - {name: Digital Customer Channels, maturity: 2}
+      - {name: Payments & Collections}
+  - name: Energy Trading & Settlement
+    importance: 3
+    maturity: 3
+    keywords: [trading, settlement, market, energy price, risk position]
+    children:
+      - {name: Trading & Risk}
+      - {name: Settlement}
+  - name: Regulatory Compliance & Reporting
+    importance: 4
+    maturity: 2
+    keywords: [regulatory, compliance, puc, filing, nerc, cip, rate case, mandate]
+    children:
+      - {name: Regulatory Filings}
+      - {name: Compliance Management, children: [NERC CIP Compliance]}
+  - name: Field Workforce Management
+    importance: 4
+    maturity: 2
+    keywords: [field, crew, dispatch, workforce, mobile, technician, scheduling]
+    children:
+      - {name: Crew Dispatch & Scheduling}
+      - {name: Mobile Field Execution}
+  - name: Vegetation Management
+    importance: 5
+    maturity: 2
+    keywords: [vegetation, wildfire, tree, encroachment, right-of-way, fire, imagery]
+    children:
+      - {name: Vegetation Inspection, maturity: 2}
+      - {name: Wildfire Risk Mitigation, maturity: 1}
+  - name: Safety & Environmental
+    importance: 4
+    maturity: 3
+    keywords: [safety, environmental, incident, emissions, hse]
+    children:
+      - {name: Safety Incident Management}
+      - {name: Environmental Compliance}
+  - name: Corporate
+    importance: 2
+    maturity: 4
+    keywords: [finance, hr, procurement, erp, collaboration, documents, payroll]
+    children:
+      - {name: Finance & ERP}
+      - {name: Human Resources}
+      - {name: Procurement}
+      - {name: Document & Collaboration, maturity: 2}
+      - {name: Project & Portfolio Management}
+  - name: Enterprise Data & Analytics
+    importance: 4
+    maturity: 2
+    keywords: [data, analytics, bi, warehouse, lake, ai, reporting, governance]
+    children:
+      - {name: Data Platform}
+      - {name: Business Intelligence}
+      - {name: Data Governance, maturity: 1}
+      - {name: AI & Machine Learning, maturity: 1}
+  - name: Cybersecurity (IT/OT)
+    importance: 5
+    maturity: 3
+    keywords: [security, identity, siem, ot security, cyber, access]
+    children:
+      - {name: Identity & Access}
+      - {name: Security Monitoring}
+      - {name: OT Security, maturity: 2}
+      - {name: Integration & API Management}
+
+# Named applications. Keys: n name, v vendor, cat category, cap capability (L2/L3), caps extra, h hosting,
+# c criticality(1 highest), z zone(it|ot), cost annual USD, u users 90d, st tech stack, fw repo framework,
+# f features, cl overlap cluster, cls classification, reg regulatory scope, eos days to vendor EOS,
+# ren contract trap, inhouse, hot (incident hotspot), apis, desc
+applications:
+  - {n: GridView EMS, v: Voltara Systems, cat: SCADA/EMS, cap: Energy Management, h: on_prem, c: 1, z: ot, cost: 2400000, u: 140, st: [C++, Oracle 19c, RHEL], cls: restricted, reg: [NERC CIP], f: [telemetry, state_estimation, agc], desc: Transmission energy management system and SCADA master for the control center.}
+  - {n: Distribution Command ADMS, v: Voltara Systems, cat: ADMS/DMS, cap: Distribution Management, h: on_prem, c: 1, z: ot, cost: 1900000, u: 160, st: [C++, Oracle 19c], cls: restricted, reg: [NERC CIP], f: [switching, flisr, volt_var], desc: Advanced distribution management system with FLISR and volt/VAR optimization.}
+  - {n: GridHistorian, v: Archon Data Systems, cat: Historian, cap: Grid Control & SCADA, h: on_prem, c: 2, z: ot, cost: 420000, u: 210, st: [.NET, SQL Server], cls: restricted, reg: [NERC CIP], f: [timeseries, telemetry_archive]}
+  - {n: SubStation Gateway, v: Voltara Systems, cat: Substation automation, cap: Substation Operations, h: on_prem, c: 1, z: ot, cost: 310000, u: 45, st: [Embedded Linux, IEC 61850], cls: restricted, reg: [NERC CIP]}
+  - {n: SwitchOrder Manager, v: Kestrel Utility Software, cat: Switching orders, cap: Switching & Clearance, h: on_prem, c: 2, z: ot, cost: 180000, u: 90, st: [Java 8, Oracle 12c], fw: Java 8 / Spring 3.2, hot: true, cls: restricted, reg: [NERC CIP]}
+  - {n: RelaySet Protection DB, inhouse: true, cat: Protection settings, cap: Substation Operations, h: on_prem, c: 2, z: ot, cost: 95000, u: 30, st: [Access, VBA], fw: .NET Framework 3.5 / WinForms, hot: true, cls: restricted, reg: [NERC CIP]}
+  - {n: Plant DCS Gateway, v: Helix Controls, cat: DCS interface, cap: Unit Dispatch, h: on_prem, c: 1, z: ot, cost: 260000, u: 35, st: [C, OPC UA], cls: restricted, reg: [NERC CIP]}
+  - {n: FuelTrack, v: Carbonline Software, cat: Fuel management, cap: Fuel Management, h: saas, c: 3, cost: 140000, u: 25, st: [SaaS]}
+  - {n: WindSun Performance Monitor, v: Renewa Analytics, cat: Renewables monitoring, cap: Renewable Asset Performance, h: saas, c: 3, cost: 210000, u: 40, st: [SaaS]}
+  - {n: PlantMaint Planner, inhouse: true, cat: Maintenance planning, cap: Plant Maintenance, h: on_prem, c: 3, cost: 80000, u: 55, st: [Java 7, Struts 1.3], fw: Java 7 / Struts 1.3, hot: true}
+  - {n: LoadCast Forecasting, inhouse: true, cat: Load forecasting, cap: Energy Management, caps: [DER Forecasting], h: iaas, c: 2, cost: 160000, u: 28, st: [Python 3.11, Airflow], fw: Python 3.11 / FastAPI}
+  - {n: DERMS Orchestrator, v: Gridflex Inc, cat: DERMS, cap: DER Control, h: saas, c: 2, cost: 680000, u: 60, st: [SaaS], f: [der_registry, der_dispatch]}
+  - {n: FlexLoad DRMS, v: Gridflex Inc, cat: Demand response, cap: Demand Response, h: saas, c: 3, cost: 390000, u: 35, st: [SaaS], f: [dr_events, enrollment]}
+  - {n: DER Interconnect Portal, inhouse: true, cat: Interconnection portal, cap: DER Integration, h: paas, c: 3, cost: 120000, u: 900, st: [Node.js 20, React 18, PostgreSQL], fw: Node.js 20 / Express 4}
+  - {n: EV Charge Manager, v: VoltCharge Networks, cat: EV programs, cap: DER Integration, h: saas, c: 3, cost: 150000, u: 50, st: [SaaS]}
+  - {n: Feeder Automation Controller, v: Voltara Systems, cat: Distribution automation, cap: Advanced Distribution Automation, h: on_prem, c: 2, z: ot, cost: 330000, u: 40, st: [C++], cls: restricted, reg: [NERC CIP]}
+  - {n: AssetWorks EAM, v: Ironbridge Software, cat: Work and asset management, cap: Work Management, caps: [Asset Registry & Health], h: on_prem, c: 1, cost: 1650000, u: 1900, st: [Java 11, Oracle 19c, WebSphere], fw: Java 11 / Spring 5, f: [work_orders, asset_registry, inspections]}
+  - {n: TransformerIQ, v: Dielectric Labs, cat: Asset health analytics, cap: Transformer Health, h: saas, c: 3, cost: 175000, u: 22, st: [SaaS]}
+  - {n: InspectPro Field, v: Fieldbase Ltd, cat: Field inspections, cap: Inspection Management, h: saas, c: 3, cost: 230000, u: 310, st: [SaaS], f: [inspection_forms, photos, offline_mobile, defect_capture], cl: field_inspection}
+  - {n: SafeCheck Inspections, v: Checkpoint Mobile, cat: Field inspections, cap: Inspection Management, h: saas, c: 3, cost: 145000, u: 95, st: [SaaS], f: [inspection_forms, photos, offline_mobile], cl: field_inspection}
+  - {n: OutageWorks OMS, v: Kestrel Utility Software, cat: Outage management system, cap: Outage Detection & Restoration, caps: [Storm Response], h: on_prem, c: 1, cost: 1450000, u: 420, st: [Java 8, Oracle 11g, Tomcat 7], fw: Java 8 / Struts 2.3, hot: true, eos: 213, f: [outage_tracking, trouble_calls, restoration_eta, crew_assignment, prediction_engine], cl: outage, cls: confidential, desc: Core outage management system; vendor has announced end of support for this major version.}
+  - {n: StormTrack Restoration Planner, inhouse: true, cat: Storm restoration planning, cap: Storm Response, h: on_prem, c: 2, cost: 210000, u: 140, st: [.NET Framework 4.5, SQL Server 2012], fw: .NET Framework 4.5 / WebForms, hot: true, f: [restoration_eta, crew_assignment, damage_assessment], cl: outage}
+  - {n: Outage Map Portal, v: Brightpath Digital, cat: Customer outage map, cap: Outage Communications, h: saas, c: 2, cost: 190000, u: 52000, st: [SaaS], f: [outage_map, restoration_eta], cl: outage, desc: Public outage map embedded in the customer portal.}
+  - {n: Crew Restoration Tracker, inhouse: true, cat: Crew tracking, cap: Outage Detection & Restoration, h: on_prem, c: 3, cost: 70000, u: 85, st: [Access, VBA], fw: .NET Framework 3.5 / WinForms, hot: true, f: [crew_assignment, outage_tracking], cl: outage}
+  - {n: NotifyNow Outage Alerts, v: Signalwave, cat: Customer notifications, cap: Outage Communications, h: saas, c: 2, cost: 160000, u: 30, st: [SaaS]}
+  - {n: ReliaStat Reliability Reporting, inhouse: true, cat: Reliability indices, cap: Reliability Reporting, h: on_prem, c: 3, cost: 60000, u: 26, st: [Python 2.7, Django 1.8], fw: Python 2.7 / Django 1.8, hot: true}
+  - {n: MeterLink AMI Head-End, v: Quantia Metering, cat: AMI head-end, cap: AMI Operations, h: on_prem, c: 1, z: ot, cost: 1100000, u: 75, st: [Java 11, Oracle 19c], eos: 260, cls: confidential, reg: [NERC CIP], f: [meter_reads, remote_connect, firmware]}
+  - {n: MeterSense MDM, v: Quantia Metering, cat: Meter data management, cap: Meter Data Management, h: iaas, c: 1, cost: 1250000, u: 180, st: [Java 17, PostgreSQL 15, Kafka], cls: confidential, reg: [PUC Privacy, Meter Data Retention], f: [vee, interval_storage, billing_determinants], desc: Meter data management, VEE and billing determinants; system of record for interval data.}
+  - {n: RevGuard Theft Analytics, v: Quantia Metering, cat: Revenue protection, cap: Revenue Protection, h: saas, c: 3, cost: 135000, u: 18, st: [SaaS]}
+  - {n: VEE Exception Workbench, inhouse: true, cat: Meter-to-cash validation, cap: Meter-to-Cash Validation, h: on_prem, c: 2, cost: 75000, u: 40, st: [Java 8, AngularJS 1.5], fw: AngularJS 1.5 / Java 8, hot: true}
+  - {n: CustomerOne CIS, v: Walldorf Utility Systems, cat: Customer information system, cap: Billing & Rates, caps: [Payments & Collections, Customer Contact], h: on_prem, c: 1, cost: 4800000, u: 1250, st: [ABAP, HANA], cls: confidential, reg: [SOX, PUC Privacy], f: [billing, accounts, rates, collections], desc: SAP IS-U style customer information and billing system; system of record for customer accounts.}
+  - {n: RateCase Modeler, v: Regulus Analytics, cat: Rate case modeling, cap: Rate Case Modeling, h: saas, c: 3, cost: 220000, u: 16, st: [SaaS]}
+  - {n: FileReg Regulatory Filing, v: Regulus Analytics, cat: Regulatory filing, cap: Regulatory Filings, h: saas, c: 2, cost: 180000, u: 30, st: [SaaS], reg: [PUC]}
+  - {n: MyNorthGrid Portal, inhouse: true, cat: Customer portal, cap: Digital Customer Channels, h: paas, c: 1, cost: 640000, u: 410000, st: [React 18, Node.js 20, PostgreSQL], fw: Node.js 20 / Express 4, cls: confidential, reg: [PUC Privacy], f: [self_service, outage_map, payments, usage_view]}
+  - {n: NorthGrid Mobile App, inhouse: true, cat: Mobile app, cap: Digital Customer Channels, h: paas, c: 2, cost: 380000, u: 260000, st: [React Native 0.72, Node.js 20], fw: React Native 0.72, cls: confidential, f: [mobile_self_service, push_notifications, outage_map]}
+  - {n: VoiceFirst IVR, v: Callisto Communications, cat: IVR, cap: Customer Contact, h: on_prem, c: 2, cost: 420000, u: 60, st: [VoiceXML, Java 8], fw: Java 8 / Spring 3.2, hot: true}
+  - {n: Nimbus CRM, v: Nimbus Cloud Inc, cat: CRM, cap: Customer Contact, h: saas, c: 2, cost: 960000, u: 780, st: [SaaS], cls: confidential, f: [case_management, interactions]}
+  - {n: ContactPoint Contact Center, v: Callisto Communications, cat: Contact center platform, cap: Customer Contact, h: saas, c: 2, cost: 540000, u: 420, st: [SaaS]}
+  - {n: PrintStream Bill Print, v: Docuverse, cat: Bill print, cap: Billing & Rates, h: on_prem, c: 2, cost: 310000, u: 12, st: [COBOL, DB2], eos: 240, cls: confidential}
+  - {n: PayBridge Gateway, v: Paylinx, cat: Payment gateway, cap: Payments & Collections, h: saas, c: 1, cost: 290000, u: 20, st: [SaaS], cls: restricted, reg: [PCI DSS]}
+  - {n: CollectPro, v: Recovery Systems Corp, cat: Collections, cap: Payments & Collections, h: saas, c: 3, cost: 160000, u: 70, st: [SaaS], cls: confidential}
+  - {n: TradeVolt ETRM, v: Ampere Markets, cat: Energy trading and risk, cap: Trading & Risk, h: iaas, c: 2, cost: 870000, u: 45, st: [.NET 6, SQL Server 2019], reg: [SOX]}
+  - {n: SettleRight, v: Ampere Markets, cat: Settlement, cap: Settlement, h: iaas, c: 2, cost: 310000, u: 24, st: [.NET 6, SQL Server 2019], reg: [SOX]}
+  - {n: ComplyTrack GRC, v: Assurance Labs, cat: GRC, cap: Compliance Management, h: saas, c: 3, cost: 260000, u: 110, st: [SaaS]}
+  - {n: CIP Evidence Manager, inhouse: true, cat: NERC CIP evidence, cap: NERC CIP Compliance, h: on_prem, c: 2, cost: 90000, u: 35, st: [Java 8, SharePoint 2013], fw: Java 8 / Spring 4, reg: [NERC CIP]}
+  - {n: DispatchPro, v: Mobilix, cat: Crew dispatch, cap: Crew Dispatch & Scheduling, h: saas, c: 2, cost: 520000, u: 380, st: [SaaS], f: [scheduling, dispatch, routing]}
+  - {n: FieldForce Mobile, v: Mobilix, cat: Mobile workforce, cap: Mobile Field Execution, h: saas, c: 2, cost: 610000, u: 1400, st: [SaaS], f: [work_execution, offline_mobile, photos]}
+  - {n: CanopyIQ, v: Arbor Analytics, cat: Vegetation management analytics, cap: Vegetation Inspection, h: saas, c: 2, cost: 450000, u: 65, st: [SaaS], f: [imagery_analysis, trim_cycles]}
+  - {n: SkyInspect Drone Platform, v: Aerolens, cat: Drone inspection, cap: Vegetation Inspection, caps: [Inspection Management], h: saas, c: 3, cost: 330000, u: 40, st: [SaaS], f: [imagery_capture, defect_detection]}
+  - {n: FireWatch Risk Model, inhouse: true, cat: Wildfire risk, cap: Wildfire Risk Mitigation, h: iaas, c: 2, cost: 140000, u: 20, st: [Python 3.10, Spark], fw: Python 3.10 / PySpark}
+  - {n: SafeReport, v: Hazard Systems, cat: Safety incident management, cap: Safety Incident Management, h: saas, c: 3, cost: 120000, u: 900, st: [SaaS]}
+  - {n: EnviroTrack, v: Hazard Systems, cat: Environmental compliance, cap: Environmental Compliance, h: saas, c: 3, cost: 110000, u: 45, st: [SaaS]}
+  - {n: Corvus ERP, v: Corvus Software, cat: ERP, cap: Finance & ERP, h: on_prem, c: 1, cost: 2900000, u: 1600, st: [ABAP, HANA], reg: [SOX], f: [general_ledger, ap, capital_projects]}
+  - {n: SourceRight Procurement, v: Corvus Software, cat: Procurement, cap: Procurement, h: saas, c: 3, cost: 340000, u: 420, st: [SaaS], reg: [SOX]}
+  - {n: Workwell HRIS, v: Workwell Inc, cat: HRIS, cap: Human Resources, h: saas, c: 2, cost: 780000, u: 4600, st: [SaaS], cls: confidential}
+  - {n: PayDay Payroll, v: Workwell Inc, cat: Payroll, cap: Human Resources, h: saas, c: 2, cost: 260000, u: 60, st: [SaaS], cls: confidential, reg: [SOX]}
+  - {n: TalentScout ATS, v: Hirewise, cat: Applicant tracking, cap: Human Resources, h: saas, c: 3, cost: 95000, u: 85, st: [SaaS], cls: confidential}
+  - {n: LearnHub LMS, v: Coursely, cat: Learning management, cap: Human Resources, h: saas, c: 3, cost: 120000, u: 3900, st: [SaaS]}
+  - {n: Legacy DocuVault, v: Archivex, cat: Document management, cap: Document & Collaboration, h: on_prem, c: 3, cost: 380000, u: 210, st: [Java 6, Oracle 10g], fw: Java 6 / J2EE, hot: true, eos: 150, f: [document_storage, versioning, records_retention], cl: docs, desc: Legacy document repository; content partially migrated to TeamSpace Docs.}
+  - {n: TeamSpace Docs, v: TeamSpace Corp, cat: Document management, cap: Document & Collaboration, h: saas, c: 2, cost: 520000, u: 4300, st: [SaaS], f: [document_storage, versioning, search, sharing], cl: docs}
+  - {n: RecordsOne ECM, v: Contentis, cat: Document management, cap: Document & Collaboration, h: on_prem, c: 3, cost: 450000, u: 380, st: [.NET Framework 4.6, SQL Server 2014], f: [document_storage, records_retention, versioning], cl: docs}
+  - {n: TeamSpace Chat, v: TeamSpace Corp, cat: Collaboration, cap: Document & Collaboration, h: saas, c: 2, cost: 310000, u: 4500, st: [SaaS], f: [chat, video, channels], cl: collab}
+  - {n: ChatWave, v: Wavelength Software, cat: Collaboration, cap: Document & Collaboration, h: saas, c: 3, cost: 190000, u: 620, st: [SaaS], f: [chat, channels], cl: collab, ren: {auto_renew: true, renewal_days: 45, utilization: 0.24}}
+  - {n: ConferPoint, v: Confer Systems, cat: Collaboration, cap: Document & Collaboration, h: saas, c: 3, cost: 160000, u: 900, st: [SaaS], f: [video, chat], cl: collab}
+  - {n: Projector PPM, v: Plansmith, cat: Project portfolio management, cap: Project & Portfolio Management, h: saas, c: 3, cost: 210000, u: 380, st: [SaaS], f: [project_tracking, resource_planning, portfolio], cl: pm}
+  - {n: Taskboard Cloud, v: Taskboard Inc, cat: Project tracking, cap: Project & Portfolio Management, h: saas, c: 4, cost: 85000, u: 240, st: [SaaS], f: [project_tracking, kanban], cl: pm}
+  - {n: GeoGrid GIS, v: Terrapin Geospatial, cat: GIS, cap: Asset Registry & Health, caps: [Distribution Management, Vegetation Inspection], h: on_prem, c: 1, cost: 1350000, u: 650, st: [.NET 6, Oracle Spatial 19c], cls: confidential, f: [network_model, editing, spatial_analysis], desc: Enterprise GIS and network connectivity model (Esri-style).}
+  - {n: GeoGrid Field Viewer, v: Terrapin Geospatial, cat: GIS viewer, cap: Mobile Field Execution, h: saas, c: 3, cost: 180000, u: 820, st: [SaaS], f: [map_viewing, offline_maps, redlining], cl: gisview}
+  - {n: MapLite Viewer, v: Cartolite, cat: GIS viewer, cap: Mobile Field Execution, h: saas, c: 4, cost: 95000, u: 140, st: [SaaS], f: [map_viewing, offline_maps], cl: gisview}
+  - {n: NorthGrid Data Lake, inhouse: true, cat: Data lake, cap: Data Platform, h: paas, c: 2, cost: 860000, u: 160, st: [AWS S3, Spark, Glue], fw: Python 3.11 / PySpark, f: [storage, processing]}
+  - {n: Terabase EDW, v: Terabase, cat: Enterprise data warehouse, cap: Data Platform, h: on_prem, c: 2, cost: 1150000, u: 240, st: [Terabase 16, Informatica 10], f: [warehouse, reporting]}
+  - {n: Lumen BI, v: Lumen Analytics, cat: BI, cap: Business Intelligence, h: saas, c: 3, cost: 410000, u: 1150, st: [SaaS], f: [dashboards, self_service_bi, reporting], cl: bi}
+  - {n: Vizora Analytics, v: Vizora Ltd, cat: BI, cap: Business Intelligence, h: saas, c: 3, cost: 330000, u: 95, st: [SaaS], f: [dashboards, reporting], cl: bi, ren: {auto_renew: true, renewal_days: 64, utilization: 0.18}, desc: Vendor-hosted analytics; licensed for 520 seats.}
+  - {n: Catalogix Data Catalog, v: Catalogix, cat: Data catalog, cap: Data Governance, h: saas, c: 3, cost: 180000, u: 70, st: [SaaS]}
+  - {n: ModelHub ML Platform, inhouse: true, cat: ML platform, cap: AI & Machine Learning, h: paas, c: 3, cost: 240000, u: 35, st: [Python 3.11, MLflow, Kubernetes], fw: Python 3.11 / MLflow}
+  - {n: Keystone IAM, v: Keystone Identity, cat: Identity, cap: Identity & Access, h: saas, c: 1, cost: 520000, u: 4700, st: [SaaS]}
+  - {n: WatchTower SIEM, v: Obsidian Security, cat: SIEM, cap: Security Monitoring, h: saas, c: 1, cost: 610000, u: 40, st: [SaaS]}
+  - {n: OTGuard Network Monitor, v: Nozomia Networks, cat: OT network monitoring, cap: OT Security, h: on_prem, c: 1, z: ot, cost: 290000, u: 18, st: [Appliance], reg: [NERC CIP]}
+  - {n: NorthGrid ESB, v: Integra Systems, cat: Integration bus, cap: Integration & API Management, h: on_prem, c: 1, cost: 480000, u: 30, st: [Java 8, Integra ESB 6], fw: Java 8 / Spring 4}
+  - {n: APIGate, v: Portico API, cat: API gateway, cap: Integration & API Management, h: saas, c: 1, cost: 210000, u: 25, st: [SaaS]}
+  - {n: XpenseIt, v: Spendly, cat: Expense management, cap: Finance & ERP, h: saas, c: 4, cost: 90000, u: 3100, st: [SaaS]}
+  - {n: FleetLink, v: Roadstar Telematics, cat: Fleet management, cap: Crew Dispatch & Scheduling, h: saas, c: 3, cost: 230000, u: 120, st: [SaaS]}
+  - {n: KnowledgeOne, inhouse: true, cat: Knowledge base, cap: Customer Contact, h: paas, c: 3, cost: 55000, u: 600, st: [Node.js 14, MongoDB 4], fw: Node.js 14 / Express 4}
+  - {n: EcoPrograms Manager, v: Greenleaf Software, cat: Energy efficiency programs, cap: Demand Response, h: saas, c: 4, cost: 120000, u: 45, st: [SaaS]}
+  - {n: Load Research Analytics, inhouse: true, cat: Load research, cap: Meter Data Management, h: on_prem, c: 4, cost: 45000, u: 12, st: [SAS 9.2], fw: SAS 9.2, hot: true}
+
+# Generated "long tail" applications to reach target volume.
+filler:
+  target_total: 180
+  suffixes: [Tracker, Portal, Workbench, Scheduler, Reporting Tool, Calculator, Database, Dashboard, Log, Planner]
+  nouns:
+    Plant Maintenance: [Turbine Outage, Boiler Inspection]
+    Fuel Management: [Gas Nomination, Coal Yard]
+    Energy Management: [Interchange, Reserve Margin]
+    Switching & Clearance: [Clearance Request, Tagging]
+    Substation Operations: [Substation Battery, Relay Test]
+    DER Integration: [Solar Interconnection, Net Metering]
+    Demand Response: [Peak Rebate, Thermostat Program]
+    Asset Registry & Health: [Pole Asset, Cable Fault, Meter Asset]
+    Work Management: [Capital Work, Job Estimating, Material Requisition]
+    Inspection Management: [Line Patrol, Substation Inspection]
+    Outage Communications: [Storm Hotline, Restoration Messaging]
+    Reliability Reporting: [Momentary Outage, Worst Feeder]
+    AMI Operations: [Meter Firmware, Network Collector]
+    Meter Data Management: [Usage Estimation, Interval Gap]
+    Billing & Rates: [Rate Tariff, Bill Adjustment, Budget Billing]
+    Customer Contact: [Complaint, Call Quality, Customer Survey]
+    Digital Customer Channels: [Paperless Billing, Start Stop Service]
+    Payments & Collections: [Payment Arrangement, Disconnect Notice]
+    Trading & Risk: [Hedge, Credit Exposure]
+    Regulatory Filings: [Tariff Filing, Rate Case Discovery]
+    Compliance Management: [Policy Attestation, Audit Finding]
+    Crew Dispatch & Scheduling: [On-Call, Mutual Assistance]
+    Mobile Field Execution: [Meter Exchange, Field Timesheet]
+    Vegetation Inspection: [Tree Trimming, Hazard Tree]
+    Wildfire Risk Mitigation: [Fire Weather, PSPS Event]
+    Safety Incident Management: [Near Miss, Safety Observation]
+    Environmental Compliance: [Emissions, Spill Response]
+    Finance & ERP: [Capital Budget, Fixed Asset, Cost Allocation]
+    Human Resources: [Overtime, Union Seniority]
+    Procurement: [Vendor Onboarding, Purchase Requisition]
+    Project & Portfolio Management: [Capital Project, Change Request]
+    Business Intelligence: [KPI, Executive Scorecard]
+    Data Platform: [Data Quality, Reference Data]
+    Security Monitoring: [Vulnerability, Access Review]
+    OT Security: [OT Patch, CIP Access]
+
+# Shadow IT: SaaS tools found only in invoices, expense reports and SSO logs (not in the inventory)
+shadow_it:
+  - {name: PollPanda, vendor_raw: [PollPanda Inc, POLLPANDA.COM], sso_raw: [pollpanda], monthly: 1450, channel: invoice, cost_center: Customer Experience}
+  - {name: TaskTide, vendor_raw: [TaskTide Ltd, Tasktide], sso_raw: [tasktide-prod], monthly: 2100, channel: invoice, cost_center: Grid Modernization PMO}
+  - {name: Boardly, vendor_raw: [BOARDLY INC, boardly.io], sso_raw: [Boardly App], monthly: 900, channel: invoice, cost_center: IT Projects}
+  - {name: CopyGenie AI, vendor_raw: [COPYGENIE*AI SUBSCR, CopyGenie], sso_raw: [], monthly: 640, channel: expense, cost_center: Corporate Communications, genai: true}
+  - {name: ChatAssist Pro, vendor_raw: [CHATASSIST PRO MONTHLY, ChatAssist], sso_raw: [], monthly: 1180, channel: expense, cost_center: Customer Care, genai: true}
+  - {name: DraftWise AI, vendor_raw: [DRAFTWISE AI, Draftwise.ai], sso_raw: [], monthly: 520, channel: expense, cost_center: Regulatory Affairs, genai: true}
+  - {name: SnapDiagram, vendor_raw: [SnapDiagram Inc], sso_raw: [snapdiagram], monthly: 380, channel: invoice, cost_center: Engineering}
+  - {name: FormFlow, vendor_raw: [FORMFLOW LLC, Formflow], sso_raw: [formflow-forms], monthly: 760, channel: invoice, cost_center: Field Operations}
+  - {name: ShareDrop, vendor_raw: [ShareDrop Inc, SHAREDROP.COM], sso_raw: [sharedrop], monthly: 1320, channel: invoice, cost_center: Asset Management}
+  - {name: MeetSpace Video, vendor_raw: [MeetSpace], sso_raw: [meetspace-video], monthly: 840, channel: invoice, cost_center: Human Resources}
+  - {name: QuickSign, vendor_raw: [QUICKSIGN INC, QuickSign eSign], sso_raw: [quicksign], monthly: 990, channel: invoice, cost_center: Procurement}
+  - {name: PDFMagic, vendor_raw: [PDFMAGIC PRO], sso_raw: [], monthly: 210, channel: expense, cost_center: Finance}
+  - {name: Mindmapr, vendor_raw: [Mindmapr Ltd], sso_raw: [mindmapr], monthly: 160, channel: invoice, cost_center: Strategy}
+  - {name: ScreenCap Pro, vendor_raw: [SCREENCAP PRO], sso_raw: [], monthly: 120, channel: expense, cost_center: IT Service Desk}
+  - {name: WriteRight, vendor_raw: [WriteRight Inc, WRITERIGHT PREMIUM], sso_raw: [writeright], monthly: 450, channel: invoice, cost_center: Corporate Communications}
+  - {name: TimeTrackr, vendor_raw: [TimeTrackr], sso_raw: [timetrackr-app], monthly: 680, channel: invoice, cost_center: Engineering}
+  - {name: FlowBoard, vendor_raw: [FLOWBOARD SOFTWARE, Flowboard], sso_raw: [flowboard], monthly: 590, channel: invoice, cost_center: Vegetation Management}
+  - {name: DroneLog, vendor_raw: [DroneLog Inc], sso_raw: [dronelog], monthly: 480, channel: invoice, cost_center: Field Operations}
+  - {name: StormCast Weather API, vendor_raw: [STORMCAST WEATHER, StormCast API], sso_raw: [], monthly: 2600, channel: invoice, cost_center: Grid Operations}
+  - {name: MapMaker Online, vendor_raw: [MapMaker Online], sso_raw: [mapmaker], monthly: 310, channel: invoice, cost_center: Vegetation Management}
+  - {name: LegacyScan OCR, vendor_raw: [LEGACYSCAN OCR], sso_raw: [legacyscan], monthly: 140, channel: invoice, cost_center: Records Management, truth: retired}
+  - {name: SurveyBox Classic, vendor_raw: [SurveyBox Classic], sso_raw: [surveybox], monthly: 95, channel: invoice, cost_center: Customer Experience, truth: retired}
+
+# Raw-name variants of inventory apps as seen in SSO/invoice/cloud/CMDB (ground truth aliases). Generator adds
+# systematic variants (case, suffixes) for every app; these are the hard ones.
+aliases:
+  CustomerOne CIS: [CIS-ISU PROD, Walldorf Utility Sys GmbH, cust1-cis]
+  MeterSense MDM: [MeterSense, QUANTIA METERING INC (MDM), mdm-prod]
+  AssetWorks EAM: [Ironbridge Software Inc, EAM Prod, assetworks]
+  GeoGrid GIS: [Terrapin Geospatial Inc, GIS-ENT, geogrid]
+  OutageWorks OMS: [Kestrel Utility SW, OMS PROD, outageworks]
+  Lumen BI: [LUMEN ANALYTICS, lumenbi]
+  Vizora Analytics: [VIZORA LTD, vizora-hosted]
+  TeamSpace Docs: [TEAMSPACE CORP (DOCS), teamspace-docs]
+  Nimbus CRM: [NIMBUS CLOUD INC, nimbus crm prod]
+  MyNorthGrid Portal: [my-northgrid, customer-portal]
+
+# Planted API catalog entries (in addition to one generated API per major app)
+apis:
+  - {name: Customer Lookup API, owner: CustomerOne CIS, style: rest, auth: oauth2, cls: confidential, resource: customer, consumers: [MyNorthGrid Portal, NorthGrid Mobile App, Nimbus CRM, VoiceFirst IVR], dup: DUP-CUSTOMER, gateway: true}
+  - {name: Customer Profile Service, owner: Nimbus CRM, style: rest, auth: apikey, cls: confidential, resource: customer, consumers: [ContactPoint Contact Center, KnowledgeOne], dup: DUP-CUSTOMER, gateway: false}
+  - {name: Account Balance API, owner: CustomerOne CIS, style: soap, auth: apikey, cls: confidential, resource: account_balance, consumers: [VoiceFirst IVR, MyNorthGrid Portal], gateway: false}
+  - {name: Outage Status API, owner: OutageWorks OMS, style: rest, auth: oauth2, cls: internal, resource: outage, consumers: [Outage Map Portal, MyNorthGrid Portal, NorthGrid Mobile App, NotifyNow Outage Alerts], dup: DUP-OUTAGE, gateway: true}
+  - {name: Outage Feed Service, owner: StormTrack Restoration Planner, style: soap, auth: none, cls: internal, resource: outage, consumers: [Outage Map Portal], dup: DUP-OUTAGE, gateway: false}
+  - {name: Meter Read Events, owner: MeterSense MDM, style: event, auth: mtls, cls: confidential, resource: meter_reads, consumers: [NorthGrid Data Lake, RevGuard Theft Analytics, CustomerOne CIS], gateway: false}
+  - {name: Interval Usage API, owner: MeterSense MDM, style: rest, auth: oauth2, cls: confidential, resource: usage, consumers: [MyNorthGrid Portal, NorthGrid Mobile App], dup: DUP-USAGE, gateway: true}
+  - {name: Usage History Extract, owner: Terabase EDW, style: rest, auth: none, cls: confidential, resource: usage, consumers: [Vizora Analytics], dup: DUP-USAGE, gateway: false}
+  - {name: Asset Lookup API, owner: AssetWorks EAM, style: rest, auth: oauth2, cls: internal, resource: asset, consumers: [FieldForce Mobile, DispatchPro, TransformerIQ], gateway: true}
+  - {name: Work Order API, owner: AssetWorks EAM, style: soap, auth: apikey, cls: internal, resource: work_order, consumers: [FieldForce Mobile, DispatchPro, OutageWorks OMS], gateway: false}
+  - {name: Network Model Service, owner: GeoGrid GIS, style: rest, auth: oauth2, cls: confidential, resource: network_model, consumers: [Distribution Command ADMS, OutageWorks OMS, CanopyIQ, GeoGrid Field Viewer], gateway: true}
+  - {name: Payment API, owner: PayBridge Gateway, style: rest, auth: oauth2, cls: restricted, resource: payment, consumers: [MyNorthGrid Portal, NorthGrid Mobile App, VoiceFirst IVR], gateway: true}
+  - {name: DER Registry API, owner: DERMS Orchestrator, style: graphql, auth: oauth2, cls: confidential, resource: der, consumers: [DER Interconnect Portal, LoadCast Forecasting], gateway: true}
+  - {name: Employee Directory API, owner: Workwell HRIS, style: rest, auth: oauth2, cls: confidential, resource: employee, consumers: [DispatchPro, Keystone IAM], gateway: false}
+
+# Planted direct DB links (standard violations); two cross the IT/OT boundary.
+db_links:
+  - {from: Vizora Analytics, to: CustomerOne CIS, desc: Nightly DB link from vendor-hosted analytics into CIS billing schema, cross: false}
+  - {from: Load Research Analytics, to: MeterSense MDM, desc: SAS libname connection direct to MDM interval tables, cross: false}
+  - {from: StormTrack Restoration Planner, to: OutageWorks OMS, desc: Direct SQL reads of OMS incident tables, cross: false}
+  - {from: ReliaStat Reliability Reporting, to: OutageWorks OMS, desc: ODBC link to OMS reporting schema, cross: false}
+  - {from: Crew Restoration Tracker, to: AssetWorks EAM, desc: Access linked tables to EAM work orders, cross: false}
+  - {from: Terabase EDW, to: GridHistorian, desc: Informatica direct DB extract from OT historian into IT warehouse, cross: true}
+  - {from: LoadCast Forecasting, to: Distribution Command ADMS, desc: Direct read-only DB account on ADMS feeder load tables from IT cloud, cross: true}
+  - {from: KnowledgeOne, to: Nimbus CRM, desc: Scheduled direct query of CRM replica tables, cross: false}
+
+# Core integrations (approved) to give the graph realistic structure; generator adds random ones.
+core_integrations:
+  - [GridView EMS, GridHistorian, event]
+  - [Distribution Command ADMS, OutageWorks OMS, api]
+  - [MeterLink AMI Head-End, MeterSense MDM, event]
+  - [MeterSense MDM, CustomerOne CIS, api]
+  - [CustomerOne CIS, PrintStream Bill Print, file]
+  - [CustomerOne CIS, PayBridge Gateway, api]
+  - [CustomerOne CIS, Corvus ERP, file]
+  - [OutageWorks OMS, Outage Map Portal, api]
+  - [OutageWorks OMS, NotifyNow Outage Alerts, api]
+  - [OutageWorks OMS, DispatchPro, api]
+  - [AssetWorks EAM, FieldForce Mobile, api]
+  - [GeoGrid GIS, Distribution Command ADMS, file]
+  - [GeoGrid GIS, OutageWorks OMS, file]
+  - [MyNorthGrid Portal, APIGate, api]
+  - [Nimbus CRM, CustomerOne CIS, api]
+  - [TradeVolt ETRM, SettleRight, api]
+  - [SettleRight, Corvus ERP, file]
+  - [Workwell HRIS, PayDay Payroll, api]
+  - [Workwell HRIS, Keystone IAM, api]
+  - [CanopyIQ, GeoGrid GIS, api]
+  - [SkyInspect Drone Platform, CanopyIQ, file]
+  - [MeterSense MDM, NorthGrid Data Lake, event]
+  - [NorthGrid Data Lake, Lumen BI, api]
+  - [Terabase EDW, Lumen BI, api]
+  - [DERMS Orchestrator, Distribution Command ADMS, api]
+  - [OTGuard Network Monitor, WatchTower SIEM, event]
+
+data_domains:
+  - name: Metering
+    system: MeterSense MDM
+    l1: Metering & Meter Data
+    datasets:
+      - {n: Interval Reads 15-min, pii: false, cls: confidential, consumers: 4, tags: [meter_data]}
+      - {n: Register Reads, cls: confidential, tags: [meter_data]}
+      - {n: Meter Events and Alarms, cls: internal, tags: [meter_data]}
+      - {n: Meter Inventory, cls: internal}
+      - {n: VEE Exceptions, cls: internal}
+      - {n: Customer Usage Daily, pii: true, cls: confidential, tags: [meter_data], consumers: 3}
+      - {n: Tamper Alerts, pii: true, cls: confidential}
+      - {n: Load Profile Aggregates, cls: internal}
+      - {n: Net Metering Exports, pii: true, cls: confidential}
+  - name: Customer
+    system: CustomerOne CIS
+    l1: Customer Service & Billing
+    datasets:
+      - {n: Customer Accounts, pii: true, cls: restricted, tags: [customer_pii]}
+      - {n: Premises, cls: internal}
+      - {n: Service Agreements, pii: true, cls: confidential}
+      - {n: Contact History, pii: true, cls: confidential}
+      - {n: Payment History, pii: true, cls: restricted}
+      - {n: Low-Income Program Enrollment, pii: true, cls: restricted}
+      - {n: Customer Preferences, pii: true, cls: confidential}
+      - {n: Move-In Move-Out Orders, pii: true, cls: confidential}
+  - name: Billing
+    system: CustomerOne CIS
+    l1: Customer Service & Billing
+    datasets:
+      - {n: Bill Calculations, cls: confidential, tags: [sox]}
+      - {n: Rate Schedules, cls: public}
+      - {n: Billing Determinants, cls: confidential, tags: [sox]}
+      - {n: Bill Adjustments, pii: true, cls: confidential, tags: [sox]}
+      - {n: Revenue Ledger, cls: confidential, tags: [sox]}
+  - name: Outage
+    system: OutageWorks OMS
+    l1: Outage Management
+    datasets:
+      - {n: Outage Events, cls: internal}
+      - {n: Trouble Calls, pii: true, cls: confidential}
+      - {n: Restoration Times, cls: internal}
+      - {n: Reliability Indices, cls: internal}
+      - {n: Crew Assignments, cls: internal}
+  - name: Grid Operations
+    system: GridHistorian
+    l1: Transmission & Distribution Operations
+    zone: ot
+    datasets:
+      - {n: SCADA Telemetry, cls: restricted, tags: [bcsi]}
+      - {n: Switching Orders, cls: restricted, tags: [bcsi]}
+      - {n: Feeder Load, cls: restricted, tags: [bcsi]}
+      - {n: Substation Alarms, cls: restricted, tags: [bcsi]}
+      - {n: Protection Settings, cls: restricted, tags: [bcsi]}
+  - name: Asset
+    system: AssetWorks EAM
+    l1: Asset Management
+    datasets:
+      - {n: Asset Register, cls: internal}
+      - {n: Work Orders, cls: internal}
+      - {n: Inspection Results, cls: internal}
+      - {n: Transformer DGA Readings, cls: internal}
+      - {n: Pole Inspections, cls: internal}
+      - {n: Asset Failures, cls: internal}
+  - name: GIS
+    system: GeoGrid GIS
+    l1: Asset Management
+    datasets:
+      - {n: Network Connectivity Model, cls: confidential}
+      - {n: Pole Locations, cls: internal}
+      - {n: Service Territory, cls: public}
+      - {n: Right-of-Way Corridors, cls: internal}
+  - name: Vegetation
+    system: CanopyIQ
+    l1: Vegetation Management
+    datasets:
+      - {n: Vegetation Imagery, cls: internal}
+      - {n: Encroachment Detections, cls: internal}
+      - {n: Trim Cycles, cls: internal}
+      - {n: Hazard Trees, cls: internal}
+  - name: Weather & Environment
+    system: NorthGrid Data Lake
+    l1: Enterprise Data & Analytics
+    datasets:
+      - {n: Weather Observations, cls: public}
+      - {n: Weather Forecasts, cls: public}
+      - {n: Wildfire Risk Index, cls: internal}
+      - {n: Lightning Strikes, cls: public}
+  - name: Workforce
+    system: Workwell HRIS
+    l1: Corporate
+    datasets:
+      - {n: Employee Records, pii: true, cls: restricted}
+      - {n: Crew Roster, pii: true, cls: confidential}
+      - {n: Timesheets, pii: true, cls: confidential}
+      - {n: Training Records, pii: true, cls: internal}
+      - {n: Safety Incidents, pii: true, cls: confidential}
+      - {n: Applicant Profiles, pii: true, cls: restricted}
+      - {n: Employee Chat Messages, pii: true, cls: restricted}
+  - name: Trading
+    system: TradeVolt ETRM
+    l1: Energy Trading & Settlement
+    datasets:
+      - {n: Trades, cls: confidential, tags: [sox]}
+      - {n: Market Prices, cls: internal}
+      - {n: Settlement Statements, cls: confidential, tags: [sox]}
+  - name: Finance
+    system: Corvus ERP
+    l1: Corporate
+    datasets:
+      - {n: GL Journals, cls: confidential, tags: [sox]}
+      - {n: AP Invoices, cls: confidential, tags: [sox]}
+      - {n: Procurement Contracts, cls: confidential}
+  - name: DER
+    system: DERMS Orchestrator
+    l1: Grid Modernization
+    datasets:
+      - {n: DER Registry, pii: true, cls: confidential}
+      - {n: DER Output, cls: internal}
+      - {n: DR Event Participation, pii: true, cls: confidential}
+      - {n: EV Charging Sessions, pii: true, cls: confidential}
+  - name: Regulatory
+    system: FileReg Regulatory Filing
+    l1: Regulatory Compliance & Reporting
+    datasets:
+      - {n: Regulatory Filings Archive, cls: public}
+      - {n: Complaint Register, pii: true, cls: confidential}
+
+extra_standards:
+  - id: STD-OT-01
+    title: OT systems isolated per NERC CIP
+    domain: security
+    severity: critical
+    rule_text: No direct network or database connection from IT to OT (BES Cyber Systems). Data leaves OT only via the OT DMZ (data diode / historian replica).
+    checks:
+      - {type: pattern_any, patterns: ["(directly|direct) .{0,40}(scada|ems|adms|historian)", "connect(s)? to the (ot|scada) network"]}
+  - id: STD-OT-02
+    title: OT change control
+    domain: security
+    severity: high
+    rule_text: Changes to OT systems follow CIP-010 configuration change management with documented baselines.
+    checks: []
+  - id: STD-INT-04
+    title: Event streaming for meter data
+    domain: integration
+    severity: medium
+    rule_text: Meter reads and meter events are consumed from the meter event stream, never by polling or querying MDM storage.
+    checks:
+      - {type: pattern_any, patterns: ["(query|queries|poll|polls|polling) .{0,40}(mdm|meter data management|interval tables)"]}
+  - id: STD-UTL-01
+    title: Customer data access via approved data-access API
+    domain: api
+    severity: medium
+    rule_text: Customer energy-usage data shared with customers or authorised third parties goes through the PUC-mandated data-access API with consent records.
+    checks: []
+  - id: STD-SEC-03
+    title: Privileged access to OT requires MFA via jump host
+    domain: security
+    severity: high
+    rule_text: Interactive access to OT assets uses MFA through the approved jump host.
+    checks: []
+
+extra_patterns:
+  - id: PAT-10
+    name: OT/IT DMZ with Data Diode
+    when_to_use: Move operational telemetry from OT (SCADA, EMS, historian) to IT analytics without opening inbound paths to OT.
+    keywords: [ot, scada, historian, telemetry, grid, substation, nerc, cip, boundary]
+    nfrs: [security, compliance]
+    components: [OT Historian, Data Diode, DMZ Historian Replica, Event Broker, IT Analytics]
+    standard_ids: [STD-OT-01, STD-INT-02]
+    diagram_mermaid: |
+      flowchart LR
+        subgraph OT
+          H[(OT Historian)]
+        end
+        H --> D[/Data Diode/]
+        subgraph DMZ
+          R[(Historian Replica)]
+        end
+        D --> R --> B{{Event Broker}} --> A[IT Analytics]
+
+extra_policies:
+  - id: POL-10
+    title: Meter data retained for 7 years
+    rule: Meter data (interval, register, events) must be retained for at least 2555 days.
+    regulation: State PUC meter data retention rule
+    severity: medium
+    check: {type: retention_min, tag: meter_data, days: 2555}
+  - id: POL-11
+    title: Customer PII retention limit
+    rule: Customer personal data may not be retained beyond 1825 days after account closure.
+    regulation: State PUC customer data privacy rule
+    severity: high
+    check: {type: retention_max, pii: true, domains: [Customer, Metering, Outage, DER], days: 1825}
+  - id: POL-12
+    title: SOX change-controlled financial data
+    rule: SOX-scoped datasets must be produced only by approved, scheduled pipelines and retained 7 years.
+    regulation: SOX
+    severity: high
+    check: {type: retention_min, tag: sox, days: 2555}
+  - id: POL-13
+    title: BES Cyber System Information stays in OT
+    rule: BCSI datasets may leave the OT zone only through approved cross-zone pipelines (data diode).
+    regulation: NERC CIP
+    severity: critical
+    check: {type: cross_zone, tag: bcsi}
+  - id: POL-14
+    title: PII masked in non-production
+    rule: Personal data copied to non-production must be masked.
+    regulation: State PUC customer data privacy rule
+    severity: high
+    check: {type: masking_nonprod}
+  - id: POL-15
+    title: Customer data shared with third parties requires consent
+    rule: Customer usage data exported to third parties requires a consent record.
+    regulation: State PUC data-access mandate
+    severity: medium
+    check: {type: owner_required, tag: customer_pii}
+
+ai_usecases:
+  - {t: Outage prediction from weather and asset data, dept: Grid Operations, status: pilot, pattern: classic_ml, value: 4200000, prio: 5, ds: [Weather Forecasts, Asset Failures, Outage Events, Feeder Load], tags: [forecasting]}
+  - {t: Vegetation encroachment detection from imagery, dept: Vegetation Management, status: production, pattern: vision, value: 3100000, prio: 5, ds: [Vegetation Imagery, Right-of-Way Corridors], tags: [vision]}
+  - {t: Predictive transformer failure, dept: Asset Management, status: pilot, pattern: classic_ml, value: 2600000, prio: 4, ds: [Transformer DGA Readings, Asset Register, Asset Failures], tags: [forecasting]}
+  - {t: Call-center agent assist, dept: Customer Care, status: pilot, pattern: rag, value: 1400000, prio: 4, ds: [Contact History, Customer Accounts], personal: true, tags: [generative]}
+  - {t: Customer bill explanation chatbot, dept: Customer Care, status: idea, pattern: rag, value: 900000, prio: 3, ds: [Bill Calculations, Customer Accounts, Rate Schedules], personal: true, individuals: true, tags: [customer_facing, generative]}
+  - {t: Wildfire risk scoring, dept: Wildfire Mitigation, status: pilot, pattern: classic_ml, value: 5200000, prio: 5, ds: [Weather Observations, Wildfire Risk Index, Hazard Trees], tags: [forecasting]}
+  - {t: DER forecasting, dept: Grid Modernization, status: pilot, pattern: classic_ml, value: 1800000, prio: 4, ds: [DER Output, Weather Forecasts, DER Registry], tags: [forecasting]}
+  - {t: Meter anomaly and theft detection, dept: Revenue Protection, status: production, pattern: classic_ml, value: 2200000, prio: 4, ds: [Interval Reads 15-min, Tamper Alerts, Customer Usage Daily], personal: true, tags: [anomaly]}
+  - {t: Field crew dispatch optimization, dept: Field Operations, status: idea, pattern: classic_ml, value: 1600000, prio: 3, ds: [Work Orders, Crew Roster], personal: true, tags: [optimization]}
+  - {t: Regulatory filing drafting, dept: Regulatory Affairs, status: pilot, pattern: rag, value: 600000, prio: 3, ds: [Regulatory Filings Archive], tags: [generative]}
+  - {t: Safety incident report summarization, dept: Safety, status: idea, pattern: rag, value: 350000, prio: 2, ds: [Safety Incidents], personal: true, tags: [generative]}
+  - {t: Grid operator GenAI knowledge assistant, dept: Grid Operations, status: pilot, pattern: agent_tools, value: 1900000, prio: 4, ds: [Switching Orders, SCADA Telemetry], safety: true, tags: [generative, critical_infrastructure], desc: Assistant for control-room operators answering procedure questions and suggesting switching steps; safety-relevant.}
+  - {t: Dynamic pricing recommendation, dept: Rates & Pricing, status: idea, pattern: classic_ml, value: 6800000, prio: 4, ds: [Customer Usage Daily, Rate Schedules, Customer Accounts], personal: true, individuals: true, automated: true, tags: [pricing], desc: Automatically sets time-of-use price signals per customer segment; regulated tariff with direct effect on customer bills.}
+  - {t: Drone image defect classification, dept: Asset Management, status: pilot, pattern: vision, value: 1200000, prio: 3, ds: [Inspection Results, Pole Inspections], tags: [vision]}
+  - {t: Storm damage assessment, dept: Grid Operations, status: idea, pattern: vision, value: 1500000, prio: 3, ds: [Outage Events, Weather Observations], tags: [vision]}
+  - {t: HR resume screening, dept: Human Resources, status: idea, pattern: classic_ml, value: 400000, prio: 2, ds: [Applicant Profiles], personal: true, individuals: true, automated: true, tags: [employment]}
+  - {t: Procurement contract analysis, dept: Procurement, status: pilot, pattern: rag, value: 700000, prio: 3, ds: [Procurement Contracts], tags: [generative]}
+  - {t: Energy trading signal model, dept: Energy Trading, status: production, pattern: classic_ml, value: 2900000, prio: 4, ds: [Market Prices, Trades], tags: [forecasting]}
+  - {t: Covert employee sentiment monitoring, dept: Human Resources, status: idea, pattern: classic_ml, value: 300000, prio: 1, ds: [Employee Chat Messages, Employee Records], personal: true, individuals: true, tags: [covert_surveillance, emotion_recognition_workplace], desc: Proposal to infer employee morale and flight risk by analysing chat messages and webcam expressions without notice.}
+
+ai_assets:
+  - {n: Outage Prediction Model v2, type: model, uc: Outage prediction from weather and asset data, vendor: in-house, ds: [Weather Forecasts, Outage Events], eval: in_progress, monthly: 3200, registered: true, dept: Grid Operations}
+  - {n: Veg Encroachment CV Model, type: model, uc: Vegetation encroachment detection from imagery, vendor: Arbor Analytics, ds: [Vegetation Imagery], eval: passed, monthly: 6400, registered: true, dept: Vegetation Management, lifecycle: production}
+  - {n: Transformer Failure GBM, type: model, uc: Predictive transformer failure, vendor: in-house, ds: [Transformer DGA Readings, Asset Failures], eval: in_progress, monthly: 900, registered: true, dept: Asset Management}
+  - {n: Agent Assist Copilot (Nimbus), type: vendor_copilot, uc: Call-center agent assist, vendor: Nimbus Cloud Inc, ds: [Contact History], eval: none, monthly: 7800, registered: false, dept: Customer Care}
+  - {n: Wildfire Risk Scorer, type: model, uc: Wildfire risk scoring, vendor: in-house, ds: [Wildfire Risk Index, Weather Observations], eval: passed, monthly: 2100, registered: true, dept: Wildfire Mitigation}
+  - {n: DER Forecaster, type: model, uc: DER forecasting, vendor: in-house, ds: [DER Output, Weather Forecasts], eval: in_progress, monthly: 1100, registered: true, dept: Grid Modernization}
+  - {n: Meter Theft Detector, type: model, uc: Meter anomaly and theft detection, vendor: Quantia Metering, ds: [Interval Reads 15-min, Tamper Alerts], eval: none, monthly: 2500, registered: true, dept: Revenue Protection, lifecycle: production}
+  - {n: Filing Drafter Prompt App, type: prompt_app, uc: Regulatory filing drafting, vendor: Azure OpenAI, ds: [Regulatory Filings Archive], eval: in_progress, monthly: 1400, registered: true, dept: Regulatory Affairs}
+  - {n: Control Room Assistant Prototype, type: agent, uc: Grid operator GenAI knowledge assistant, vendor: OpenMind Studio, ds: [Switching Orders], eval: none, monthly: 3900, registered: false, dept: Grid Operations}
+  - {n: Drone Defect Classifier, type: model, uc: Drone image defect classification, vendor: Aerolens, ds: [Inspection Results, Pole Inspections], eval: passed, monthly: 1700, registered: true, dept: Asset Management}
+  - {n: Contract Analyzer Prompt App, type: prompt_app, uc: Procurement contract analysis, vendor: Bedrock, ds: [Procurement Contracts], eval: in_progress, monthly: 800, registered: true, dept: Procurement}
+  - {n: Trading Signal Model, type: model, uc: Energy trading signal model, vendor: in-house, ds: [Market Prices, Trades], eval: passed, monthly: 1300, registered: true, dept: Energy Trading, lifecycle: production}
+  - {n: CopyGenie AI, type: vendor_copilot, vendor: CopyGenie AI, ds: [], eval: none, monthly: 640, registered: false, dept: Corporate Communications, paid_via: expense}
+  - {n: ChatAssist Pro, type: vendor_copilot, vendor: ChatAssist Pro, ds: [Contact History], eval: none, monthly: 1180, registered: false, dept: Customer Care, paid_via: expense}
+  - {n: DraftWise AI, type: vendor_copilot, vendor: DraftWise AI, ds: [Regulatory Filings Archive], eval: none, monthly: 520, registered: false, dept: Regulatory Affairs, paid_via: expense}
+  - {n: Code Assistant (Engineering), type: vendor_copilot, vendor: Anthropic Claude, ds: [], eval: passed, monthly: 4200, registered: true, dept: IT}
+  - {n: ERP Invoice Matching Model, type: model, vendor: Corvus Software, ds: [AP Invoices], eval: none, monthly: 600, registered: false, dept: Finance}
+  - {n: Load Forecast LSTM, type: model, vendor: in-house, ds: [Feeder Load, Weather Forecasts], eval: passed, monthly: 700, registered: true, dept: Grid Operations, lifecycle: production}
+  - {n: HR Chat Helper, type: prompt_app, vendor: OpenMind Studio, ds: [Employee Records], eval: none, monthly: 450, registered: false, dept: Human Resources}
+  - {n: Storm Damage Vision Prototype, type: model, uc: Storm damage assessment, vendor: in-house, ds: [Outage Events], eval: none, monthly: 300, registered: false, dept: Grid Operations}
+  - {n: Bill Explainer Prompt App, type: prompt_app, uc: Customer bill explanation chatbot, vendor: Azure OpenAI, ds: [Bill Calculations], eval: in_progress, monthly: 500, registered: true, dept: Customer Care}
+
+strategy_docs:
+  - key: grid2030
+    title: Grid Modernization 2030
+    type: strategy
+    year: 2024
+    paragraphs:
+      - NorthGrid Energy will modernise its distribution grid over the next six years to integrate distributed energy resources, improve reliability and prepare for electrified transport and heating. Customer-sited solar, batteries and EV charging are growing at more than 30% a year in our service territory and the current grid management toolset was not designed for two-way power flows.
+      - The programme has three pillars. First, a single advanced distribution management capability with fault location, isolation and service restoration on every feeder by 2028. Second, a DER management platform that can forecast and, where customers have enrolled, dispatch distributed resources. Third, the data foundation that connects metering, GIS and operational telemetry so planners and operators work from the same network model.
+      - We will retire point-to-point integrations and direct database links between operational systems, which today account for a disproportionate share of outages during upgrades. Integration with OT systems will follow NERC CIP requirements and pass through the OT DMZ.
+      - Success will be measured by SAIDI improvement, the share of feeders with automated restoration, DER hosting capacity published to customers, and the time taken to process interconnection requests.
+  - key: wildfire
+    title: Wildfire Mitigation Plan
+    type: regulatory_mandate
+    year: 2025
+    paragraphs:
+      - The Wildfire Mitigation Plan responds to the state regulator's requirement that every electric utility with assets in high fire-threat districts maintain an approved, data-driven mitigation plan. Approximately 18% of NorthGrid's overhead distribution miles cross elevated or extreme fire-threat areas.
+      - The plan commits to risk-based vegetation management, covered conductor in the highest-risk segments, situational awareness through weather stations and cameras, and a public safety power shutoff (PSPS) protocol with clear customer communications.
+      - We will move vegetation management from fixed trim cycles to risk-scored work driven by imagery, weather and asset condition. A wildfire risk model will score every circuit segment daily during fire season and drive inspection and trimming priorities.
+      - The regulator expects annual reporting on risk reduction per dollar spent, inspection completion, and PSPS events. Funding for the risk model and imagery analytics has not yet been secured in the capital plan.
+  - key: cx
+    title: Customer Experience Transformation
+    type: strategy
+    year: 2024
+    paragraphs:
+      - Customers expect the same digital service from their utility that they get from their bank. Today 61% of contacts still arrive by phone, outage updates are inconsistent between channels, and customers cannot see their interval usage in the mobile app.
+      - The transformation will deliver a single customer API layer in front of the customer information system so the portal, mobile app, IVR and contact center share the same data and rules. We will add proactive outage notifications, usage insights and paperless billing by default.
+      - We will reduce cost to serve by 15% while improving customer satisfaction scores in the regulator's annual survey. Any use of artificial intelligence in customer-facing channels will follow the model risk standard and disclose AI use to customers.
+      - Key measures are digital adoption, first contact resolution, outage notification accuracy and J.D. Power-style satisfaction scores.
+  - key: decarb
+    title: Decarbonization and DER Integration
+    type: strategy
+    year: 2025
+    paragraphs:
+      - NorthGrid has committed to net-zero Scope 1 and 2 emissions by 2045 and to supporting customers' own decarbonisation. This requires integrating rooftop solar, community solar, storage and managed EV charging at scale.
+      - We will expand demand response and time-of-use programmes, offer managed charging to EV owners, and publish hosting capacity maps. DER forecasting will feed both grid operations and energy trading.
+      - The interconnection process must fall from an average of 74 days to under 30 days for small systems, which requires automated screening against the network model.
+  - key: okrs
+    title: FY2026 Enterprise OKRs
+    type: OKR
+    year: 2026
+    paragraphs:
+      - "Objective 1: Keep the lights on safely. Key results: SAIDI below 95 minutes; zero utility-caused ignitions; 100% of high fire-threat circuits risk-scored daily in season."
+      - "Objective 2: Make it easy to be our customer. Key results: digital adoption 55%; outage notification accuracy 90%; customer usage visible in app."
+      - "Objective 3: Spend every dollar wisely. Key results: reduce application portfolio run cost by 8%; retire three end-of-support platforms; 90% of project spend linked to a strategic goal."
+      - "Objective 4: Prepare for the grid of 2030. Key results: ADMS FLISR on 60% of feeders; DER registry complete; interconnection under 45 days."
+  - key: board_ai
+    title: Board Paper — Responsible Adoption of AI
+    type: board_paper
+    year: 2026
+    paragraphs:
+      - This paper asks the Board to endorse a responsible AI framework for NorthGrid. AI use is already widespread but uncoordinated - business units are piloting generative AI tools, several paid for through expense reports, and some models in production have not been formally evaluated.
+      - We propose a single AI use-case intake, risk tiering modelled on the EU AI Act categories, a register of all models and AI tools, and mandatory human oversight for any AI that affects customers' bills or safety of grid operations.
+      - Covert monitoring of employees and fully automated decisions affecting customers' tariffs will not be permitted. Safety-relevant AI in the control room will be treated as high risk and require validation before use.
+  - key: puc_access
+    title: PUC Order — Customer Data Access Mandate
+    type: regulatory_mandate
+    year: 2025
+    paragraphs:
+      - The state Public Utilities Commission has ordered all investor-owned utilities to provide customers and their authorised third parties with machine-readable access to interval usage and billing data within 18 months.
+      - Utilities must implement a standards-based data-access API, a consent management process with revocation, and annual reporting of third-party access requests. Customer personal data shared under the order is subject to the PUC customer data privacy rule.
+      - Non-compliance may result in penalties and will be considered in the next general rate case.
+
+goals:
+  - {key: G-SAIDI, statement: Reduce SAIDI below 95 minutes through automated restoration, doc: grid2030, horizon: 2028, kpi: SAIDI minutes, caps: [Outage Detection & Restoration, Advanced Distribution Automation, Distribution Management]}
+  - {key: G-DER, statement: Integrate distributed energy resources at scale with forecasting and dispatch, doc: grid2030, horizon: 2030, kpi: DER hosting capacity MW, caps: [DER Integration, DER Forecasting, DER Control]}
+  - {key: G-WILDFIRE, statement: Implement risk-based wildfire mitigation with daily circuit risk scoring, doc: wildfire, horizon: 2027, kpi: Risk-scored circuit miles %, caps: [Wildfire Risk Mitigation, Vegetation Inspection]}
+  - {key: G-VEG, statement: Move vegetation management from cycle-based to risk-based, doc: wildfire, horizon: 2027, kpi: Risk reduction per $, caps: [Vegetation Inspection]}
+  - {key: G-DIGITAL, statement: Reach 55% digital adoption with a single customer API layer, doc: cx, horizon: 2026, kpi: Digital adoption %, caps: [Digital Customer Channels, Customer Contact]}
+  - {key: G-COST2SERVE, statement: Reduce cost to serve by 15%, doc: cx, horizon: 2027, kpi: Cost to serve per customer, caps: [Customer Contact, Billing & Rates]}
+  - {key: G-INTERCONNECT, statement: Cut small-system interconnection time below 30 days, doc: decarb, horizon: 2027, kpi: Days to interconnect, caps: [DER Integration]}
+  - {key: G-DR, statement: Expand demand response and managed EV charging, doc: decarb, horizon: 2028, kpi: Enrolled flexible MW, caps: [Demand Response]}
+  - {key: G-PORTFOLIO, statement: Reduce application portfolio run cost by 8% and retire end-of-support platforms, doc: okrs, horizon: 2026, kpi: Run cost USD, caps: [Document & Collaboration, Business Intelligence]}
+  - {key: G-AI, statement: Adopt AI responsibly with a single intake, risk tiering and registry, doc: board_ai, horizon: 2026, kpi: Registered AI assets %, caps: [AI & Machine Learning, Data Governance]}
+  - {key: G-DATAACCESS, statement: Provide customers machine-readable access to usage data under the PUC mandate, doc: puc_access, horizon: 2026, kpi: Mandate compliance, caps: [Digital Customer Channels, Meter Data Management]}
+  - {key: G-OTSEC, statement: Eliminate direct IT-to-OT connections and pass CIP audits with no findings, doc: grid2030, horizon: 2027, kpi: CIP audit findings, caps: [OT Security, NERC CIP Compliance]}
+
+# Projects; goals: [] makes orphan spend; G-WILDFIRE and G-VEG intentionally unfunded.
+projects:
+  - {n: ADMS FLISR Rollout Phase 2, budget: 6800000, status: in_progress, goals: [G-SAIDI], caps: [Advanced Distribution Automation], apps: [Distribution Command ADMS]}
+  - {n: OMS Upgrade Assessment, budget: 450000, status: planned, goals: [G-SAIDI], caps: [Outage Detection & Restoration], apps: [OutageWorks OMS]}
+  - {n: DERMS Platform Expansion, budget: 3200000, status: in_progress, goals: [G-DER], caps: [DER Control], apps: [DERMS Orchestrator]}
+  - {n: DER Forecasting Pilot, budget: 600000, status: in_progress, goals: [G-DER], caps: [DER Forecasting], apps: [LoadCast Forecasting]}
+  - {n: Customer API Layer, budget: 2400000, status: in_progress, goals: [G-DIGITAL, G-DATAACCESS], caps: [Digital Customer Channels], apps: [MyNorthGrid Portal, APIGate, CustomerOne CIS]}
+  - {n: Mobile App Usage Insights, budget: 850000, status: planned, goals: [G-DIGITAL], caps: [Digital Customer Channels], apps: [NorthGrid Mobile App]}
+  - {n: Contact Center Cloud Migration, budget: 1900000, status: in_progress, goals: [G-COST2SERVE], caps: [Customer Contact], apps: [ContactPoint Contact Center, VoiceFirst IVR]}
+  - {n: Interconnection Automation, budget: 700000, status: planned, goals: [G-INTERCONNECT], caps: [DER Integration], apps: [DER Interconnect Portal]}
+  - {n: Managed EV Charging Program, budget: 1100000, status: planned, goals: [G-DR], caps: [Demand Response], apps: [EV Charge Manager, FlexLoad DRMS]}
+  - {n: Document Management Consolidation, budget: 900000, status: planned, goals: [G-PORTFOLIO], caps: [Document & Collaboration], apps: [Legacy DocuVault, RecordsOne ECM, TeamSpace Docs]}
+  - {n: AI Governance Foundation, budget: 400000, status: in_progress, goals: [G-AI], caps: [AI & Machine Learning], apps: [ModelHub ML Platform]}
+  - {n: Green Button Data Access API, budget: 1300000, status: in_progress, goals: [G-DATAACCESS], caps: [Meter Data Management], apps: [MeterSense MDM, APIGate]}
+  - {n: OT DMZ Historian Replica, budget: 1500000, status: in_progress, goals: [G-OTSEC], caps: [OT Security], apps: [GridHistorian, OTGuard Network Monitor]}
+  - {n: CIP Evidence Automation, budget: 350000, status: planned, goals: [G-OTSEC], caps: [NERC CIP Compliance], apps: [CIP Evidence Manager]}
+  - {n: Data Lake Expansion, budget: 1800000, status: in_progress, goals: [G-AI, G-DATAACCESS], caps: [Data Platform], apps: [NorthGrid Data Lake]}
+  - {n: ERP Reporting Refresh, budget: 1450000, status: in_progress, goals: [], caps: [Finance & ERP], apps: [Corvus ERP]}
+  - {n: Intranet Redesign, budget: 820000, status: in_progress, goals: [], caps: [Document & Collaboration], apps: [TeamSpace Docs]}
+  - {n: Vizora Dashboard Program, budget: 980000, status: in_progress, goals: [], caps: [Business Intelligence], apps: [Vizora Analytics]}
+  - {n: Fleet Telematics Upgrade, budget: 760000, status: planned, goals: [], caps: [Crew Dispatch & Scheduling], apps: [FleetLink]}
+  - {n: HR Self-Service Portal, budget: 1250000, status: in_progress, goals: [], caps: [Human Resources], apps: [Workwell HRIS]}
+  - {n: Trading Analytics Workbench, budget: 1600000, status: in_progress, goals: [], caps: [Trading & Risk], apps: [TradeVolt ETRM]}
+  - {n: Procurement Catalog Refresh, budget: 680000, status: planned, goals: [], caps: [Procurement], apps: [SourceRight Procurement]}
+  - {n: Safety App Modernization, budget: 1050000, status: in_progress, goals: [], caps: [Safety Incident Management], apps: [SafeReport]}
+  - {n: Collaboration Suite Rollout, budget: 560000, status: in_progress, goals: [], caps: [Document & Collaboration], apps: [ChatWave, ConferPoint]}
+  - {n: Field Inspection App Refresh, budget: 1300000, status: planned, goals: [], caps: [Inspection Management], apps: [InspectPro Field, SafeCheck Inspections]}
+  - {n: Network Model Data Quality, budget: 1500000, status: in_progress, goals: [G-SAIDI, G-DER], caps: [Asset Registry & Health], apps: [GeoGrid GIS]}
+  - {n: Storm Response Playbooks, budget: 300000, status: planned, goals: [G-SAIDI], caps: [Storm Response], apps: [StormTrack Restoration Planner]}
+  - {n: Reliability Analytics Modernization, budget: 420000, status: planned, goals: [G-SAIDI], caps: [Reliability Reporting], apps: [ReliaStat Reliability Reporting]}
+  - {n: Paperless Billing Default, budget: 380000, status: in_progress, goals: [G-COST2SERVE], caps: [Billing & Rates], apps: [CustomerOne CIS, PrintStream Bill Print]}
+  - {n: IAM Modernization, budget: 1700000, status: in_progress, goals: [G-OTSEC], caps: [Identity & Access], apps: [Keystone IAM]}
+  - {n: Meter Firmware Campaign, budget: 650000, status: in_progress, goals: [G-DATAACCESS], caps: [AMI Operations], apps: [MeterLink AMI Head-End]}
+  - {n: Demand Response Enrollment Portal, budget: 540000, status: planned, goals: [G-DR], caps: [Demand Response], apps: [FlexLoad DRMS]}
+  - {n: Payment Gateway Tokenization, budget: 450000, status: in_progress, goals: [G-DIGITAL], caps: [Payments & Collections], apps: [PayBridge Gateway]}
+  - {n: Asset Health Analytics, budget: 900000, status: planned, goals: [G-SAIDI], caps: [Transformer Health], apps: [TransformerIQ]}
+  - {n: SIEM Content Tuning, budget: 280000, status: in_progress, goals: [G-OTSEC], caps: [Security Monitoring], apps: [WatchTower SIEM]}
+  - {n: Data Catalog Rollout, budget: 520000, status: in_progress, goals: [G-AI], caps: [Data Governance], apps: [Catalogix Data Catalog]}
+  - {n: Field Mobile Offline Maps, budget: 610000, status: planned, goals: [G-SAIDI], caps: [Mobile Field Execution], apps: [GeoGrid Field Viewer]}
+  - {n: Regulatory Filing Automation, budget: 330000, status: planned, goals: [G-DATAACCESS], caps: [Regulatory Filings], apps: [FileReg Regulatory Filing]}
+  - {n: Learning Platform Content Refresh, budget: 260000, status: planned, goals: [], caps: [Human Resources], apps: [LearnHub LMS]}
+  - {n: ESB Platform Upgrade, budget: 890000, status: planned, goals: [G-DIGITAL], caps: [Integration & API Management], apps: [NorthGrid ESB]}
+  - {n: Settlement System Refresh, budget: 720000, status: planned, goals: [], caps: [Settlement], apps: [SettleRight]}
+  - {n: Renewables Performance Dashboards, budget: 210000, status: planned, goals: [G-DER], caps: [Renewable Asset Performance], apps: [WindSun Performance Monitor]}
+
+design_docs:
+  - key: usage_insights
+    title: Customer Usage Insights service
+    team: Digital Channels
+    apps: [MyNorthGrid Portal, CustomerOne CIS, MeterSense MDM]
+    components: [Usage Insights API, Insights Worker, CIS billing database, OpenMind Studio LLM, Mobile App]
+    violations: [STD-INT-02, STD-AI-01, STD-DATA-01, STD-INT-04]
+    body: |
+      ## Summary
+      We propose a Customer Usage Insights service that shows customers personalised explanations of their bills and usage in the portal and mobile app.
+
+      ## Design
+      The Insights Worker will use a read-only account on the CIS billing database to pull bill history and tariff details, and will query the MDM interval tables nightly for the last 13 months of usage. A direct database connection keeps the build simple and avoids waiting for the Customer API Layer project.
+
+      Narrative explanations will be generated with OpenMind Studio, a generative AI vendor the team trialled during a hackathon. Prompts will include the customer's name, address and usage history.
+
+      The Usage Insights API will be exposed to the mobile app through the existing API gateway.
+
+      ## Non-functional
+      Target response time 800 ms. Cached results refreshed nightly.
+  - key: outage_eta
+    title: Real-time Outage ETA for Customers
+    team: Outage Systems
+    apps: [OutageWorks OMS, Outage Map Portal, DispatchPro]
+    components: [ETA Service, OMS, DispatchPro, Crew Location Service, Weather Service, Outage Map Portal]
+    violations: [STD-NFR-03]
+    body: |
+      ## Summary
+      Provide customers with a live estimated restoration time on the outage map and in notifications.
+
+      ## Design
+      Data classification: outage and crew location data is classified as internal; customer contact details are confidential and not used by this service.
+
+      For every page view the portal calls the ETA Service synchronously. The real-time path is a synchronous chain: Outage Map Portal -> ETA Service -> OMS -> DispatchPro -> Crew Location Service -> Weather Service. Each hop is a blocking REST call so customers always see the freshest estimate.
+
+      All APIs are published through the API gateway with OAuth2.
+
+      ## Non-functional
+      Peak load during storms is 40,000 requests per minute.
+  - key: veg_imagery
+    title: Vegetation Imagery Ingestion
+    team: Vegetation Analytics
+    apps: [CanopyIQ, SkyInspect Drone Platform, NorthGrid Data Lake]
+    components: [Drone Platform, Imagery Bucket, CanopyIQ, Data Lake]
+    violations: [STD-DATA-01, STD-TECH-02]
+    body: |
+      ## Summary
+      Land drone and satellite imagery in the data lake so CanopyIQ and the wildfire model can use it.
+
+      ## Design
+      SkyInspect uploads imagery to a new storage bucket in the analytics account. The bucket and its processing cluster were provisioned manually in the console for the pilot and will be kept for production. CanopyIQ pulls new imagery via its connector every night.
+
+      ## Non-functional
+      Approximately 4 TB per month during inspection season.
+  - key: scada_analytics
+    title: SCADA Telemetry Analytics in the Cloud
+    team: Grid Analytics
+    apps: [GridHistorian, NorthGrid Data Lake, LoadCast Forecasting]
+    components: [GridHistorian, Cloud Ingest Agent, Data Lake, LoadCast]
+    violations: [STD-OT-01, STD-INT-02]
+    body: |
+      ## Summary
+      Stream SCADA telemetry to the cloud data lake for load forecasting and asset analytics.
+
+      ## Design
+      Data classification: SCADA telemetry is restricted (BES Cyber System Information).
+
+      A cloud ingest agent installed on the IT network will connect directly to the GridHistorian in the OT zone and use a direct database read of the historian archive tables every five minutes. This avoids the cost of the OT DMZ replica.
+
+      ## Non-functional
+      Five-minute latency is acceptable for forecasting.
+  - key: crm_chat
+    title: Contact Center Chatbot on CRM
+    team: Customer Care
+    apps: [Nimbus CRM, ContactPoint Contact Center]
+    components: [Chat Widget, Nimbus CRM, ChatAssist Pro, Knowledge Base]
+    violations: [STD-AI-01, STD-AI-03, STD-AI-02]
+    body: |
+      ## Summary
+      Launch a customer chatbot on the website that answers billing questions and can approve payment extensions.
+
+      ## Design
+      Data classification: customer account data is confidential.
+
+      The bot will use ChatAssist Pro, which some agents already use. Payment extensions up to $500 will be a fully automated decision without human review. We will skip the model registry for the pilot because it is a vendor product, and there will be no formal evaluation before launch.
+
+      The widget calls the CRM through the API gateway with OAuth2.
+  - key: der_portal
+    title: DER Interconnection Portal v2
+    team: Grid Modernization
+    apps: [DER Interconnect Portal, GeoGrid GIS, DERMS Orchestrator]
+    components: [Portal, Screening Service, Network Model Service, DER Registry API]
+    violations: []
+    body: |
+      ## Summary
+      Automate screening of small solar and storage interconnection requests against the network model.
+
+      ## Design
+      Data classification: applicant contact details are confidential; network model data is confidential; screening results are internal.
+
+      The Screening Service calls the Network Model Service and DER Registry API through the API gateway using OAuth2. Applicants sign in with the customer identity platform. Requests and decisions are published as events for DERMS.
+
+      Engineers review every screening result before an approval is issued.
+
+      ## Non-functional
+      Infrastructure is defined in Terraform. Logs ship to the observability platform.
+  - key: field_offline
+    title: Offline Maps for Field Crews
+    team: Field Systems
+    apps: [GeoGrid Field Viewer, FieldForce Mobile]
+    components: [Field Viewer, Map Tile Service, FieldForce Mobile]
+    violations: []
+    body: |
+      ## Summary
+      Provide offline network maps in FieldForce Mobile using GeoGrid Field Viewer tiles.
+
+      ## Design
+      Data classification: network maps are confidential and encrypted on device.
+
+      Tiles are generated nightly by the Map Tile Service and downloaded through the API gateway. Crews authenticate with the enterprise identity platform.
+  - key: payments_v2
+    title: Payment Tokenization Upgrade
+    team: Customer Payments
+    apps: [PayBridge Gateway, MyNorthGrid Portal]
+    components: [Portal, PayBridge Gateway, Token Vault]
+    violations: []
+    body: |
+      ## Summary
+      Replace stored card references with gateway tokens.
+
+      ## Design
+      Data classification: cardholder data is restricted and never leaves PayBridge; the portal stores tokens only (internal).
+
+      The portal calls the Payment API through the API gateway with OAuth2 and mTLS. Infrastructure is defined as code.
+  - key: transformer_ml
+    title: Transformer Failure Prediction to Production
+    team: Asset Analytics
+    apps: [TransformerIQ, AssetWorks EAM, ModelHub ML Platform]
+    components: [Feature Pipeline, ModelHub, Batch Scoring, AssetWorks EAM]
+    violations: []
+    body: |
+      ## Summary
+      Move the transformer failure model from pilot to production with weekly batch scoring written back to EAM as work requests.
+
+      ## Design
+      Data classification: DGA readings and asset data are internal.
+
+      The model is registered in ModelHub with an evaluation report. Scores are written to EAM through the Work Order API via the gateway. Planners review every generated work request.
+  - key: regulatory_rag
+    title: Regulatory Filing Assistant
+    team: Regulatory Affairs
+    apps: [FileReg Regulatory Filing]
+    components: [Filing Assistant, Vector Index, Azure OpenAI, Filings Archive]
+    violations: []
+    body: |
+      ## Summary
+      Draft first versions of routine regulatory filings from prior filings and data requests.
+
+      ## Design
+      Data classification: prior filings are public; draft filings are internal until submitted.
+
+      The assistant uses retrieval over the filings archive and Azure OpenAI from the approved GenAI list. Outputs are logged and evaluated against a reviewed test set. Analysts edit and approve every draft.
+  - key: hr_analytics
+    title: Workforce Analytics Copy to Test
+    team: HR Technology
+    apps: [Workwell HRIS, NorthGrid Data Lake]
+    components: [HRIS Export, Data Lake Test Zone, Lumen BI]
+    violations: [STD-DATA-02]
+    body: |
+      ## Summary
+      Build workforce dashboards in the test environment before go-live.
+
+      ## Design
+      Data classification: employee records are restricted.
+
+      We will copy the full production employee extract into the test zone of the data lake so analysts can build dashboards with realistic data. Data will be unmasked to keep joins working.
+  - key: trading_api
+    title: Market Price Feed for Partners
+    team: Energy Trading
+    apps: [TradeVolt ETRM]
+    components: [Price Feed Service, TradeVolt ETRM, Partner Systems]
+    violations: [STD-API-02, STD-API-03]
+    body: |
+      ## Summary
+      Share hourly market price curves with two community choice aggregators.
+
+      ## Design
+      Data classification: price curves are confidential.
+
+      The Price Feed Service will be exposed directly to the internet without the gateway, and partners authenticate with a static API key shared by email.
+  - key: eam_upgrade
+    title: EAM Mobile Inspection Forms
+    team: Asset Systems
+    apps: [AssetWorks EAM, InspectPro Field]
+    components: [EAM, Inspection Forms Service, InspectPro]
+    violations: []
+    body: |
+      ## Summary
+      Standardise inspection forms in EAM and retire duplicate forms in InspectPro.
+
+      ## Design
+      Data classification: inspection data is internal.
+
+      Forms are published as events; InspectPro consumes them via the API gateway with OAuth2. Infrastructure as code.
+
+decisions:
+  - key: d1
+    channel: "#arch-integration"
+    title: Use events for meter reads instead of MDM polling
+    context: Three consumers poll MDM interval tables every 15 minutes, causing lock contention during billing runs.
+    options: [Keep polling with read replicas, Publish meter read events from MDM, Nightly batch extract]
+    decision: Publish meter read events from MDM on the enterprise event broker; consumers subscribe.
+    consequences: Consumers must migrate within two quarters; MDM team owns the event schema.
+    apps: [MeterSense MDM, NorthGrid Data Lake, RevGuard Theft Analytics]
+  - key: d2
+    channel: "#outage-modernization"
+    title: Replace StormTrack with OMS storm module
+    context: StormTrack duplicates OMS restoration planning and runs on an unsupported .NET framework.
+    options: [Rebuild StormTrack, Adopt OMS storm module after upgrade, Buy a standalone storm tool]
+    decision: Adopt the OMS storm module as part of the OMS upgrade and retire StormTrack.
+    consequences: Storm playbooks must be re-created in OMS; dependency on OMS upgrade timeline.
+    apps: [StormTrack Restoration Planner, OutageWorks OMS]
+  - key: d3
+    channel: "#digital-channels"
+    title: Single customer API layer in front of CIS
+    context: Portal, mobile app and IVR each integrate with CIS differently, causing inconsistent balances.
+    options: [Point-to-point per channel, Customer API layer on the gateway, Replicate CIS to a channel database]
+    decision: Build a customer API layer on the API gateway; all channels consume it.
+    consequences: Channels migrate over three releases; CIS team exposes stable services.
+    apps: [CustomerOne CIS, MyNorthGrid Portal, NorthGrid Mobile App, VoiceFirst IVR]
+  - key: d4
+    channel: "#ot-security"
+    title: OT data leaves only via DMZ historian replica
+    context: Several IT systems read OT historian and ADMS data directly, which the last CIP audit flagged.
+    options: [Firewall rules per consumer, DMZ historian replica with data diode, Stop sharing OT data]
+    decision: Stand up a DMZ historian replica fed by a data diode; IT consumers read only from the replica.
+    consequences: Existing direct links from EDW and LoadCast must be removed by end of quarter.
+    apps: [GridHistorian, Terabase EDW, LoadCast Forecasting]
+  - key: d5
+    channel: "#data-platform"
+    title: Standardise BI on Lumen BI
+    context: Two BI tools with overlapping dashboards; Vizora usage has fallen below 20% of licensed seats.
+    options: [Keep both, Standardise on Lumen BI, Standardise on Vizora]
+    decision: Standardise on Lumen BI and let the Vizora contract lapse at renewal.
+    consequences: Migrate 40 Vizora dashboards; cancel auto-renewal notice before deadline.
+    apps: [Lumen BI, Vizora Analytics]
+  - key: d6
+    channel: "#genai-cop"
+    title: Approved GenAI platforms for pilots
+    context: Teams are trialling several GenAI vendors with customer data.
+    options: [Allow any vendor with a DPA, Approve a short list of platforms, Ban GenAI]
+    decision: Pilots must use Azure OpenAI, Bedrock or Anthropic Claude through the platform team.
+    consequences: Shadow GenAI subscriptions to be cancelled; exception process for others.
+    apps: [ModelHub ML Platform]
+  - key: d7
+    channel: "#field-systems"
+    title: Consolidate field inspection apps on InspectPro
+    context: InspectPro and SafeCheck both capture inspections; crews use both.
+    options: [Keep both, InspectPro only, SafeCheck only]
+    decision: Consolidate on InspectPro Field and retire SafeCheck at contract end.
+    consequences: Migrate 60 form templates; train 95 SafeCheck users.
+    apps: [InspectPro Field, SafeCheck Inspections]
+  - key: d8
+    channel: "#docs-migration"
+    title: Retire Legacy DocuVault into TeamSpace Docs
+    context: DocuVault reaches vendor end of support in five months; content is duplicated in TeamSpace and RecordsOne.
+    options: [Extend support, Migrate to TeamSpace Docs, Migrate to RecordsOne ECM]
+    decision: Migrate active content to TeamSpace Docs and records to RecordsOne retention policies, then retire DocuVault.
+    consequences: Records team validates retention mapping; read-only archive for 12 months.
+    apps: [Legacy DocuVault, TeamSpace Docs, RecordsOne ECM]
+
+adr_titles:
+  - [Adopt event broker for OT telemetry replicas, [GridHistorian, NorthGrid Data Lake]]
+  - [Use OAuth2 client credentials for system APIs, [APIGate]]
+  - [Standard logging format for customer channels, [MyNorthGrid Portal, NorthGrid Mobile App]]
+  - [GIS network model as single source of connectivity, [GeoGrid GIS, Distribution Command ADMS]]
+  - [Mobile workforce on FieldForce, [FieldForce Mobile]]
+  - [Cloud landing zone account structure, [NorthGrid Data Lake]]
+  - [Payment card data stays in PayBridge, [PayBridge Gateway]]
+  - [MLflow as model registry, [ModelHub ML Platform]]
+  - [Terraform for all cloud infrastructure, [NorthGrid Data Lake]]
+  - [ESB retained for SOAP legacy integrations only, [NorthGrid ESB]]
+  - [Customer identity on Keystone IAM, [Keystone IAM, MyNorthGrid Portal]]
+  - [Interval data retention 7 years in MDM, [MeterSense MDM]]
+  - [Bill print outsourcing evaluation deferred, [PrintStream Bill Print]]
+  - [DERMS as system of record for DER assets, [DERMS Orchestrator]]
+  - [ADMS FLISR configuration ownership, [Distribution Command ADMS]]
+  - [Data catalog mandatory for shared datasets, [Catalogix Data Catalog]]
+  - [Contact center on ContactPoint cloud, [ContactPoint Contact Center]]
+  - [Use Spark for data lake transformations, [NorthGrid Data Lake]]
+
+impact_triggers:
+  - {id: gis_exit, label: GIS vendor exits market, type: vendor_exit, vendor: Terrapin Geospatial}
+  - {id: puc_mandate, label: New PUC data-access mandate, type: regulation, regulation: State PUC customer data privacy rule, capabilities: [Digital Customer Channels, Meter Data Management]}
+  - {id: coop_acquisition, label: Acquire a neighboring co-op (adds 300k customers), type: m_and_a, capabilities: [Billing & Rates, Customer Contact, Meter Data Management, Outage Detection & Restoration], growth: 0.14}
+  - {id: oms_eos, label: OMS end of support, type: app_retirement, app: OutageWorks OMS}
+
+copilot_questions:
+  - Who owns the Meter Data Management system?
+  - Which applications support Outage Management?
+  - What depends on the GIS platform?
+  - Which AI use cases use customer PII?
+  - Is there an approved pattern for streaming meter events?
+  - Which contracts renew in the next 90 days?
+  - What would break if we retired the legacy document system?
+  - Which integrations cross the IT/OT boundary?
+  - How much do we spend on BI tools?
+  - Which projects have no strategic goal?
+  - Who owns meter data and what AI uses it?
+  - Show lineage for the Customer Usage Daily dataset
+
+low_quality_datasets: [Tamper Alerts, Asset Failures, Hazard Trees, Crew Roster]
+
+retired_cis: [Meter Reading Handheld v1, Old Intranet 2009, Legacy Outage Viewer]
+
+evidence_regulations: [State PUC customer data privacy rule, NERC CIP, SOX, Model risk standard]

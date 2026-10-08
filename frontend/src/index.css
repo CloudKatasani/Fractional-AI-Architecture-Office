@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body { @apply text-gray-800 antialiased; font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+  h1 { @apply text-xl font-semibold text-gray-900; }
+  h2 { @apply text-base font-semibold text-gray-900; }
+  h3 { @apply text-sm font-semibold text-gray-900; }
+}
+
+@layer components {
+  .card { @apply bg-white border border-gray-200 rounded-lg; }
+  .btn { @apply inline-flex items-center gap-1.5 rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed; }
+  .btn-primary { @apply inline-flex items-center gap-1.5 rounded-md bg-accent-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-accent-700 disabled:opacity-50 disabled:cursor-not-allowed; }
+  .btn-danger { @apply inline-flex items-center gap-1.5 rounded-md border border-red-300 bg-white px-3 py-1.5 text-sm font-medium text-red-700 hover:bg-red-50 disabled:opacity-50; }
+  .btn-sm { @apply px-2 py-1 text-xs; }
+  .input { @apply rounded-md border border-gray-300 bg-white px-2.5 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-accent-100 focus:border-accent-500; }
+  .tbl { @apply w-full text-sm; }
+  .tbl th { @apply bg-gray-50 text-left text-xs font-semibold uppercase tracking-wide text-gray-500 px-3 py-2 border-b border-gray-200 whitespace-nowrap; }
+  .tbl td { @apply px-3 py-1.5 border-b border-gray-100 align-top; }
+  .tbl tbody tr:hover { @apply bg-gray-50; }
+  .muted { @apply text-gray-500; }
+  .label { @apply text-xs font-medium uppercase tracking-wide text-gray-500; }
+  .prose-sm-custom h1 { @apply text-lg font-semibold mt-2 mb-2; }
+  .prose-sm-custom h2 { @apply text-base font-semibold mt-4 mb-1; }
+  .prose-sm-custom p { @apply my-2 leading-relaxed; }
+  .prose-sm-custom ul { @apply list-disc pl-5 my-2; }
+  .prose-sm-custom ol { @apply list-decimal pl-5 my-2; }
+  .prose-sm-custom table { @apply text-sm my-3 border border-gray-200; }
+  .prose-sm-custom th { @apply bg-gray-50 px-2 py-1 border border-gray-200 text-left; }
+  .prose-sm-custom td { @apply px-2 py-1 border border-gray-200 align-top; }
+  .prose-sm-custom code { @apply font-mono text-xs bg-gray-100 px-1 rounded; }
+  .prose-sm-custom pre { @apply bg-gray-50 border border-gray-200 rounded p-2 overflow-auto text-xs; }
+}

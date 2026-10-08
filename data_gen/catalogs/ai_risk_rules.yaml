@@ -1,0 +1,83 @@
+# AI risk classification rules modeled on EU AI Act-style categories (Section 7.5, decision 16.5).
+# Shared by both tenants; regulation names are resolved per tenant below.
+# Rules are evaluated in order; the highest tier among matching rules wins.
+# `when` keys: tags_any (list), and boolean field equality on the use case record.
+
+tier_order: [minimal, limited, high, unacceptable]
+
+rules:
+  - id: AIR-U1
+    tier: unacceptable
+    title: Covert biometric or emotion surveillance of employees or customers
+    when: {tags_any: [covert_surveillance, emotion_recognition_workplace]}
+    reference: Prohibited practice (emotion recognition in the workplace; covert biometric monitoring)
+  - id: AIR-U2
+    tier: unacceptable
+    title: Social scoring of individuals
+    when: {tags_any: [social_scoring]}
+    reference: Prohibited practice (social scoring)
+  - id: AIR-H1
+    tier: high
+    title: Credit, eligibility or access to essential services
+    when: {tags_any: [credit, eligibility]}
+    reference: High-risk use (creditworthiness and access to essential private services)
+  - id: AIR-H2
+    tier: high
+    title: Employment, recruitment or worker management
+    when: {tags_any: [employment]}
+    reference: High-risk use (employment and worker management)
+  - id: AIR-H3
+    tier: high
+    title: Safety-relevant use in critical infrastructure
+    when: {safety_relevant: true}
+    reference: High-risk use (safety components of critical infrastructure)
+  - id: AIR-H4
+    tier: high
+    title: Automated decision with legal or similarly significant effect on individuals
+    when: {automated_decision: true, affects_individuals: true}
+    reference: Automated individual decision-making (legal or similarly significant effect)
+  - id: AIR-L1
+    tier: limited
+    title: Customer-facing conversational AI
+    when: {tags_any: [customer_facing]}
+    reference: Transparency obligation (users must know they interact with AI)
+  - id: AIR-L2
+    tier: limited
+    title: Generated content requiring disclosure
+    when: {tags_any: [generative]}
+    reference: Transparency obligation (AI-generated content disclosure)
+  - id: AIR-M1
+    tier: minimal
+    title: Internal productivity or forecasting without individual effect
+    when: {}
+    reference: Minimal risk (voluntary codes of conduct)
+
+controls:
+  - {id: CTL-01, title: Named accountable owner and registry entry, tiers: [minimal, limited, high], source_rule: STD-AI-02}
+  - {id: CTL-02, title: AI use disclosure to users, tiers: [limited, high], source_rule: AIR-L1}
+  - {id: CTL-03, title: Output logging and retention for audit, tiers: [limited, high], source_rule: AIR-L2}
+  - {id: CTL-04, title: Documented human oversight and override, tiers: [high], source_rule: AIR-H4}
+  - {id: CTL-05, title: Data protection / algorithmic impact assessment (DPIA/AIA), tiers: [high], source_rule: AIR-H1}
+  - {id: CTL-06, title: Bias and fairness testing before release, tiers: [high], source_rule: AIR-H2}
+  - {id: CTL-07, title: Independent model validation and performance thresholds, tiers: [high], source_rule: AIR-H3}
+  - {id: CTL-08, title: AI incident reporting process, tiers: [high], source_rule: AIR-H3}
+  - {id: CTL-09, title: Appeal route for affected individuals, tiers: [high], source_rule: AIR-H4}
+  - {id: CTL-10, title: Use blocked — prohibited practice, tiers: [unacceptable], source_rule: AIR-U1}
+
+documentation:
+  minimal: [Use-case card, Registry entry]
+  limited: [Use-case card, Registry entry, Transparency notice, Prompt and output logging plan]
+  high: [Use-case card, Registry entry, DPIA / AIA, Model card, Bias test report, Human oversight procedure, Validation report, Incident runbook]
+  unacceptable: [Refusal record with rationale]
+
+tenant_regulations:
+  northgrid:
+    AIR-H1: State PUC customer protection rules
+    AIR-H3: NERC CIP and state safety regulations
+    AIR-H4: State PUC customer data privacy rule
+    default: Enterprise model risk standard
+  meridian:
+    AIR-H1: Telecom regulator consultation on AI in credit decisions
+    AIR-H3: Network resilience obligations
+    AIR-H4: GDPR-like data protection law (automated decisions)
+    default: EU AI Act-style tiering (internal policy)

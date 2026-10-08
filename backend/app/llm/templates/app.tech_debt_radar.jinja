@@ -1,0 +1,1 @@
+Scored {{ f.n }} applications; average debt {{ f.avg }}. Highest: {% for t in f.top %}{{ t.name }} [{{ t.ref }}] {{ t.score }}{% if not loop.last %}, {% endif %}{% endfor %}. Apps on EOL frameworks ({{ f.eol_apps }}) account for {{ (f.eol_incident_share * 100) | round | int }}% of incidents.

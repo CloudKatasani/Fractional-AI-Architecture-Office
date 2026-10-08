@@ -1,0 +1,1075 @@
+# Meridian Telecom — mobile + fixed broadband operator (synthetic). Hand-authored industry catalog.
+tenant:
+  id: meridian
+  name: Meridian Telecom
+  industry: Mobile and fixed broadband operator, 6M subscribers
+  employees: 7200
+  it_spend_usd: 160000000
+  notes: BSS/OSS estate with heavy vendor lock-in after the Coastline merger; 5G rollout; GDPR-like privacy law applies
+  boundary_label: BSS/OSS
+  approved_regions: [eu-central-1, eu-west-1]
+  home_region: eu-central-1
+  email_domain: meridian.example
+  cost_center_prefix: MT
+
+zone_by_l1:
+  Network Planning & Build: oss
+  Network Operations: oss
+  Service Fulfillment & Provisioning: oss
+  Service Assurance: oss
+  Product & Offer Management: bss
+  Customer Acquisition & Sales: bss
+  Customer Care: bss
+  Billing & Revenue Management: bss
+  Partner & Wholesale Management: bss
+  Digital Channels: bss
+  Enterprise (B2B) Services: bss
+
+users:
+  - {key: pa, name: Avery Lindqvist, role: principal_architect, title: Principal Architect (Fractional Architecture Office)}
+  - {key: cio, name: Rafael Moreno, role: cio, title: Chief Information & Digital Officer}
+  - {key: own_bss, name: Ingrid Solberg, role: app_owner, title: Head of BSS Platforms}
+  - {key: own_oss, name: Kwame Asante, role: app_owner, title: Head of OSS and Network IT}
+  - {key: own_digital, name: Mei Tanaka, role: app_owner, title: Director, Digital Channels}
+  - {key: own_corp, name: Oliver Grant, role: app_owner, title: Manager, Corporate Applications}
+  - {key: own_data, name: Fatima Zahra, role: app_owner, title: Head of Data Platforms}
+  - {key: sec, name: Nikolai Petrov, role: security_architect, title: Principal Security Architect}
+  - {key: dgl, name: Chloe Dubois, role: data_governance_lead, title: Data Protection & Governance Lead}
+  - {key: risk, name: Benjamin Adeyemi, role: risk_officer, title: Chief Risk Officer}
+  - {key: tl, name: Sofia Lindgren, role: tech_lead, title: Engineering Lead, Order-to-Activate}
+  - {key: own_b2b, name: Arjun Mehta, role: app_owner, title: Director, Enterprise (B2B) Systems}
+
+owner_by_l1:
+  Network Planning & Build: own_oss
+  Network Operations: own_oss
+  Service Fulfillment & Provisioning: own_oss
+  Service Assurance: own_oss
+  Product & Offer Management: own_bss
+  Customer Acquisition & Sales: own_digital
+  Customer Care: own_digital
+  Billing & Revenue Management: own_bss
+  Partner & Wholesale Management: own_bss
+  Spectrum & Regulatory: own_corp
+  Digital Channels: own_digital
+  Enterprise (B2B) Services: own_b2b
+  Corporate: own_corp
+  Data & Analytics: own_data
+  Security & Fraud: sec
+
+capabilities:
+  - name: Network Planning & Build
+    importance: 4
+    maturity: 3
+    keywords: [network planning, 5g, rollout, cell site, capacity, build, digital twin]
+    children:
+      - {name: Capacity Planning, children: [RAN Capacity Forecasting]}
+      - {name: Site Acquisition & Build}
+      - {name: Network Digital Twin, maturity: 1}
+  - name: Network Operations
+    importance: 5
+    maturity: 3
+    keywords: [ran, core, transport, network operations, noc, sdn, 5g core, autonomy, self-healing]
+    children:
+      - {name: RAN Operations, children: [RAN Energy Optimization]}
+      - {name: Core Network Operations, children: [5G Core Operations]}
+      - {name: Transport & SDN}
+      - {name: Network Automation, maturity: 1}
+  - name: Service Fulfillment & Provisioning
+    importance: 5
+    maturity: 2
+    keywords: [fulfillment, provisioning, activation, order, order-to-activate, sim, esim, number]
+    children:
+      - {name: Order Management, maturity: 2}
+      - {name: Service Activation}
+      - {name: Number & SIM Management, children: [eSIM Management]}
+  - name: Service Assurance
+    importance: 4
+    maturity: 3
+    keywords: [assurance, fault, performance, trouble ticket, alarms, sla]
+    children:
+      - {name: Fault Management}
+      - {name: Performance Management}
+      - {name: Trouble Ticketing}
+  - name: Product & Offer Management
+    importance: 5
+    maturity: 2
+    keywords: [product catalog, offer, bundle, 5g monetization, pricing, tariff]
+    children:
+      - {name: Product Catalog, maturity: 2}
+      - {name: Offer & Pricing Management}
+  - name: Customer Acquisition & Sales
+    importance: 4
+    maturity: 3
+    keywords: [sales, acquisition, retail, dealer, campaign, marketing, next best offer]
+    children:
+      - {name: Retail & Dealer Sales}
+      - {name: Marketing & Campaigns}
+      - {name: Customer Data Platform, maturity: 2}
+  - name: Customer Care
+    importance: 4
+    maturity: 3
+    keywords: [care, contact center, chatbot, agent, churn, retention, complaint]
+    children:
+      - {name: Contact Center}
+      - {name: Customer Retention}
+  - name: Billing & Revenue Management
+    importance: 5
+    maturity: 2
+    keywords: [billing, charging, rating, mediation, revenue, collections, invoice, revenue assurance, bss consolidation]
+    children:
+      - {name: Mediation, maturity: 2}
+      - {name: Charging & Rating}
+      - {name: Billing & Invoicing, maturity: 2, children: [Consumer Billing, Business Billing]}
+      - {name: Collections}
+      - {name: Revenue Assurance}
+  - name: Partner & Wholesale Management
+    importance: 3
+    maturity: 3
+    keywords: [partner, wholesale, roaming, interconnect, mvno]
+    children:
+      - {name: Roaming Management}
+      - {name: Interconnect & Wholesale Billing}
+  - name: Spectrum & Regulatory
+    importance: 4
+    maturity: 3
+    keywords: [spectrum, regulatory, lawful intercept, number portability, compliance, regulator]
+    children:
+      - {name: Spectrum Management}
+      - {name: Regulatory Compliance, children: [Lawful Intercept, Number Portability]}
+  - name: Digital Channels
+    importance: 5
+    maturity: 2
+    keywords: [digital, app, web, self-service, digital-first, chatbot, ecommerce]
+    children:
+      - {name: Web & App Self-Service}
+      - {name: Conversational Channels, maturity: 1}
+  - name: Enterprise (B2B) Services
+    importance: 4
+    maturity: 2
+    keywords: [b2b, enterprise, cpq, quoting, private network, sla, contract]
+    children:
+      - {name: B2B Quoting & Contracts}
+      - {name: Enterprise Service Management}
+  - name: Corporate
+    importance: 2
+    maturity: 4
+    keywords: [finance, hr, procurement, erp, collaboration, legal]
+    children:
+      - {name: Finance & ERP}
+      - {name: Human Resources}
+      - {name: Procurement & Legal}
+      - {name: Collaboration & Documents}
+      - {name: Field Service Management}
+  - name: Data & Analytics
+    importance: 4
+    maturity: 2
+    keywords: [data, analytics, bi, lake, warehouse, ai, ml, reporting]
+    children:
+      - {name: Data Platform}
+      - {name: Business Intelligence}
+      - {name: AI & Machine Learning, maturity: 1}
+      - {name: Data Governance, maturity: 2}
+  - name: Security & Fraud
+    importance: 5
+    maturity: 3
+    keywords: [security, fraud, identity, siem, sim swap, subscription fraud]
+    children:
+      - {name: Fraud Management}
+      - {name: Identity & Access}
+      - {name: Security Operations}
+      - {name: Integration & API Management}
+
+applications:
+  - {n: Coastline Billing (Legacy), v: Arcturus BSS, cat: Billing, cap: Consumer Billing, h: on_prem, c: 1, cost: 5200000, u: 640, st: [C++, Oracle 11g, Solaris], fw: Java 7 / EJB 3, hot: true, cls: confidential, reg: [Telecom privacy law], f: [invoicing, bill_run, dunning, payments], cl: billing, desc: Billing platform inherited from the Coastline merger; serves 2.1M legacy subscribers.}
+  - {n: Meridian Convergent Billing, v: Helios Telecom Software, cat: Billing, cap: Consumer Billing, caps: [Business Billing], h: iaas, c: 1, cost: 6900000, u: 880, st: [Java 17, PostgreSQL 15, Kafka], cls: confidential, reg: [Telecom privacy law], f: [invoicing, bill_run, dunning, payments, convergent], cl: billing}
+  - {n: ChargeCore OCS, v: Helios Telecom Software, cat: Online charging, cap: Charging & Rating, h: on_prem, c: 1, cost: 4100000, u: 60, st: [C++, TimesTen], ren: {auto_renew: true, renewal_days: 120, utilization: 0.92, market_multiple: 2.0}, cls: confidential, f: [charging, rating, balance_management], desc: Online charging system; contract renewal priced at roughly 2x current market benchmarks.}
+  - {n: MedLink Mediation (Legacy), v: Datastream Systems, cat: Mediation, cap: Mediation, h: on_prem, c: 1, cost: 1350000, u: 25, st: [C, Perl, Oracle 10g], fw: Perl 5.8 / Custom, hot: true, eos: 182, cls: confidential, f: [cdr_collection, normalization], desc: Legacy usage mediation platform; vendor end of support in six months.}
+  - {n: StreamMed 5G Mediation, v: Datastream Systems, cat: Mediation, cap: Mediation, h: iaas, c: 1, cost: 980000, u: 20, st: [Java 17, Kafka], f: [cdr_collection, normalization, 5g_usage]}
+  - {n: Helios CRM Consumer, v: Helios Telecom Software, cat: CRM, cap: Contact Center, caps: [Customer Retention], h: on_prem, c: 1, cost: 3800000, u: 2200, st: [Java 8, Oracle 12c], fw: Java 8 / Spring 3.2, hot: true, cls: confidential, f: [case_management, interactions, customer_360, orders], cl: crm}
+  - {n: Nimbus CRM B2B, v: Nimbus Cloud Inc, cat: CRM, cap: Enterprise Service Management, caps: [B2B Quoting & Contracts], h: saas, c: 2, cost: 2100000, u: 650, st: [SaaS], cls: confidential, f: [case_management, interactions, customer_360, opportunities], cl: crm}
+  - {n: OfferHub Product Catalog, v: Helios Telecom Software, cat: Product catalog, cap: Product Catalog, h: iaas, c: 1, cost: 1100000, u: 140, st: [Java 11, PostgreSQL], f: [catalog, offers, eligibility]}
+  - {n: Coastline Product Catalog, v: Arcturus BSS, cat: Product catalog, cap: Product Catalog, h: on_prem, c: 2, cost: 540000, u: 45, st: [Java 6, Oracle 11g], fw: Java 6 / J2EE, hot: true, f: [catalog, offers]}
+  - {n: OrderFlow OM, z: bss, v: Helios Telecom Software, cat: Order management, cap: Order Management, h: iaas, c: 1, cost: 1900000, u: 900, st: [Java 11, Camunda, PostgreSQL], fw: Java 11 / Spring Boot 2.7, f: [order_capture, orchestration]}
+  - {n: CollectIQ Collections, v: Recovery Systems Corp, cat: Collections, cap: Collections, h: saas, c: 2, cost: 420000, u: 130, st: [SaaS], cls: confidential}
+  - {n: RevAssure, v: Ledgerline Analytics, cat: Revenue assurance, cap: Revenue Assurance, h: saas, c: 2, cost: 610000, u: 30, st: [SaaS]}
+  - {n: NetInventory OSS, v: Telemetrix, cat: Network inventory, cap: Site Acquisition & Build, caps: [Service Activation], h: on_prem, c: 1, cost: 1700000, u: 520, st: [Java 8, Oracle 12c], fw: Java 8 / Spring 4, hot: true, f: [physical_inventory, logical_inventory, topology]}
+  - {n: ActivateNow Provisioning, v: Telemetrix, cat: Service activation, cap: Service Activation, h: on_prem, c: 1, cost: 1250000, u: 40, st: [Java 11, Oracle 19c], f: [activation, provisioning]}
+  - {n: FaultWatch FM, v: Telemetrix, cat: Fault management, cap: Fault Management, h: on_prem, c: 1, cost: 980000, u: 310, st: [C++, Oracle 19c], f: [alarms, correlation]}
+  - {n: PerfStat PM, v: Telemetrix, cat: Performance management, cap: Performance Management, h: on_prem, c: 2, cost: 760000, u: 240, st: [Java 11, Cassandra], f: [kpis, counters]}
+  - {n: TicketPro TT, v: Servicewise, cat: Trouble ticketing, cap: Trouble Ticketing, h: saas, c: 2, cost: 690000, u: 1100, st: [SaaS], f: [tickets, sla]}
+  - {n: CoreSight 5G Core Manager, v: Nordwave Networks, cat: 5G core, cap: 5G Core Operations, h: paas, c: 1, cost: 2600000, u: 80, st: [Kubernetes, Go], f: [amf, smf, upf_mgmt]}
+  - {n: RANManager, v: Nordwave Networks, cat: RAN management, cap: RAN Operations, h: on_prem, c: 1, cost: 2200000, u: 160, st: [Java 11, Oracle 19c], f: [ran_config, son]}
+  - {n: PathControl SDN, v: Lightpath Systems, cat: SDN controller, cap: Transport & SDN, h: on_prem, c: 1, cost: 840000, u: 45, st: [Java 17, ONOS]}
+  - {n: Meridian Integration Bus, v: Integra Systems, cat: OSS/BSS integration bus, cap: Integration & API Management, h: on_prem, c: 1, cost: 920000, u: 35, st: [Java 8, Integra ESB 6], fw: Java 8 / Spring 4}
+  - {n: NumberVault, v: Numerix, cat: Number management, cap: Number & SIM Management, caps: [Number Portability], h: on_prem, c: 1, cost: 380000, u: 70, st: [Java 8, Oracle 12c], fw: Java 8 / Spring 3.2, hot: true, reg: [Number portability]}
+  - {n: SIMplicity SIM Manager, v: Cardline, cat: SIM management, cap: Number & SIM Management, h: saas, c: 1, cost: 450000, u: 50, st: [SaaS]}
+  - {n: eSIM Hub, v: Cardline, cat: eSIM management, cap: eSIM Management, h: saas, c: 2, cost: 520000, u: 30, st: [SaaS]}
+  - {n: RoamClear, v: Globex Roaming, cat: Roaming clearing, cap: Roaming Management, h: saas, c: 2, cost: 690000, u: 25, st: [SaaS]}
+  - {n: InterBill Interconnect, v: Ledgerline Analytics, cat: Interconnect billing, cap: Interconnect & Wholesale Billing, h: on_prem, c: 2, cost: 540000, u: 20, st: [Java 8, Oracle 12c], fw: Java 8 / Struts 2.3, hot: true}
+  - {n: FraudShield, v: Sentra Fraud, cat: Fraud management, cap: Fraud Management, h: saas, c: 1, cost: 870000, u: 45, st: [SaaS], cls: restricted}
+  - {n: Meridian Web, inhouse: true, cat: Web self-service, cap: Web & App Self-Service, h: paas, c: 1, cost: 1150000, u: 2900000, st: [Next.js 14, Node.js 20], fw: Node.js 20 / Next.js 14, cls: confidential, f: [self_service, ecommerce, payments]}
+  - {n: Meridian App, inhouse: true, cat: Mobile app, cap: Web & App Self-Service, h: paas, c: 1, cost: 1350000, u: 3400000, st: [Kotlin, Swift, Node.js 20], fw: Node.js 20 / Express 4, cls: confidential, f: [mobile_self_service, usage_view, push_notifications]}
+  - {n: Ask Meri Chatbot, v: Converso AI, cat: Chatbot, cap: Conversational Channels, h: saas, c: 2, cost: 480000, u: 820000, st: [SaaS], f: [chat, faq]}
+  - {n: StorePoint POS, v: Retailix, cat: Retail POS, cap: Retail & Dealer Sales, h: saas, c: 2, cost: 690000, u: 1600, st: [SaaS], cls: restricted, reg: [PCI DSS]}
+  - {n: DealerNet Portal, inhouse: true, cat: Dealer portal, cap: Retail & Dealer Sales, h: on_prem, c: 2, cost: 290000, u: 1900, st: [AngularJS 1.6, Java 8], fw: AngularJS 1.6 / Java 8, hot: true}
+  - {n: QuoteFast CPQ, v: Configura, cat: B2B CPQ, cap: B2B Quoting & Contracts, h: saas, c: 2, cost: 560000, u: 420, st: [SaaS]}
+  - {n: FieldGo Service, v: Mobilix, cat: Field service, cap: Field Service Management, h: saas, c: 2, cost: 780000, u: 1300, st: [SaaS]}
+  - {n: Meridian Data Lake, inhouse: true, cat: Data lake, cap: Data Platform, h: paas, c: 2, cost: 1900000, u: 310, st: [AWS S3, Spark, EMR], fw: Python 3.11 / PySpark}
+  - {n: Meridian EDW, v: Terabase, cat: Enterprise data warehouse, cap: Data Platform, h: on_prem, c: 2, cost: 1600000, u: 380, st: [Terabase 16, Informatica 10]}
+  - {n: Lumen BI, v: Lumen Analytics, cat: BI, cap: Business Intelligence, h: saas, c: 3, cost: 620000, u: 1700, st: [SaaS], f: [dashboards, self_service_bi, reporting], cl: bi}
+  - {n: QlikSense-like Insight Studio, v: Insight Studio Ltd, cat: BI, cap: Business Intelligence, h: saas, c: 3, cost: 480000, u: 320, st: [SaaS], f: [dashboards, reporting], cl: bi}
+  - {n: PulseAnalytics Hosted, v: Pulse Analytics Inc, cat: Hosted analytics, cap: Business Intelligence, h: saas, c: 3, cost: 740000, u: 60, st: [SaaS], f: [dashboards, churn_reports], ren: {auto_renew: true, renewal_days: 75, utilization: 0.15}, cls: confidential, desc: Vendor-hosted analytics on subscriber data; 400 licensed seats.}
+  - {n: Unity CDP, v: Segmenta, cat: Customer data platform, cap: Customer Data Platform, h: saas, c: 2, cost: 950000, u: 120, st: [SaaS], cls: confidential, f: [profiles, segments]}
+  - {n: CampaignPro, v: Marketix, cat: Marketing automation, cap: Marketing & Campaigns, h: saas, c: 3, cost: 680000, u: 140, st: [SaaS], f: [campaigns, email, journeys], cl: marketing}
+  - {n: EngageFlow, v: Flowcast, cat: Marketing automation, cap: Marketing & Campaigns, h: saas, c: 3, cost: 410000, u: 55, st: [SaaS], f: [campaigns, email, sms], cl: marketing, ren: {auto_renew: true, renewal_days: 58, utilization: 0.28}}
+  - {n: Keystone IAM, v: Keystone Identity, cat: Identity, cap: Identity & Access, h: saas, c: 1, cost: 840000, u: 7000, st: [SaaS]}
+  - {n: WatchTower SIEM, v: Obsidian Security, cat: SIEM, cap: Security Operations, h: saas, c: 1, cost: 930000, u: 55, st: [SaaS]}
+  - {n: LI Gateway, v: Vigilant Systems, cat: Lawful intercept, cap: Lawful Intercept, h: on_prem, c: 1, cost: 620000, u: 8, st: [Appliance], cls: restricted, reg: [Lawful intercept]}
+  - {n: SpectraPlan, v: Hertzline, cat: Spectrum management, cap: Spectrum Management, h: saas, c: 3, cost: 260000, u: 15, st: [SaaS]}
+  - {n: RegComply Portal, v: Assurance Labs, cat: Regulatory compliance, cap: Regulatory Compliance, h: saas, c: 3, cost: 210000, u: 40, st: [SaaS]}
+  - {n: PlanAhead Capacity, inhouse: true, cat: Capacity planning, cap: RAN Capacity Forecasting, h: iaas, c: 2, cost: 230000, u: 35, st: [Python 3.11, Airflow], fw: Python 3.11 / FastAPI}
+  - {n: SiteBuild Tracker, inhouse: true, cat: Site build tracking, cap: Site Acquisition & Build, h: on_prem, c: 3, cost: 120000, u: 160, st: [.NET Framework 4.5, SQL Server 2012], fw: .NET Framework 4.5 / WebForms, hot: true}
+  - {n: TwinNet Digital Twin, v: Simulix, cat: Network digital twin, cap: Network Digital Twin, h: saas, c: 3, cost: 450000, u: 20, st: [SaaS]}
+  - {n: AutoHeal Orchestrator, inhouse: true, cat: Network automation, cap: Network Automation, h: paas, c: 2, cost: 380000, u: 25, st: [Python 3.11, Kubernetes], fw: Python 3.11 / FastAPI}
+  - {n: GreenRAN Optimizer, v: Nordwave Networks, cat: RAN energy optimization, cap: RAN Energy Optimization, h: saas, c: 3, cost: 340000, u: 12, st: [SaaS]}
+  - {n: Corvus ERP, v: Corvus Software, cat: ERP, cap: Finance & ERP, h: on_prem, c: 1, cost: 3600000, u: 2100, st: [ABAP, HANA], reg: [SOX]}
+  - {n: Workwell HRIS, v: Workwell Inc, cat: HRIS, cap: Human Resources, h: saas, c: 2, cost: 1100000, u: 7000, st: [SaaS], cls: confidential}
+  - {n: TalentScout ATS, v: Hirewise, cat: Applicant tracking, cap: Human Resources, h: saas, c: 3, cost: 160000, u: 120, st: [SaaS]}
+  - {n: SourceRight Procurement, v: Corvus Software, cat: Procurement, cap: Procurement & Legal, h: saas, c: 3, cost: 420000, u: 520, st: [SaaS]}
+  - {n: LexDocs Legal, v: Juris Software, cat: Legal matter management, cap: Procurement & Legal, h: saas, c: 3, cost: 230000, u: 60, st: [SaaS]}
+  - {n: TeamSpace Docs, v: TeamSpace Corp, cat: Document management, cap: Collaboration & Documents, h: saas, c: 2, cost: 780000, u: 6800, st: [SaaS], f: [document_storage, versioning, search, sharing], cl: docs}
+  - {n: DocArchive Coastline, v: Archivex, cat: Document management, cap: Collaboration & Documents, h: on_prem, c: 3, cost: 290000, u: 140, st: [Java 6, Oracle 10g], fw: Java 6 / J2EE, hot: true, f: [document_storage, versioning], cl: docs}
+  - {n: TeamSpace Chat, v: TeamSpace Corp, cat: Collaboration, cap: Collaboration & Documents, h: saas, c: 2, cost: 460000, u: 7000, st: [SaaS], f: [chat, video, channels], cl: collab}
+  - {n: ChatWave, v: Wavelength Software, cat: Collaboration, cap: Collaboration & Documents, h: saas, c: 3, cost: 240000, u: 900, st: [SaaS], f: [chat, channels], cl: collab}
+  - {n: APIGate, v: Portico API, cat: API gateway, cap: Integration & API Management, h: saas, c: 1, cost: 360000, u: 30, st: [SaaS]}
+  - {n: ModelHub ML Platform, inhouse: true, cat: ML platform, cap: AI & Machine Learning, h: paas, c: 3, cost: 410000, u: 60, st: [Python 3.11, MLflow, Kubernetes], fw: Python 3.11 / MLflow}
+  - {n: Catalogix Data Catalog, v: Catalogix, cat: Data catalog, cap: Data Governance, h: saas, c: 3, cost: 240000, u: 110, st: [SaaS]}
+  - {n: ConsentHub, inhouse: true, cat: Consent management, cap: Data Governance, h: paas, c: 2, cost: 180000, u: 40, st: [Java 17, PostgreSQL], fw: Java 17 / Spring Boot 3}
+  - {n: PortMate MNP, v: Numerix, cat: Number portability, cap: Number Portability, h: saas, c: 1, cost: 310000, u: 45, st: [SaaS], reg: [Number portability]}
+  - {n: WholesaleHub, v: Ledgerline Analytics, cat: Wholesale/MVNO management, cap: Interconnect & Wholesale Billing, h: saas, c: 3, cost: 380000, u: 35, st: [SaaS]}
+  - {n: PayLink Gateway, v: Paylinx, cat: Payment gateway, cap: Collections, h: saas, c: 1, cost: 450000, u: 25, st: [SaaS], cls: restricted, reg: [PCI DSS]}
+  - {n: Coastline Self-Care Portal, v: Arcturus BSS, cat: Web self-service, cap: Web & App Self-Service, h: on_prem, c: 3, cost: 260000, u: 140000, st: [JSP, Java 6], fw: Java 6 / Struts 1.3, hot: true, f: [self_service, payments]}
+  - {n: CreditCheck Activation, z: bss, v: Scorewise, cat: Credit scoring, cap: Order Management, h: saas, c: 2, cost: 290000, u: 900, st: [SaaS], cls: restricted}
+
+filler:
+  target_total: 240
+  suffixes: [Tracker, Portal, Workbench, Scheduler, Reporting Tool, Calculator, Database, Dashboard, Log, Planner]
+  nouns:
+    Capacity Planning: [Spectrum Utilization, Backhaul Capacity]
+    Site Acquisition & Build: [Site Lease, Tower Permit, Fiber Route]
+    Network Digital Twin: [Coverage Simulation]
+    RAN Operations: [Cell Outage, Antenna Tilt, Drive Test]
+    Core Network Operations: [Core Capacity, Signaling Load]
+    Transport & SDN: [Microwave Link, Fiber Fault]
+    Network Automation: [Config Compliance, Script Library]
+    Order Management: [Order Fallout, Order Jeopardy, Install Appointment]
+    Service Activation: [Activation Error, Port Activation]
+    Number & SIM Management: [SIM Logistics, Number Reservation]
+    Fault Management: [Alarm Suppression, Outage Bridge]
+    Performance Management: [KPI Threshold, Busy Hour]
+    Trouble Ticketing: [Ticket Escalation, Repeat Fault]
+    Product Catalog: [Bundle Configurator, Price Plan]
+    Offer & Pricing Management: [Promo Code, Discount Approval]
+    Retail & Dealer Sales: [Store Inventory, Dealer Commission, Device Trade-In]
+    Marketing & Campaigns: [Campaign Calendar, Lead Scoring]
+    Contact Center: [Call Disposition, Quality Monitoring, Callback]
+    Customer Retention: [Retention Offer, Win-Back]
+    Charging & Rating: [Tariff Test, Rating Exception]
+    Billing & Invoicing: [Bill Shock, Invoice Dispute, Bill Format]
+    Collections: [Payment Plan, Write-Off]
+    Revenue Assurance: [Leakage, Usage Reconciliation]
+    Roaming Management: [Roaming Partner, Steering]
+    Interconnect & Wholesale Billing: [Interconnect Dispute, MVNO Settlement]
+    Spectrum Management: [Spectrum License]
+    Regulatory Compliance: [Regulatory Return, Complaint Handling]
+    Web & App Self-Service: [App Release, Feature Flag]
+    B2B Quoting & Contracts: [Enterprise Pricing, Contract Renewal]
+    Enterprise Service Management: [Enterprise SLA, Private Network]
+    Finance & ERP: [Capex Tracking, Revenue Recognition, Cost Allocation]
+    Human Resources: [Shift Roster, Overtime]
+    Procurement & Legal: [Vendor Risk, Contract Clause]
+    Field Service Management: [Technician Skills, Truck Stock]
+    Business Intelligence: [Executive Scorecard, Churn KPI]
+    Data Platform: [Data Quality, Reference Data]
+    Fraud Management: [SIM Swap Review, Bypass Fraud]
+    Security Operations: [Vulnerability, Access Review]
+
+shadow_it:
+  - {name: PollPanda, vendor_raw: [PollPanda Inc, POLLPANDA.COM], sso_raw: [pollpanda], monthly: 1900, channel: invoice, cost_center: Customer Experience}
+  - {name: TaskTide, vendor_raw: [TaskTide Ltd], sso_raw: [tasktide-prod], monthly: 2600, channel: invoice, cost_center: Network PMO}
+  - {name: SprintBoard, vendor_raw: [SPRINTBOARD INC, sprintboard.io], sso_raw: [SprintBoard App], monthly: 1500, channel: invoice, cost_center: Digital Delivery}
+  - {name: PromptForge, vendor_raw: [PROMPTFORGE*TEAM, PromptForge], sso_raw: [], monthly: 1450, channel: expense, cost_center: Marketing, genai: true}
+  - {name: LexiGen, vendor_raw: [LEXIGEN AI LEGAL, Lexigen], sso_raw: [], monthly: 980, channel: expense, cost_center: Legal, genai: true}
+  - {name: CopyGenie AI, vendor_raw: [COPYGENIE*AI SUBSCR], sso_raw: [], monthly: 760, channel: expense, cost_center: Sales Enablement, genai: true}
+  - {name: SnapDiagram, vendor_raw: [SnapDiagram Inc], sso_raw: [snapdiagram], monthly: 520, channel: invoice, cost_center: Network Engineering}
+  - {name: ShareDrop, vendor_raw: [ShareDrop Inc, SHAREDROP.COM], sso_raw: [sharedrop], monthly: 1700, channel: invoice, cost_center: B2B Sales}
+  - {name: QuickSign, vendor_raw: [QUICKSIGN INC], sso_raw: [quicksign], monthly: 1250, channel: invoice, cost_center: B2B Sales}
+  - {name: CellMapper Pro, vendor_raw: [CELLMAPPER PRO], sso_raw: [cellmapper], monthly: 640, channel: invoice, cost_center: RAN Engineering}
+  - {name: SpeedProbe, vendor_raw: [SpeedProbe Ltd], sso_raw: [speedprobe], monthly: 880, channel: invoice, cost_center: Network Quality}
+  - {name: SocialPulse, vendor_raw: [SOCIALPULSE LLC, SocialPulse], sso_raw: [socialpulse], monthly: 2200, channel: invoice, cost_center: Marketing}
+  - {name: TimeTrackr, vendor_raw: [TimeTrackr], sso_raw: [timetrackr-app], monthly: 940, channel: invoice, cost_center: Field Operations}
+  - {name: FormFlow, vendor_raw: [FORMFLOW LLC], sso_raw: [formflow-forms], monthly: 610, channel: invoice, cost_center: Retail Operations}
+  - {name: WriteRight, vendor_raw: [WriteRight Inc], sso_raw: [writeright], monthly: 520, channel: invoice, cost_center: Corporate Communications}
+  - {name: PDFMagic, vendor_raw: [PDFMAGIC PRO], sso_raw: [], monthly: 260, channel: expense, cost_center: Finance}
+  - {name: Mindmapr, vendor_raw: [Mindmapr Ltd], sso_raw: [mindmapr], monthly: 210, channel: invoice, cost_center: Strategy}
+  - {name: RetailHeat Maps, vendor_raw: [RETAILHEAT], sso_raw: [retailheat], monthly: 1100, channel: invoice, cost_center: Retail Operations}
+  - {name: OldTicket Lite, vendor_raw: [OLDTICKET LITE], sso_raw: [oldticket], monthly: 180, channel: invoice, cost_center: Care Operations, truth: retired}
+
+aliases:
+  Coastline Billing (Legacy): [ARCTURUS BSS LTD, coastline-billing-prod, CL-BILL]
+  Meridian Convergent Billing: [Helios Telecom SW (Billing), mcb-prod, convergent billing]
+  Helios CRM Consumer: [HELIOS CRM, crm-consumer-prod]
+  Nimbus CRM B2B: [NIMBUS CLOUD INC, nimbus-b2b]
+  ChargeCore OCS: [Helios Telecom SW (OCS), ocs-prod]
+  MedLink Mediation (Legacy): [DATASTREAM SYSTEMS INC, medlink]
+  PulseAnalytics Hosted: [PULSE ANALYTICS INC, pulse-hosted]
+  NetInventory OSS: [TELEMETRIX INC (INV), netinv]
+  Meridian App: [meridian-mobile, MyMeridian App]
+  Unity CDP: [SEGMENTA INC, unity-cdp]
+
+apis:
+  - {name: Customer Lookup API, owner: Helios CRM Consumer, style: soap, auth: apikey, cls: confidential, resource: customer, consumers: [Meridian Web, Meridian App, Ask Meri Chatbot, StorePoint POS], dup: DUP-CUSTOMER, gateway: false}
+  - {name: Party Management API (TMF632), owner: Nimbus CRM B2B, style: rest, auth: oauth2, cls: confidential, resource: customer, consumers: [QuoteFast CPQ, Unity CDP], dup: DUP-CUSTOMER, gateway: true}
+  - {name: Product Catalog API (TMF620), owner: OfferHub Product Catalog, style: rest, auth: oauth2, cls: internal, resource: product, consumers: [Meridian Web, Meridian App, StorePoint POS, OrderFlow OM, QuoteFast CPQ], dup: DUP-CATALOG, gateway: true}
+  - {name: Legacy Offer Service, owner: Coastline Product Catalog, style: soap, auth: none, cls: internal, resource: product, consumers: [Coastline Self-Care Portal, DealerNet Portal], dup: DUP-CATALOG, gateway: false}
+  - {name: Product Order API (TMF622), owner: OrderFlow OM, style: rest, auth: oauth2, cls: confidential, resource: order, consumers: [Meridian Web, Meridian App, StorePoint POS, DealerNet Portal], gateway: true}
+  - {name: Customer Bill API (TMF678), owner: Meridian Convergent Billing, style: rest, auth: oauth2, cls: confidential, resource: bill, consumers: [Meridian Web, Meridian App, Ask Meri Chatbot], dup: DUP-BILL, gateway: true}
+  - {name: Coastline Invoice Service, owner: Coastline Billing (Legacy), style: soap, auth: apikey, cls: confidential, resource: bill, consumers: [Coastline Self-Care Portal, Helios CRM Consumer], dup: DUP-BILL, gateway: false}
+  - {name: Usage Events Stream, owner: StreamMed 5G Mediation, style: event, auth: mtls, cls: confidential, resource: usage, consumers: [ChargeCore OCS, Meridian Data Lake, RevAssure, FraudShield], gateway: false}
+  - {name: Balance Query API, owner: ChargeCore OCS, style: rest, auth: oauth2, cls: confidential, resource: balance, consumers: [Meridian App, Ask Meri Chatbot], gateway: true}
+  - {name: Service Inventory API (TMF638), owner: NetInventory OSS, style: rest, auth: oauth2, cls: internal, resource: service_inventory, consumers: [ActivateNow Provisioning, TicketPro TT, OrderFlow OM], gateway: true}
+  - {name: Alarm Events, owner: FaultWatch FM, style: event, auth: mtls, cls: internal, resource: alarm, consumers: [TicketPro TT, AutoHeal Orchestrator], gateway: false}
+  - {name: SIM Swap API, owner: SIMplicity SIM Manager, style: rest, auth: oauth2, cls: restricted, resource: sim, consumers: [FraudShield, Helios CRM Consumer, StorePoint POS], gateway: true}
+  - {name: Number Portability API, owner: PortMate MNP, style: rest, auth: oauth2, cls: confidential, resource: number, consumers: [OrderFlow OM, NumberVault], gateway: true}
+  - {name: Trouble Ticket API (TMF621), owner: TicketPro TT, style: rest, auth: oauth2, cls: internal, resource: ticket, consumers: [Helios CRM Consumer, Nimbus CRM B2B, AutoHeal Orchestrator], gateway: true}
+  - {name: Subscriber Profile Export, owner: Unity CDP, style: rest, auth: none, cls: confidential, resource: subscriber_profile, consumers: [PulseAnalytics Hosted, CampaignPro], gateway: false}
+
+db_links:
+  - {from: Helios CRM Consumer, to: NetInventory OSS, desc: CRM reads OSS inventory schema via shared Oracle database link to show service status, cross: true}
+  - {from: ActivateNow Provisioning, to: Coastline Billing (Legacy), desc: Provisioning writes activation flags directly into legacy billing tables (shared DB), cross: true}
+  - {from: RevAssure, to: Coastline Billing (Legacy), desc: Revenue assurance direct DB extract from billing schema, cross: false}
+  - {from: PulseAnalytics Hosted, to: Meridian EDW, desc: Vendor-hosted analytics connects directly to EDW subscriber marts, cross: false}
+  - {from: DealerNet Portal, to: Coastline Product Catalog, desc: Dealer portal queries catalog tables directly, cross: false}
+  - {from: InterBill Interconnect, to: MedLink Mediation (Legacy), desc: Interconnect billing reads mediation staging tables directly, cross: false}
+  - {from: SiteBuild Tracker, to: NetInventory OSS, desc: Access linked tables to inventory site records, cross: false}
+  - {from: Coastline Self-Care Portal, to: Coastline Billing (Legacy), desc: Portal queries billing database directly for balances, cross: false}
+
+core_integrations:
+  - [MedLink Mediation (Legacy), Coastline Billing (Legacy), file]
+  - [MedLink Mediation (Legacy), ChargeCore OCS, file]
+  - [StreamMed 5G Mediation, ChargeCore OCS, event]
+  - [ChargeCore OCS, Meridian Convergent Billing, event]
+  - [OrderFlow OM, ActivateNow Provisioning, api]
+  - [OrderFlow OM, Meridian Convergent Billing, api]
+  - [OrderFlow OM, OfferHub Product Catalog, api]
+  - [OrderFlow OM, CreditCheck Activation, api]
+  - [ActivateNow Provisioning, NetInventory OSS, api]
+  - [ActivateNow Provisioning, SIMplicity SIM Manager, api]
+  - [FaultWatch FM, TicketPro TT, event]
+  - [PerfStat PM, FaultWatch FM, event]
+  - [RANManager, PerfStat PM, file]
+  - [CoreSight 5G Core Manager, FaultWatch FM, event]
+  - [Meridian Web, APIGate, api]
+  - [Meridian App, APIGate, api]
+  - [Helios CRM Consumer, Meridian Convergent Billing, api]
+  - [Helios CRM Consumer, Coastline Billing (Legacy), api]
+  - [Meridian Convergent Billing, PayLink Gateway, api]
+  - [Meridian Convergent Billing, Corvus ERP, file]
+  - [Coastline Billing (Legacy), Corvus ERP, file]
+  - [RoamClear, Meridian Convergent Billing, file]
+  - [Meridian Data Lake, Lumen BI, api]
+  - [Unity CDP, CampaignPro, api]
+  - [Unity CDP, EngageFlow, api]
+  - [FraudShield, SIMplicity SIM Manager, api]
+  - [Workwell HRIS, Keystone IAM, api]
+
+data_domains:
+  - name: Subscriber
+    system: Helios CRM Consumer
+    l1: Customer Care
+    datasets:
+      - {n: Subscriber Profiles, pii: true, cls: restricted, tags: [subscriber_pii, cpni]}
+      - {n: KYC Documents, pii: true, cls: restricted, tags: [subscriber_pii]}
+      - {n: Customer Interactions, pii: true, cls: confidential, tags: [subscriber_pii]}
+      - {n: Consent Records, pii: true, cls: confidential, tags: [subscriber_pii]}
+      - {n: Churn Features, pii: true, cls: confidential, tags: [subscriber_pii, cpni]}
+  - name: Usage
+    system: StreamMed 5G Mediation
+    l1: Billing & Revenue Management
+    datasets:
+      - {n: CDR Raw, pii: true, cls: restricted, tags: [cpni, subscriber_pii]}
+      - {n: Subscriber Usage Daily, pii: true, cls: confidential, tags: [cpni, subscriber_pii], consumers: 5}
+      - {n: Data Sessions, pii: true, cls: confidential, tags: [cpni]}
+      - {n: Roaming Records, pii: true, cls: confidential, tags: [cpni]}
+      - {n: Mediated Usage, pii: true, cls: confidential, tags: [cpni]}
+  - name: Billing
+    system: Meridian Convergent Billing
+    l1: Billing & Revenue Management
+    datasets:
+      - {n: Invoices, pii: true, cls: confidential, tags: [sox, subscriber_pii]}
+      - {n: Rated Events, pii: true, cls: confidential, tags: [cpni]}
+      - {n: Account Balances, pii: true, cls: confidential}
+      - {n: Card Payments, pii: true, cls: restricted, tags: [pci]}
+      - {n: Collections Cases, pii: true, cls: confidential}
+      - {n: Revenue Journal, cls: confidential, tags: [sox]}
+  - name: Legacy Billing
+    system: Coastline Billing (Legacy)
+    l1: Billing & Revenue Management
+    datasets:
+      - {n: Coastline Invoices, pii: true, cls: confidential, tags: [sox, subscriber_pii]}
+      - {n: Coastline Accounts, pii: true, cls: restricted, tags: [subscriber_pii]}
+      - {n: Coastline Payments, pii: true, cls: restricted, tags: [pci]}
+  - name: Network
+    system: NetInventory OSS
+    l1: Network Operations
+    datasets:
+      - {n: Cell Site Inventory, cls: internal}
+      - {n: Network Topology, cls: confidential}
+      - {n: RAN KPI Counters, cls: internal}
+      - {n: Network Alarms, cls: internal}
+      - {n: Transport Links, cls: internal}
+      - {n: Energy Consumption per Site, cls: internal}
+  - name: Orders & Products
+    system: OrderFlow OM
+    l1: Service Fulfillment & Provisioning
+    datasets:
+      - {n: Product Orders, pii: true, cls: confidential}
+      - {n: Product Catalog Snapshot, cls: internal}
+      - {n: Service Instances, cls: internal}
+      - {n: Credit Check Results, pii: true, cls: restricted, tags: [subscriber_pii]}
+  - name: Care
+    system: TicketPro TT
+    l1: Customer Care
+    datasets:
+      - {n: Trouble Tickets, cls: internal}
+      - {n: Chat Transcripts, pii: true, cls: confidential, tags: [subscriber_pii]}
+      - {n: Call Recordings, pii: true, cls: restricted, tags: [subscriber_pii]}
+      - {n: NPS Surveys, pii: true, cls: confidential}
+  - name: Marketing
+    system: Unity CDP
+    l1: Customer Acquisition & Sales
+    datasets:
+      - {n: Campaign Responses, pii: true, cls: confidential, tags: [subscriber_pii]}
+      - {n: Customer Segments, pii: true, cls: confidential, tags: [subscriber_pii, cpni]}
+      - {n: Offer Eligibility, cls: internal}
+  - name: Fraud
+    system: FraudShield
+    l1: Security & Fraud
+    datasets:
+      - {n: SIM Swap Events, pii: true, cls: restricted}
+      - {n: Fraud Cases, pii: true, cls: restricted}
+      - {n: Device Fingerprints, pii: true, cls: confidential}
+  - name: Lawful Intercept
+    system: LI Gateway
+    l1: Spectrum & Regulatory
+    datasets:
+      - {n: LI Warrant Register, pii: true, cls: restricted, tags: [lawful_intercept]}
+      - {n: LI Intercept Metadata, pii: true, cls: restricted, tags: [lawful_intercept]}
+  - name: Number Portability
+    system: PortMate MNP
+    l1: Spectrum & Regulatory
+    datasets:
+      - {n: Port Requests, pii: true, cls: confidential, tags: [mnp]}
+      - {n: Number Inventory, cls: internal, tags: [mnp]}
+  - name: B2B
+    system: Nimbus CRM B2B
+    l1: Enterprise (B2B) Services
+    datasets:
+      - {n: Enterprise Accounts, cls: confidential}
+      - {n: B2B Contracts, cls: confidential}
+      - {n: Quotes, cls: internal}
+  - name: Workforce
+    system: Workwell HRIS
+    l1: Corporate
+    datasets:
+      - {n: Employee Records, pii: true, cls: restricted}
+      - {n: Applicant Profiles, pii: true, cls: restricted}
+      - {n: Technician Roster, pii: true, cls: confidential}
+      - {n: Store CCTV Footage, pii: true, cls: restricted}
+  - name: Finance
+    system: Corvus ERP
+    l1: Corporate
+    datasets:
+      - {n: GL Journals, cls: confidential, tags: [sox]}
+      - {n: Capex Ledger, cls: confidential, tags: [sox]}
+      - {n: Site Lease Contracts, cls: confidential}
+  - name: Retail
+    system: StorePoint POS
+    l1: Customer Acquisition & Sales
+    datasets:
+      - {n: Store Transactions, pii: true, cls: confidential, tags: [pci]}
+      - {n: Store Footfall, cls: internal}
+
+extra_standards:
+  - id: STD-TMF-01
+    title: TM Forum Open API alignment for BSS
+    domain: api
+    severity: medium
+    rule_text: New or changed BSS APIs conform to the relevant TM Forum Open API (e.g. TMF620, TMF622, TMF632, TMF678).
+    checks:
+      - {type: pattern_any, patterns: ["custom (soap|xml) (interface|api)", "proprietary api"]}
+  - id: STD-INT-05
+    title: Event-driven order-to-activate
+    domain: integration
+    severity: medium
+    rule_text: Order-to-activate steps communicate through order and service events with an orchestrated saga; no batch hand-offs.
+    checks:
+      - {type: pattern_any, patterns: ["nightly batch .{0,40}(activation|provisioning|order)"]}
+  - id: STD-BSS-01
+    title: No shared database between BSS and OSS
+    domain: integration
+    severity: critical
+    rule_text: BSS and OSS applications never share database schemas or DB links. Exchange data through TMF APIs or events.
+    checks:
+      - {type: pattern_any, patterns: ["shared (oracle )?(database|schema)", "(oss|inventory|provisioning) .{0,40}(database|tables) directly"]}
+  - id: STD-RES-01
+    title: Subscriber data residency
+    domain: data
+    severity: critical
+    rule_text: Subscriber personal data and CPNI are stored and processed only in the home region (eu-central-1) or approved in-country facilities.
+    checks:
+      - {type: pattern_any, patterns: ["us-east-1", "outside the (eu|home region)", "offshore"]}
+  - id: STD-AI-04
+    title: Model registry mandatory for production AI
+    domain: ai
+    severity: high
+    rule_text: No AI model serves production traffic unless registered in ModelHub with an approved risk tier.
+    checks: []
+
+extra_patterns:
+  - id: PAT-10
+    name: BSS/OSS Decoupling via TMF Events
+    when_to_use: BSS needs OSS status (or vice versa) without sharing databases.
+    keywords: [bss, oss, inventory, provisioning, service status, activation, tmf, decouple, order-to-activate]
+    nfrs: [decoupling, consistency]
+    components: [BSS Application, TMF Open API, Event Broker, OSS Application, Service Inventory]
+    standard_ids: [STD-BSS-01, STD-TMF-01, STD-INT-05]
+    diagram_mermaid: |
+      flowchart LR
+        BSS[BSS App] -->|TMF622 Order| OM[Order Orchestrator]
+        OM -->|TMF640 Activation| OSS[OSS Activation]
+        OSS --> SI[(Service Inventory)]
+        SI -->|service events| B{{Event Broker}}
+        B --> BSS
+
+extra_policies:
+  - id: POL-20
+    title: CPNI not used for marketing without consent
+    rule: Datasets tagged CPNI may feed marketing tools only when consent is recorded and a data contract exists.
+    regulation: Telecom customer privacy law (CPNI)
+    severity: high
+    check: {type: cpni_marketing}
+  - id: POL-21
+    title: Subscriber data residency
+    rule: Datasets containing subscriber PII must reside in eu-central-1.
+    regulation: Data residency for subscriber data
+    severity: critical
+    check: {type: residency, tag: subscriber_pii, region: eu-central-1}
+  - id: POL-22
+    title: Cardholder data limited to PCI zone
+    rule: PCI-tagged datasets may be stored only in PCI-scoped systems and must not be copied to the data lake.
+    regulation: PCI DSS
+    severity: critical
+    check: {type: pci_scope, tag: pci}
+  - id: POL-23
+    title: Lawful intercept data retention limit
+    rule: Lawful intercept datasets are retained no longer than 365 days and never leave the LI system.
+    regulation: Lawful intercept data handling
+    severity: critical
+    check: {type: retention_max, tag: lawful_intercept, days: 365}
+  - id: POL-24
+    title: Number portability records retained 2 years
+    rule: Number portability records are retained for at least 730 days.
+    regulation: Number portability obligations
+    severity: medium
+    check: {type: retention_min, tag: mnp, days: 730}
+  - id: POL-25
+    title: Subscriber PII retention limit
+    rule: Subscriber personal data may not be kept longer than 1095 days after contract end.
+    regulation: GDPR-like data protection law
+    severity: high
+    check: {type: retention_max, pii: true, domains: [Subscriber, Usage, Care, Marketing], days: 1095}
+  - id: POL-26
+    title: PII masked in non-production
+    rule: Personal data copied to non-production must be masked.
+    regulation: GDPR-like data protection law
+    severity: high
+    check: {type: masking_nonprod}
+
+ai_usecases:
+  - {t: Churn prediction, dept: Customer Retention, status: production, pattern: classic_ml, value: 9800000, prio: 5, ds: [Churn Features, Subscriber Usage Daily, Customer Interactions], personal: true, individuals: true, tags: [forecasting]}
+  - {t: Next-best-offer, dept: Marketing, status: pilot, pattern: classic_ml, value: 12500000, prio: 5, ds: [Customer Segments, Subscriber Usage Daily, Offer Eligibility], personal: true, individuals: true, automated: true, tags: [pricing], desc: Automatically selects and presents personalised offers and prices to each subscriber in app and care channels.}
+  - {t: Network anomaly detection, dept: Network Operations, status: production, pattern: classic_ml, value: 4100000, prio: 4, ds: [RAN KPI Counters, Network Alarms], tags: [anomaly]}
+  - {t: RAN energy saving optimization, dept: RAN Engineering, status: pilot, pattern: classic_ml, value: 6200000, prio: 5, ds: [Energy Consumption per Site, RAN KPI Counters], tags: [optimization]}
+  - {t: Self-healing network actions, dept: Network Operations, status: pilot, pattern: agent_tools, value: 5400000, prio: 4, ds: [Network Alarms, Network Topology], safety: true, automated: true, tags: [critical_infrastructure], desc: Agent that restarts, reroutes or reconfigures network elements automatically in response to alarms; availability-critical.}
+  - {t: Customer care chatbot, dept: Customer Care, status: production, pattern: rag, value: 3600000, prio: 4, ds: [Chat Transcripts, Invoices], personal: true, tags: [customer_facing, generative]}
+  - {t: Care agent assist, dept: Customer Care, status: pilot, pattern: rag, value: 2100000, prio: 4, ds: [Customer Interactions, Chat Transcripts], personal: true, tags: [generative]}
+  - {t: Fraud detection (SIM swap and subscription fraud), dept: Fraud, status: production, pattern: classic_ml, value: 4800000, prio: 5, ds: [SIM Swap Events, Fraud Cases, Device Fingerprints], personal: true, individuals: true, automated: true, tags: [anomaly], desc: Scores SIM swap and new-subscription requests and automatically blocks high-risk requests.}
+  - {t: Credit scoring at activation, dept: Sales Operations, status: production, pattern: classic_ml, value: 3900000, prio: 4, ds: [Credit Check Results, Subscriber Profiles], personal: true, individuals: true, automated: true, tags: [credit, eligibility]}
+  - {t: Field tech dispatch optimization, dept: Field Operations, status: pilot, pattern: classic_ml, value: 2200000, prio: 3, ds: [Trouble Tickets, Technician Roster], personal: true, tags: [optimization]}
+  - {t: Capacity planning forecast, dept: Network Planning, status: production, pattern: classic_ml, value: 3300000, prio: 4, ds: [RAN KPI Counters, Cell Site Inventory], tags: [forecasting]}
+  - {t: Network digital twin, dept: Network Planning, status: idea, pattern: classic_ml, value: 2800000, prio: 3, ds: [Network Topology, RAN KPI Counters], tags: [simulation]}
+  - {t: Contract clause extraction for B2B, dept: B2B Sales, status: pilot, pattern: rag, value: 900000, prio: 3, ds: [B2B Contracts], tags: [generative]}
+  - {t: Roaming cost optimization, dept: Wholesale, status: idea, pattern: classic_ml, value: 1700000, prio: 3, ds: [Roaming Records], tags: [optimization]}
+  - {t: Voice-of-customer summarization, dept: Customer Experience, status: pilot, pattern: rag, value: 800000, prio: 3, ds: [NPS Surveys, Chat Transcripts], personal: true, tags: [generative]}
+  - {t: Store traffic forecasting, dept: Retail, status: production, pattern: classic_ml, value: 600000, prio: 2, ds: [Store Footfall, Store Transactions], tags: [forecasting]}
+  - {t: Trouble-ticket auto-triage, dept: Service Assurance, status: production, pattern: classic_ml, value: 1500000, prio: 4, ds: [Trouble Tickets, Network Alarms], tags: [classification]}
+  - {t: Cell-site lease negotiation assistant, dept: Network Real Estate, status: idea, pattern: classic_ml, value: 1100000, prio: 2, ds: [Site Lease Contracts, Cell Site Inventory], tags: [analytics]}
+  - {t: Sales email generation, dept: B2B Sales, status: pilot, pattern: rag, value: 500000, prio: 2, ds: [Enterprise Accounts], tags: [generative]}
+  - {t: Employee HR chatbot, dept: Human Resources, status: pilot, pattern: rag, value: 400000, prio: 2, ds: [Employee Records], personal: true, tags: [generative]}
+  - {t: Legal e-discovery assistant, dept: Legal, status: idea, pattern: rag, value: 700000, prio: 2, ds: [B2B Contracts], tags: [generative]}
+  - {t: Marketing creative generation, dept: Marketing, status: pilot, pattern: rag, value: 1200000, prio: 3, ds: [Campaign Responses], tags: [generative]}
+  - {t: Spectrum auction bid model, dept: Spectrum Strategy, status: idea, pattern: classic_ml, value: 3000000, prio: 3, ds: [Cell Site Inventory], tags: [forecasting]}
+  - {t: Outage comms drafting, dept: Customer Experience, status: pilot, pattern: rag, value: 300000, prio: 2, ds: [Network Alarms, Trouble Tickets], tags: [generative]}
+  - {t: Store employee emotion analytics from CCTV, dept: Retail, status: idea, pattern: vision, value: 450000, prio: 1, ds: [Store CCTV Footage, Employee Records], personal: true, individuals: true, tags: [covert_surveillance, emotion_recognition_workplace], desc: Proposal to score store staff mood and engagement from in-store CCTV without notice.}
+
+ai_assets:
+  - {n: Churn Model XGB v4, type: model, uc: Churn prediction, vendor: in-house, ds: [Churn Features, Subscriber Usage Daily], eval: passed, monthly: 2800, registered: true, dept: Customer Retention, lifecycle: production}
+  - {n: NBO Engine (Unity CDP), type: vendor_copilot, uc: Next-best-offer, vendor: Segmenta, ds: [Customer Segments, Subscriber Usage Daily], eval: in_progress, monthly: 9500, registered: false, dept: Marketing}
+  - {n: Network Anomaly Detector, type: model, uc: Network anomaly detection, vendor: in-house, ds: [RAN KPI Counters, Network Alarms], eval: passed, monthly: 3100, registered: true, dept: Network Operations, lifecycle: production}
+  - {n: GreenRAN Sleep Scheduler, type: model, uc: RAN energy saving optimization, vendor: Nordwave Networks, ds: [Energy Consumption per Site], eval: in_progress, monthly: 4200, registered: true, dept: RAN Engineering}
+  - {n: AutoHeal Agent, type: agent, uc: Self-healing network actions, vendor: OpenMind Studio, ds: [Network Alarms, Network Topology], eval: none, monthly: 5200, registered: false, dept: Network Operations}
+  - {n: Ask Meri LLM Bot, type: prompt_app, uc: Customer care chatbot, vendor: Converso AI, ds: [Chat Transcripts, Invoices], eval: passed, monthly: 11800, registered: true, dept: Customer Care, lifecycle: production}
+  - {n: Agent Assist (Helios), type: vendor_copilot, uc: Care agent assist, vendor: Helios Telecom Software, ds: [Customer Interactions], eval: none, monthly: 6400, registered: false, dept: Customer Care}
+  - {n: FraudShield ML, type: model, uc: Fraud detection (SIM swap and subscription fraud), vendor: Sentra Fraud, ds: [SIM Swap Events, Fraud Cases], eval: passed, monthly: 3900, registered: true, dept: Fraud, lifecycle: production}
+  - {n: Activation Credit Scorecard, type: model, uc: Credit scoring at activation, vendor: Scorewise, ds: [Credit Check Results, Subscriber Profiles], eval: none, monthly: 2400, registered: true, dept: Sales Operations, lifecycle: production}
+  - {n: Dispatch Optimizer, type: model, uc: Field tech dispatch optimization, vendor: Mobilix, ds: [Trouble Tickets, Technician Roster], eval: in_progress, monthly: 1500, registered: true, dept: Field Operations}
+  - {n: Capacity Forecast Prophet, type: model, uc: Capacity planning forecast, vendor: in-house, ds: [RAN KPI Counters], eval: passed, monthly: 900, registered: true, dept: Network Planning, lifecycle: production}
+  - {n: Clause Extractor, type: prompt_app, uc: Contract clause extraction for B2B, vendor: Bedrock, ds: [B2B Contracts], eval: in_progress, monthly: 700, registered: true, dept: B2B Sales}
+  - {n: VoC Summarizer, type: prompt_app, uc: Voice-of-customer summarization, vendor: Azure OpenAI, ds: [NPS Surveys, Chat Transcripts], eval: in_progress, monthly: 1100, registered: true, dept: Customer Experience}
+  - {n: Store Traffic Model, type: model, uc: Store traffic forecasting, vendor: in-house, ds: [Store Footfall], eval: passed, monthly: 300, registered: true, dept: Retail, lifecycle: production}
+  - {n: Ticket Triage Classifier, type: model, uc: Trouble-ticket auto-triage, vendor: in-house, ds: [Trouble Tickets], eval: passed, monthly: 600, registered: true, dept: Service Assurance, lifecycle: production}
+  - {n: Sales Email Copilot (Nimbus), type: vendor_copilot, uc: Sales email generation, vendor: Nimbus Cloud Inc, ds: [Enterprise Accounts], eval: none, monthly: 3800, registered: false, dept: B2B Sales}
+  - {n: HR Helper Bot, type: prompt_app, uc: Employee HR chatbot, vendor: OpenMind Studio, ds: [Employee Records], eval: none, monthly: 600, registered: false, dept: Human Resources}
+  - {n: PromptForge, type: vendor_copilot, uc: Marketing creative generation, vendor: PromptForge, ds: [Campaign Responses], eval: none, monthly: 1450, registered: false, dept: Marketing, paid_via: expense}
+  - {n: LexiGen, type: vendor_copilot, uc: Legal e-discovery assistant, vendor: LexiGen, ds: [B2B Contracts], eval: none, monthly: 980, registered: false, dept: Legal, paid_via: expense}
+  - {n: CopyGenie AI, type: vendor_copilot, vendor: CopyGenie AI, ds: [], eval: none, monthly: 760, registered: false, dept: Sales Enablement, paid_via: expense}
+  - {n: Code Assistant (Engineering), type: vendor_copilot, vendor: Anthropic Claude, ds: [], eval: passed, monthly: 6800, registered: true, dept: IT}
+  - {n: Outage Comms Drafter, type: prompt_app, uc: Outage comms drafting, vendor: Azure OpenAI, ds: [Network Alarms], eval: in_progress, monthly: 400, registered: true, dept: Customer Experience}
+  - {n: Revenue Leakage Model, type: model, vendor: Ledgerline Analytics, ds: [Rated Events], eval: none, monthly: 1300, registered: false, dept: Finance}
+  - {n: Roaming Steering Model, type: model, uc: Roaming cost optimization, vendor: Globex Roaming, ds: [Roaming Records], eval: none, monthly: 900, registered: false, dept: Wholesale}
+
+strategy_docs:
+  - key: fiveg
+    title: 5G Monetization Strategy
+    type: strategy
+    year: 2025
+    paragraphs:
+      - Meridian has invested more than one billion dollars in 5G spectrum and standalone core. Average revenue per user has not yet moved, and the board expects 5G-specific revenue of 8% of service revenue by 2028.
+      - Monetisation depends on three capabilities we do not fully have today. A unified product catalog that can launch network-slice and speed-tier offers in days, not months. Real-time charging that can rate 5G usage and enterprise SLAs. And network APIs exposed to partners and enterprises through a secured gateway.
+      - We will launch consumer speed tiers, fixed wireless access and private 5G for enterprises. Each requires order-to-activate automation across BSS and OSS and a single view of the customer across consumer and business lines.
+      - Measures are 5G revenue share, time-to-market for new offers, and the number of enterprise private network customers.
+  - key: bss
+    title: BSS Consolidation Program
+    type: strategy
+    year: 2025
+    paragraphs:
+      - Following the Coastline merger, Meridian runs two billing systems, two product catalogs, two CRMs and a legacy mediation platform alongside the new 5G mediation. Running cost of the duplicated BSS estate is estimated at 18 million dollars a year and every new offer must be configured twice.
+      - The program will migrate Coastline subscribers onto Meridian Convergent Billing, consolidate product catalogs on OfferHub with TM Forum Open APIs, and retire the legacy mediation platform before vendor support ends.
+      - Integration between BSS and OSS today includes shared database links that block upgrades. The target architecture uses TMF Open APIs and events only.
+      - Success is measured by legacy systems retired, run-cost reduction and time to launch a new tariff.
+  - key: digital
+    title: Digital-First Customer Experience
+    type: strategy
+    year: 2024
+    paragraphs:
+      - Customers want to buy, manage and get help entirely in the app. Today only 38% of sales and 45% of care interactions are digital and many journeys hand off to stores or the contact center.
+      - We will deliver end-to-end digital journeys for plan changes, device upgrades and fault reporting, with a conversational assistant that can complete transactions. Any AI used in customer channels will disclose its use and keep a human escalation path.
+      - Personalisation will use consented data only, in line with the privacy law and CPNI rules.
+  - key: autonomy
+    title: Network Autonomy Roadmap
+    type: strategy
+    year: 2026
+    paragraphs:
+      - We aim for TM Forum autonomous network level 3 in RAN and core by 2028. This requires closed-loop assurance, intent-based configuration and AI that can recommend and, with appropriate safeguards, execute remediation actions.
+      - Self-healing actions that affect network availability will be introduced gradually with human approval, full audit logging and rollback, and treated as high risk until proven.
+      - RAN energy saving is the first priority use case, targeting 12% energy reduction.
+  - key: okrs
+    title: FY2026 Enterprise OKRs
+    type: OKR
+    year: 2026
+    paragraphs:
+      - "Objective 1: Grow 5G revenue. Key results: 5G revenue share 4%; 3 new 5G offers launched; 25 private network customers."
+      - "Objective 2: One Meridian BSS. Key results: legacy mediation retired; 50% of Coastline subscribers migrated; one product catalog."
+      - "Objective 3: Digital first. Key results: digital sales 50%; chatbot containment 40%; NPS +6."
+      - "Objective 4: Run lean. Key results: IT run cost down 7%; zero unregistered production AI; all subscriber data in-region."
+  - key: board_ai
+    title: Board Paper — AI Risk and Opportunity
+    type: board_paper
+    year: 2026
+    paragraphs:
+      - AI already drives churn retention, fraud prevention and network operations. Generative AI tools are being adopted rapidly across marketing, legal and sales, several paid by expense claim and not registered.
+      - We recommend adopting EU AI Act-style risk tiers, a single model registry, and mandatory human oversight for AI that affects individuals' credit, prices or contracts. Emotion recognition of employees will be prohibited.
+  - key: regulator
+    title: Regulator Consultation — AI in Credit Decisions
+    type: regulatory_mandate
+    year: 2026
+    paragraphs:
+      - The telecom regulator is consulting on rules that would ban fully automated credit decisions at activation and require operators to explain adverse decisions, offer human review and test models for bias annually.
+      - Operators would be required to register credit-scoring models and report decision statistics by customer segment. Meridian's activation credit scorecard would fall within scope.
+
+goals:
+  - {key: G-5GREV, statement: Grow 5G-specific revenue to 8% of service revenue, doc: fiveg, horizon: 2028, kpi: 5G revenue share %, caps: [Offer & Pricing Management, Product Catalog, Charging & Rating]}
+  - {key: G-TTM, statement: Launch new offers in days with a single product catalog, doc: fiveg, horizon: 2027, kpi: Days to launch offer, caps: [Product Catalog]}
+  - {key: G-PRIVATE5G, statement: Win 25 private 5G enterprise customers, doc: fiveg, horizon: 2027, kpi: Private network customers, caps: [Enterprise Service Management, Network Automation]}
+  - {key: G-BSS, statement: Consolidate onto one BSS stack and retire Coastline systems, doc: bss, horizon: 2027, kpi: Legacy systems retired, caps: [Billing & Invoicing, Mediation, Product Catalog]}
+  - {key: G-MEDIATION, statement: Retire legacy mediation before vendor end of support, doc: bss, horizon: 2026, kpi: Legacy mediation traffic %, caps: [Mediation]}
+  - {key: G-DIGITAL, statement: Reach 50% digital sales and 40% chatbot containment, doc: digital, horizon: 2026, kpi: Digital sales %, caps: [Web & App Self-Service, Conversational Channels]}
+  - {key: G-AUTONOMY, statement: Reach autonomous network level 3 in RAN and core, doc: autonomy, horizon: 2028, kpi: Autonomy level, caps: [Network Automation, RAN Operations]}
+  - {key: G-ENERGY, statement: Cut RAN energy consumption by 12%, doc: autonomy, horizon: 2027, kpi: kWh per GB, caps: [RAN Energy Optimization]}
+  - {key: G-RUNCOST, statement: Reduce IT run cost by 7%, doc: okrs, horizon: 2026, kpi: IT run cost USD, caps: [Business Intelligence, Collaboration & Documents]}
+  - {key: G-AIGOV, statement: Zero unregistered production AI and risk-tiered use cases, doc: board_ai, horizon: 2026, kpi: Registered AI %, caps: [AI & Machine Learning, Data Governance]}
+  - {key: G-RESIDENCY, statement: All subscriber data stored in-region, doc: okrs, horizon: 2026, kpi: Datasets out of region, caps: [Data Governance, Data Platform]}
+  - {key: G-CREDIT, statement: Make activation credit decisions explainable with human review, doc: regulator, horizon: 2027, kpi: Decisions with human review %, caps: [Order Management]}
+  - {key: G-ONEVIEW, statement: Single view of customer across consumer and business, doc: fiveg, horizon: 2028, kpi: Unified profiles %, caps: [Customer Data Platform, Contact Center]}
+
+projects:
+  - {n: Coastline Billing Migration Wave 1, budget: 9800000, status: in_progress, goals: [G-BSS], caps: [Consumer Billing], apps: [Coastline Billing (Legacy), Meridian Convergent Billing]}
+  - {n: Mediation Retirement, budget: 2100000, status: in_progress, goals: [G-MEDIATION, G-BSS], caps: [Mediation], apps: [MedLink Mediation (Legacy), StreamMed 5G Mediation]}
+  - {n: Catalog Consolidation on OfferHub, budget: 3400000, status: in_progress, goals: [G-TTM, G-BSS], caps: [Product Catalog], apps: [OfferHub Product Catalog, Coastline Product Catalog]}
+  - {n: 5G Speed Tier Launch, budget: 1600000, status: in_progress, goals: [G-5GREV], caps: [Offer & Pricing Management], apps: [OfferHub Product Catalog, ChargeCore OCS]}
+  - {n: Private 5G Platform, budget: 4200000, status: planned, goals: [G-PRIVATE5G], caps: [Enterprise Service Management], apps: [CoreSight 5G Core Manager, Nimbus CRM B2B]}
+  - {n: Digital Plan Change Journey, budget: 1900000, status: in_progress, goals: [G-DIGITAL], caps: [Web & App Self-Service], apps: [Meridian App, Meridian Web, OrderFlow OM]}
+  - {n: Chatbot Transactions, budget: 1300000, status: in_progress, goals: [G-DIGITAL], caps: [Conversational Channels], apps: [Ask Meri Chatbot]}
+  - {n: Closed-Loop Assurance Pilot, budget: 2600000, status: in_progress, goals: [G-AUTONOMY], caps: [Network Automation], apps: [AutoHeal Orchestrator, FaultWatch FM]}
+  - {n: RAN Energy Saving Rollout, budget: 2900000, status: in_progress, goals: [G-ENERGY], caps: [RAN Energy Optimization], apps: [GreenRAN Optimizer, RANManager]}
+  - {n: Model Registry Rollout, budget: 600000, status: in_progress, goals: [G-AIGOV], caps: [AI & Machine Learning], apps: [ModelHub ML Platform]}
+  - {n: Data Residency Remediation, budget: 1400000, status: planned, goals: [G-RESIDENCY], caps: [Data Governance], apps: [Meridian Data Lake, PulseAnalytics Hosted]}
+  - {n: Order-to-Activate Event Backbone, budget: 3100000, status: in_progress, goals: [G-5GREV, G-TTM], caps: [Order Management, Service Activation], apps: [OrderFlow OM, ActivateNow Provisioning]}
+  - {n: Fraud Platform Upgrade, budget: 900000, status: in_progress, goals: [], caps: [Fraud Management], apps: [FraudShield]}
+  - {n: Store Refit Digital Signage, budget: 2300000, status: in_progress, goals: [], caps: [Retail & Dealer Sales], apps: [StorePoint POS]}
+  - {n: Dealer Portal Refresh, budget: 1450000, status: planned, goals: [], caps: [Retail & Dealer Sales], apps: [DealerNet Portal]}
+  - {n: PulseAnalytics Expansion, budget: 1250000, status: in_progress, goals: [], caps: [Business Intelligence], apps: [PulseAnalytics Hosted]}
+  - {n: EngageFlow SMS Journeys, budget: 760000, status: in_progress, goals: [], caps: [Marketing & Campaigns], apps: [EngageFlow]}
+  - {n: ERP Cloud Readiness, budget: 1800000, status: planned, goals: [], caps: [Finance & ERP], apps: [Corvus ERP]}
+  - {n: HR Analytics Hub, budget: 950000, status: in_progress, goals: [], caps: [Human Resources], apps: [Workwell HRIS]}
+  - {n: Legal Matter Automation, budget: 520000, status: planned, goals: [], caps: [Procurement & Legal], apps: [LexDocs Legal]}
+  - {n: SiteBuild Tracker Enhancements, budget: 680000, status: in_progress, goals: [], caps: [Site Acquisition & Build], apps: [SiteBuild Tracker]}
+  - {n: Coastline Portal Refresh, budget: 1150000, status: in_progress, goals: [], caps: [Web & App Self-Service], apps: [Coastline Self-Care Portal]}
+  - {n: Roaming Partner Onboarding, budget: 640000, status: planned, goals: [], caps: [Roaming Management], apps: [RoamClear]}
+  - {n: Collaboration Licensing True-up, budget: 410000, status: planned, goals: [], caps: [Collaboration & Documents], apps: [ChatWave, TeamSpace Chat]}
+  - {n: Interconnect Billing Upgrade, budget: 1500000, status: planned, goals: [], caps: [Interconnect & Wholesale Billing], apps: [InterBill Interconnect]}
+  - {n: Network Inventory Data Quality, budget: 2200000, status: in_progress, goals: [G-AUTONOMY, G-PRIVATE5G], caps: [Site Acquisition & Build], apps: [NetInventory OSS]}
+  - {n: Capacity Planning Automation, budget: 850000, status: in_progress, goals: [G-AUTONOMY], caps: [RAN Capacity Forecasting], apps: [PlanAhead Capacity]}
+  - {n: Charging Contract Renegotiation, budget: 150000, status: planned, goals: [G-RUNCOST], caps: [Charging & Rating], apps: [ChargeCore OCS]}
+  - {n: BI Tool Rationalization, budget: 420000, status: planned, goals: [G-RUNCOST], caps: [Business Intelligence], apps: [Lumen BI, QlikSense-like Insight Studio, PulseAnalytics Hosted]}
+  - {n: Collections Strategy Refresh, budget: 380000, status: planned, goals: [G-BSS], caps: [Collections], apps: [CollectIQ Collections]}
+  - {n: eSIM Activation Journey, budget: 900000, status: in_progress, goals: [G-DIGITAL], caps: [eSIM Management], apps: [eSIM Hub, Meridian App]}
+  - {n: Number Portability Automation, budget: 480000, status: planned, goals: [G-DIGITAL], caps: [Number Portability], apps: [PortMate MNP, NumberVault]}
+  - {n: SIEM Telecom Use Cases, budget: 520000, status: in_progress, goals: [G-AIGOV], caps: [Security Operations], apps: [WatchTower SIEM]}
+  - {n: Consent Platform Expansion, budget: 640000, status: in_progress, goals: [G-RESIDENCY], caps: [Data Governance], apps: [ConsentHub]}
+  - {n: Revenue Assurance Controls, budget: 560000, status: in_progress, goals: [G-BSS], caps: [Revenue Assurance], apps: [RevAssure]}
+  - {n: B2B Quote-to-Cash, budget: 1700000, status: planned, goals: [G-PRIVATE5G], caps: [B2B Quoting & Contracts], apps: [QuoteFast CPQ]}
+  - {n: Field Service Mobile Refresh, budget: 980000, status: planned, goals: [], caps: [Field Service Management], apps: [FieldGo Service]}
+  - {n: Transport SDN Phase 2, budget: 2400000, status: planned, goals: [G-AUTONOMY], caps: [Transport & SDN], apps: [PathControl SDN]}
+  - {n: Digital Twin Pilot, budget: 800000, status: planned, goals: [G-AUTONOMY], caps: [Network Digital Twin], apps: [TwinNet Digital Twin]}
+  - {n: Spectrum Analytics, budget: 300000, status: planned, goals: [], caps: [Spectrum Management], apps: [SpectraPlan]}
+  - {n: API Gateway TMF Rollout, budget: 1100000, status: in_progress, goals: [G-TTM, G-5GREV], caps: [Integration & API Management], apps: [APIGate]}
+  - {n: Data Lake Subscriber Marts, budget: 1600000, status: in_progress, goals: [G-RUNCOST], caps: [Data Platform], apps: [Meridian Data Lake, Meridian EDW]}
+  - {n: Wholesale MVNO Portal, budget: 700000, status: planned, goals: [], caps: [Interconnect & Wholesale Billing], apps: [WholesaleHub]}
+
+design_docs:
+  - key: service_status
+    title: Service Status in Care Desktop
+    team: Care Platforms
+    apps: [Helios CRM Consumer, NetInventory OSS]
+    components: [Care Desktop, Helios CRM, NetInventory OSS database]
+    violations: [STD-BSS-01, STD-INT-02, STD-DATA-01]
+    body: |
+      ## Summary
+      Show live service and outage status for a customer in the care desktop.
+
+      ## Design
+      The CRM will query the NetInventory OSS database tables directly through the existing shared Oracle database link, joining service instances to the customer record. This is faster than building an API.
+
+      ## Non-functional
+      Agents expect results in under two seconds.
+  - key: nbo_launch
+    title: Next-Best-Offer in App
+    team: Marketing Technology
+    apps: [Unity CDP, Meridian App, OfferHub Product Catalog]
+    components: [NBO Engine, Unity CDP, Meridian App, PromptForge]
+    violations: [STD-AI-01, STD-AI-03, STD-RES-01, STD-AI-02]
+    body: |
+      ## Summary
+      Present personalised offers and prices in the app based on usage and segment.
+
+      ## Design
+      Data classification: subscriber usage is confidential CPNI.
+
+      The NBO engine in Unity CDP selects the offer and discount for each subscriber as a fully automated pricing decision. Offer copy is generated by PromptForge. Model training runs in the vendor's us-east-1 tenancy, outside the home region. There will be no formal evaluation for the pilot.
+  - key: billing_migration
+    title: Coastline to Convergent Billing Migration Approach
+    team: BSS Consolidation
+    apps: [Coastline Billing (Legacy), Meridian Convergent Billing]
+    components: [Migration Factory, Coastline Billing, Convergent Billing, Reconciliation Service]
+    violations: []
+    body: |
+      ## Summary
+      Migrate Coastline subscribers in four waves using a migration factory with automated reconciliation.
+
+      ## Design
+      Data classification: subscriber and invoice data is confidential; card data is restricted and remains in the payment gateway.
+
+      Extraction uses the vendor export API; loads use Convergent Billing bulk TMF APIs. Reconciliation compares invoices for two cycles before cut-over. Infrastructure is defined in Terraform.
+  - key: activation_flags
+    title: Faster Activation Flags
+    team: Order-to-Activate
+    apps: [ActivateNow Provisioning, Coastline Billing (Legacy)]
+    components: [ActivateNow, Coastline Billing, Batch Job]
+    violations: [STD-BSS-01, STD-INT-05, STD-INT-02]
+    body: |
+      ## Summary
+      Reduce failed activations for Coastline subscribers.
+
+      ## Design
+      Data classification: activation records are internal.
+
+      ActivateNow will write activation flags into the shared database schema used by Coastline Billing. A nightly batch job will reconcile activation status with the provisioning tables directly.
+  - key: usage_api
+    title: Real-time Usage in App
+    team: Digital Channels
+    apps: [Meridian App, ChargeCore OCS, StreamMed 5G Mediation]
+    components: [Meridian App, BFF, Balance Query API, Usage Events Stream]
+    violations: []
+    body: |
+      ## Summary
+      Show near-real-time data usage and balance in the app.
+
+      ## Design
+      Data classification: usage and balance are confidential.
+
+      The BFF calls the Balance Query API through the API gateway with OAuth2 and subscribes to usage events for push notifications. Results are cached for 60 seconds.
+  - key: selfheal
+    title: Self-Healing RAN Actions
+    team: Network Automation
+    apps: [AutoHeal Orchestrator, RANManager, FaultWatch FM]
+    components: [AutoHeal Agent, Alarm Events, RANManager, Approval Gate]
+    violations: [STD-AI-01, STD-AI-02]
+    body: |
+      ## Summary
+      Let an AI agent restart cells and adjust parameters in response to alarms.
+
+      ## Design
+      Data classification: network configuration is confidential.
+
+      The agent is built on OpenMind Studio. Actions on more than ten cells go through an approval gate; smaller actions execute automatically with rollback. We will skip the model registry until the pilot is complete.
+  - key: credit_explain
+    title: Credit Decision Explanations
+    team: Sales Operations
+    apps: [CreditCheck Activation, OrderFlow OM]
+    components: [Scorecard, Explanation Service, OrderFlow]
+    violations: []
+    body: |
+      ## Summary
+      Provide reason codes and human review for declined activations.
+
+      ## Design
+      Data classification: credit results are restricted.
+
+      Every decline is routed to a credit analyst queue for human review before the customer is notified. Reason codes come from the registered scorecard. APIs are behind the gateway with OAuth2.
+  - key: b2b_quotes
+    title: B2B Quote Portal
+    team: Enterprise Systems
+    apps: [QuoteFast CPQ, Nimbus CRM B2B]
+    components: [Quote Portal, CPQ, CRM, Pricing Service, Approval Service, Contract Service]
+    violations: [STD-NFR-03]
+    body: |
+      ## Summary
+      Let enterprise customers request quotes online.
+
+      ## Design
+      Data classification: quotes are internal; enterprise contacts are confidential.
+
+      Each quote request is a synchronous chain: Quote Portal -> CPQ -> Pricing Service -> Approval Service -> Contract Service -> CRM. All calls are blocking REST calls through the gateway with OAuth2.
+  - key: residency_lake
+    title: Churn Analytics in Vendor Cloud
+    team: Customer Analytics
+    apps: [PulseAnalytics Hosted, Meridian EDW]
+    components: [PulseAnalytics, EDW, Subscriber Marts]
+    violations: [STD-RES-01, STD-INT-02]
+    body: |
+      ## Summary
+      Expand PulseAnalytics churn reports to all subscribers.
+
+      ## Design
+      Data classification: subscriber marts are confidential.
+
+      PulseAnalytics will use a direct database connection to the EDW subscriber marts and copy results to its analytics region in us-east-1.
+  - key: esim_journey
+    title: eSIM Activation in App
+    team: Digital Channels
+    apps: [eSIM Hub, Meridian App, OrderFlow OM]
+    components: [Meridian App, OrderFlow, eSIM Hub, Event Broker]
+    violations: []
+    body: |
+      ## Summary
+      Allow customers to activate an eSIM end to end in the app.
+
+      ## Design
+      Data classification: SIM profiles are restricted; order data is confidential.
+
+      The app submits a TMF622 order through the gateway. OrderFlow orchestrates activation as a saga with events. Customers authenticate with the enterprise identity platform.
+  - key: dealer_catalog
+    title: Dealer Offer Lookup
+    team: Retail Systems
+    apps: [DealerNet Portal, Coastline Product Catalog]
+    components: [DealerNet, Coastline Catalog]
+    violations: [STD-INT-02, STD-TMF-01, STD-DATA-01]
+    body: |
+      ## Summary
+      Show current offers to dealers.
+
+      ## Design
+      DealerNet will query the catalog tables directly and expose a custom SOAP interface to partner dealers.
+  - key: capacity_forecast
+    title: Capacity Forecast Automation
+    team: Network Planning
+    apps: [PlanAhead Capacity, PerfStat PM]
+    components: [PlanAhead, PerfStat, Model Registry]
+    violations: []
+    body: |
+      ## Summary
+      Automate weekly capacity forecasts per cell.
+
+      ## Design
+      Data classification: KPI counters are internal.
+
+      PlanAhead consumes KPI counters from the PerfStat event stream. The forecast model is registered in ModelHub with an evaluation report. Planners approve all capex recommendations.
+  - key: ticket_triage
+    title: Ticket Auto-Triage v2
+    team: Service Assurance
+    apps: [TicketPro TT, FaultWatch FM]
+    components: [TicketPro, Triage Classifier, Alarm Events]
+    violations: []
+    body: |
+      ## Summary
+      Improve auto-triage accuracy with alarm context.
+
+      ## Design
+      Data classification: tickets and alarms are internal.
+
+      The classifier subscribes to alarm events and calls the Trouble Ticket API through the gateway with OAuth2. The model is registered with evaluation. Engineers can override any triage decision.
+
+decisions:
+  - key: d1
+    channel: "#bss-consolidation"
+    title: Retire MedLink by moving all usage to StreamMed
+    context: MedLink reaches vendor end of support in six months and only handles legacy 2G/3G/4G CDRs.
+    options: [Extend MedLink support, Migrate all usage to StreamMed, Outsource mediation]
+    decision: Migrate all usage streams to StreamMed 5G Mediation and retire MedLink.
+    consequences: InterBill must consume usage events instead of reading MedLink staging tables.
+    apps: [MedLink Mediation (Legacy), StreamMed 5G Mediation, InterBill Interconnect]
+  - key: d2
+    channel: "#bss-consolidation"
+    title: Convergent Billing as the single billing platform
+    context: Two billing systems after the merger; every tariff configured twice.
+    options: [Keep both, Migrate to Convergent Billing, Migrate to Coastline Billing]
+    decision: Migrate Coastline subscribers to Meridian Convergent Billing in four waves.
+    consequences: Coastline Billing frozen for changes; migration factory funded.
+    apps: [Coastline Billing (Legacy), Meridian Convergent Billing]
+  - key: d3
+    channel: "#arch-integration"
+    title: No more BSS/OSS shared database links
+    context: CRM and ActivateNow use shared DB links with OSS/billing that break during upgrades.
+    options: [Keep links with change control, Replace with TMF APIs and events, Replicate OSS data into CRM]
+    decision: Replace all BSS/OSS shared database links with TMF Open APIs and service events.
+    consequences: Care desktop and activation flows re-platformed; links removed within two quarters.
+    apps: [Helios CRM Consumer, NetInventory OSS, ActivateNow Provisioning]
+  - key: d4
+    channel: "#data-governance"
+    title: Subscriber data stays in eu-central-1
+    context: Some vendor analytics process subscriber data in us-east-1.
+    options: [Accept with contractual clauses, Require in-region processing, Anonymise before export]
+    decision: Require in-region processing for all subscriber PII; vendors without in-region hosting are exited.
+    consequences: PulseAnalytics must move region or be replaced.
+    apps: [PulseAnalytics Hosted, Meridian Data Lake]
+  - key: d5
+    channel: "#digital"
+    title: Chatbot escalates to humans for billing disputes
+    context: Chatbot containment targets risk unresolved billing disputes.
+    options: [Bot resolves all, Escalate disputes, Bot drafts and agent approves]
+    decision: Bot drafts the dispute resolution and an agent approves before any credit is issued.
+    consequences: Agent queue sizing; disclosure messaging updated.
+    apps: [Ask Meri Chatbot, Helios CRM Consumer]
+  - key: d6
+    channel: "#genai-cop"
+    title: Approved GenAI platforms
+    context: Marketing and legal use unapproved GenAI tools paid by expense.
+    options: [Allow any, Approve short list, Ban]
+    decision: Use Azure OpenAI, Bedrock or Anthropic Claude via the platform team; cancel expense-paid tools.
+    consequences: Exception process for specialist legal tools.
+    apps: [ModelHub ML Platform]
+  - key: d7
+    channel: "#marketing-tech"
+    title: Consolidate marketing automation on CampaignPro
+    context: CampaignPro and EngageFlow overlap; EngageFlow seats are under 30% used.
+    options: [Keep both, CampaignPro only, EngageFlow only]
+    decision: Consolidate on CampaignPro and cancel EngageFlow auto-renewal.
+    consequences: Migrate SMS journeys within 60 days.
+    apps: [CampaignPro, EngageFlow]
+  - key: d8
+    channel: "#network-automation"
+    title: Human approval for self-healing actions
+    context: AutoHeal pilot executed an unintended cell restart affecting 4,000 subscribers.
+    options: [Full automation, Approval for all actions, Approval above blast-radius threshold]
+    decision: All self-healing actions require operator approval until the agent passes evaluation.
+    consequences: Mean time to repair improvement delayed; audit trail mandatory.
+    apps: [AutoHeal Orchestrator, RANManager]
+
+adr_titles:
+  - [TMF Open APIs for all new BSS interfaces, [APIGate, OfferHub Product Catalog]]
+  - [Kafka as event backbone for usage, [StreamMed 5G Mediation]]
+  - [OrderFlow as order orchestrator, [OrderFlow OM]]
+  - [eu-central-1 as primary cloud region, [Meridian Data Lake]]
+  - [Card data tokenised in PayLink, [PayLink Gateway]]
+  - [MLflow-based ModelHub as model registry, [ModelHub ML Platform]]
+  - [NetInventory as system of record for services, [NetInventory OSS]]
+  - [OAuth2 for partner network APIs, [APIGate]]
+  - [Terraform for all cloud infrastructure, [Meridian Data Lake]]
+  - [ConsentHub as consent system of record, [ConsentHub]]
+  - [Lumen BI as strategic BI tool, [Lumen BI]]
+  - [5G core on cloud-native platform, [CoreSight 5G Core Manager]]
+  - [SIM swap checks before porting, [SIMplicity SIM Manager, FraudShield]]
+  - [Retail POS SaaS adoption, [StorePoint POS]]
+  - [Interconnect billing keeps file-based exchange, [InterBill Interconnect]]
+  - [Field service on FieldGo, [FieldGo Service]]
+  - [Integration bus limited to legacy SOAP, [Meridian Integration Bus]]
+  - [Single customer identity on Keystone, [Keystone IAM]]
+  - [Chatbot on Converso with disclosure, [Ask Meri Chatbot]]
+  - [RAN energy saving via vendor SON, [GreenRAN Optimizer]]
+
+impact_triggers:
+  - {id: billing_merge, label: Merge the two billing systems, type: app_retirement, app: Coastline Billing (Legacy)}
+  - {id: credit_ban, label: Regulator bans fully automated credit decisions, type: regulation, regulation: Telecom regulator consultation on AI in credit decisions, capabilities: [Order Management], usecase_tags: [credit]}
+  - {id: mediation_retire, label: Legacy mediation retirement, type: app_retirement, app: MedLink Mediation (Legacy)}
+  - {id: residency_law, label: New data residency law, type: regulation, regulation: Data residency for subscriber data, capabilities: [Data Platform, Data Governance], dataset_tags: [subscriber_pii]}
+
+copilot_questions:
+  - Which systems realize Billing & Revenue Management?
+  - Show lineage for the subscriber usage dataset
+  - Which AI use cases are high risk and why?
+  - Where do BSS and OSS share a database?
+  - Which APIs are duplicated?
+  - What is the cost of the two CRMs combined?
+  - What depends on the legacy mediation platform?
+  - Which datasets violate residency?
+  - Which design reviews are pending?
+  - What does the 5G monetization strategy need that we don't have?
+  - Who owns the Subscriber Usage Daily dataset?
+  - Which contracts renew in the next 90 days?
+
+low_quality_datasets: [Churn Features, Device Fingerprints, Network Topology, Technician Roster]
+
+residency_copies:
+  - {name: Subscriber Usage Daily (Pulse export), source: Subscriber Usage Daily, system: PulseAnalytics Hosted, region: us-east-1}
+  - {name: Churn Features (Pulse model store), source: Churn Features, system: PulseAnalytics Hosted, region: us-east-1}
+  - {name: Customer Segments (vendor NBO copy), source: Customer Segments, system: Unity CDP, region: us-east-1}
+
+cpni_marketing_feeds:
+  - {name: usage_to_campaign_audiences, dataset: Subscriber Usage Daily, target: Campaign Responses}
+  - {name: roaming_travellers_segment_export, dataset: Roaming Records, target: Customer Segments}
+
+retired_cis: [Coastline Rating Engine v3, Prepaid IVR 2011, Handset Insurance Claims 2010, WAP Gateway]
+
+evidence_regulations: [GDPR-like data protection law, Telecom customer privacy law (CPNI), PCI DSS, Data residency for subscriber data]

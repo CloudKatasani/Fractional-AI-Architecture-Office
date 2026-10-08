@@ -1,0 +1,1 @@
+Identified {{ f.total_savings | usd }} a year in savings across {{ f.count }} findings. {% for t in f.top[:2] %}{{ t.app }}: {{ t.evidence }} ({{ t.savings | usd }}, [{{ t.ref }}]). {% endfor %}{% if f.auto_renew %}{{ f.auto_renew | length }} contract(s) auto-renew within 90 days at under 30% utilisation.{% endif %}

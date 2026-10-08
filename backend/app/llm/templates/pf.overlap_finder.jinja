@@ -1,0 +1,1 @@
+Found {{ f.clusters }} clusters of overlapping applications worth about {{ f.total | usd }} a year. {% for t in f.top[:2] %}{{ t.n }} apps in {{ t.cap }} — recommend {{ t.survivor }} as survivor ({{ t.savings | usd }}/yr, [{{ t.ref }}]). {% endfor %}

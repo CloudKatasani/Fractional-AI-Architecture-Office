@@ -1,0 +1,1 @@
+Found {{ f.count }} policy findings ({{ f.critical }} critical, {{ f.high }} high). {% for e in f.examples[:2] %}{{ e.policy }}: {{ e.text }} [{{ e.ref }}]. {% endfor %}

@@ -1,0 +1,1 @@
+{{ f.aligned_pct }}% of project budget is linked to strategic goals; {{ f.orphans }} projects ({{ f.orphan_pct }}%, {{ f.orphan_budget | usd }}) have no goal. {% if f.unfunded %}Unfunded goals: {% for u in f.unfunded %}{{ u.statement }} [{{ u.ref }}]{% if not loop.last %}; {% endif %}{% endfor %}.{% endif %}

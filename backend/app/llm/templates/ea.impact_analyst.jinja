@@ -1,0 +1,1 @@
+{{ f.label }}: affects {{ f.counts.applications }} applications, {{ f.counts.capabilities }} capabilities, {{ f.counts.datasets }} datasets, {{ f.counts.ai_assets }} AI assets/use cases and {{ f.counts.people }} people or teams; estimated cost {{ f.est | usd }}.{% if f.hot %} Hotspot: {{ f.hot.name }} [{{ f.hot.id }}] with {{ f.hot.dependents }} dependents.{% endif %}
