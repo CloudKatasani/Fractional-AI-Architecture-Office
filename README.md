@@ -86,10 +86,10 @@ model and planted anomalies, and [`docs/DECISIONS.md`](docs/DECISIONS.md) for im
 
 ## Tests
 
-`make test` runs 80 tests: data volumes and planted anomalies, determinism, graph queries, discovery recall on ground truth
+`make test` runs 82 tests: data volumes and planted anomalies, determinism, graph queries, discovery recall on ground truth
 (≥ 90%), TIME quadrants, risk-tier distribution and rule citations, design-review standard ids for every planted design,
 drift boundary violations, grounding of every agent's output, the approval flow (roles, L1 promotion, L3 tickets, edit & approve,
-bulk rules), tenant isolation, copilot citations, audit export, and the live-mode narrative path (validation, one retry, fallback) with a fake Anthropic client. Coverage on `agents/`, `kg/`, `data_gen/` is ~92%.
+bulk rules), tenant isolation, copilot citations and follow-up questions, audit export, and the live-mode narrative path (validation, one retry, fallback) with a fake Anthropic client. Coverage on `agents/`, `kg/`, `data_gen/` is ~92%.
 
 ## Out of scope
 

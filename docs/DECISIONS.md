@@ -59,7 +59,9 @@ Decisions taken while building the prototype (spec §0.6 and §16). Most recent 
   cost of the triggering applications × a factor per trigger type + $40k rework per dependent application (synthetic).
 - **Copilot (mock)**: 24 regex handlers over the graph cover the 12 suggested questions per tenant and common variants (owner of X,
   apps for capability Y, what depends on Z, lineage, costs, renewals, boundary crossings, duplicates, residency, risk, strategy gaps,
-  explain a node). There is no static Q→A list: answers are computed from the graph, so they stay true after approvals change it.
+  explain a node). Follow-ups use the conversation history the UI sends with each question: pronouns (“those”, “them”, “it”)
+  resolve to the records cited in the previous answer, set questions filter that set (high risk, owners, cost, contracts, PII,
+  end of support), and “what about X?” re-asks the previous question with X as the subject. There is no static Q→A list: answers are computed from the graph, so they stay true after approvals change it.
 - **Frontend types**: `src/api/schema.d.ts` is generated from the running API's OpenAPI document (`npm run gen:api`); a small
   hand-written subset of shared shapes lives in `src/api/client.ts`.
 - **docker-compose**: not provided (optional in the spec); `make setup && make demo` is the supported path.

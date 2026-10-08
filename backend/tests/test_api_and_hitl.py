@@ -131,3 +131,29 @@ def test_audit_export(client):
     assert r.status_code == 200 and r.text.startswith("id,ts")
     r = client.get("/api/v1/audit/export", headers=H, params={"format": "json"})
     assert r.json()
+
+
+def _chat(client, questions, headers=H):  # noqa: ANN001, ANN202
+    history, answers = [], []
+    for q in questions:
+        a = client.post("/api/v1/copilot/ask", headers=headers, json={"question": q, "history": history}).json()
+        answers.append(a)
+        history += [{"role": "user", "content": q}, {"role": "assistant", "content": a["answer"]}]
+    return answers
+
+
+def test_copilot_follow_ups_use_history(client):
+    a = _chat(client, ["Which AI use cases use customer PII?", "And which of those are high risk?", "Who owns them?"])
+    assert "high risk" in a[1]["answer"] and "Dynamic pricing recommendation" in a[1]["answer"]
+    assert "Owners:" in a[2]["answer"] and a[2]["citations"]
+    # without history the same follow-up has nothing to refer to
+    bare = client.post("/api/v1/copilot/ask", headers=H, json={"question": "And which of those are high risk?"}).json()
+    assert "Using the previous answer" not in bare["answer"]
+
+
+def test_copilot_what_about_reasks_previous_question(client):
+    a = _chat(client, ["Who owns the GIS platform?", "What about the CRM?"])
+    assert "GeoGrid GIS" in a[0]["answer"] and "Nimbus CRM" in a[1]["answer"]
+    a = _chat(client, ["Which applications support Outage Management?", "How much do they cost?", "What depends on it?"])
+    assert "Together they cost" in a[1]["answer"]
+    assert "OutageWorks OMS" in a[2]["answer"] and a[2]["citations"]

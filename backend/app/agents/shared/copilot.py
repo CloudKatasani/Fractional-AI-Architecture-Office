@@ -72,7 +72,7 @@ def _find(kg: KG, text: str, types: list[str], cutoff: int = 62) -> dict | None:
                     hits += 1
                 elif w in cat_t or any(x.startswith(w[:4]) and len(w) >= 4 for x in cat_t):
                     hits += 0.8
-            score = 100 * hits / len(q) + fuzz.WRatio(text, n["name"]) / 100 - (0.6 if "(" in n["name"] else 0)
+            score = 100 * hits / len(q) + fuzz.WRatio(text, n["name"]) / 100 - (0.6 if "(" in n["name"] or n["name"].endswith(" Mart") else 0)
             if score > best_score:
                 best, best_score = n, score
         if best and best_score >= cutoff:
@@ -116,17 +116,134 @@ class MockCopilot:
             (r"(?:what|which).*(?:violations|violate)", self.violations),
         ]
 
-    def answer(self, q: str) -> dict:
+    def answer(self, q: str, history: list[dict] | None = None) -> dict:
         ql = q.strip()
+        history = history or []
+        follow = self.follow_up(ql, history)
+        if follow:
+            return follow
+        res = self.dispatch(ql)
+        if res:
+            return res
+        sugg = self.repo.get_meta("copilot_questions", [])[:4]
+        return {"answer": "I can answer questions about owners, dependencies, costs, lineage, policies and patterns in the "
+                          "knowledge graph. Try: " + "; ".join(f"“{s}”" for s in sugg), "citations": [], "mermaid": None}
+
+    def dispatch(self, q: str) -> dict | None:
         for pat, fn in self.handlers:
-            m = re.search(pat, ql, re.I)
+            m = re.search(pat, q, re.I)
             if m:
                 res = fn(*[g for g in m.groups()]) if m.groups() else fn()
                 if res:
                     return res
-        sugg = self.repo.get_meta("copilot_questions", [])[:4]
-        return {"answer": "I can answer questions about owners, dependencies, costs, lineage, policies and patterns in the "
-                          "knowledge graph. Try: " + "; ".join(f"“{s}”" for s in sugg), "citations": [], "mermaid": None}
+        return None
+
+    # ---- conversation history -------------------------------------------------------------
+    PRONOUN = r"\b(those|these|them|they|it|its|that one|this one|that system|this system|that app|this app|the same)\b"
+
+    def _context(self, history: list[dict]) -> tuple[str | None, list[dict]]:
+        """Previous user question and the graph nodes cited in the previous assistant answer."""
+        prev_q, focus, seen_answer = None, [], False
+        for m in reversed(history):
+            if m.get("role") == "assistant" and not seen_answer:
+                seen_answer = True
+                ids = list(dict.fromkeys(re.findall(r"\[([A-Z]{2,5}-[A-Za-z0-9-]+)\]", m.get("content") or "")))
+                focus = [self.kg.node(i) for i in ids if self.kg.node(i)]
+            elif m.get("role") == "user":
+                prev_q = m.get("content")
+                break
+        return prev_q, focus
+
+    def follow_up(self, q: str, history: list[dict]) -> dict | None:
+        if not history:
+            return None
+        prev_q, focus = self._context(history)
+        low = q.lower()
+        refers = bool(re.search(self.PRONOUN, low)) or low.startswith(("and ", "which of", "of those", "only "))
+        # "what about X?" / "and the CRM?" -> re-ask the previous question with a new subject
+        m = re.match(r"^(?:and |what about |how about |same for |and what about )(?:the )?(.+?)\??$", low)
+        if m and prev_q and not re.search(self.PRONOUN, m.group(1)):
+            res = self._reask(prev_q, m.group(1))
+            if res:
+                res["answer"] = f"_Following up on “{prev_q}”:_\n\n" + res["answer"]
+                return res
+        if not refers or not focus:
+            return None
+        res = self._filter_focus(low, focus)
+        if res is None:
+            # substitute the pronoun with the main subject of the previous answer and dispatch normally
+            subject = focus[0]["name"]
+            res = self.dispatch(re.sub(self.PRONOUN, subject, q, count=1, flags=re.I))
+        if res:
+            names = ", ".join(n["name"] for n in focus[:3]) + (f" and {len(focus) - 3} more" if len(focus) > 3 else "")
+            res["answer"] = f"_Using the previous answer ({names}):_\n\n" + res["answer"]
+        return res
+
+    def _reask(self, prev_q: str, subject: str) -> dict | None:
+        for pat, _fn in self.handlers:
+            m = re.search(pat, prev_q, re.I)
+            if m and m.groups() and m.group(1):
+                a, b = m.span(1)
+                return self.dispatch(prev_q[:a] + subject + prev_q[b:])
+        return None
+
+    def _filter_focus(self, low: str, focus: list[dict]) -> dict | None:
+        """Questions about the set of records cited in the previous answer."""
+        from app.agents.base import AgentContext
+        from app.agents.data_ai.ai_risk_classifier import classify
+
+        by_type: dict[str, list[dict]] = {}
+        for n in focus:
+            by_type.setdefault(n["type"], []).append(n)
+        apps = [self.repo.get("applications", n["id"]) for n in by_type.get("Application", []) if self.repo.get("applications", n["id"])]
+        ucs = [self.repo.get("ai_usecases", n["id"]) for n in by_type.get("AIUseCase", [])]
+        assets = [self.repo.get("ai_assets", n["id"]) for n in by_type.get("AIAsset", [])]
+        ucs += [self.repo.get("ai_usecases", a["usecase_id"]) for a in assets if a and a["usecase_id"]]
+        ucs = [u for u in {u["id"]: u for u in ucs if u}.values()]
+        dsets = [self.repo.get("datasets", n["id"]) for n in by_type.get("Dataset", [])]
+        if re.search(r"high[- ]risk|risk tier|risky|prohibited|blocked", low) and ucs:
+            ctx = AgentContext(self.t)
+            rows = [(u, classify(ctx, u)) for u in ucs]
+            hi = [(u, c) for u, c in rows if c["tier"] in ("high", "unacceptable")]
+            lines = [f"- **{u['title']}** [{u['id']}] — {c['tier']}: " + ", ".join(t["rule_id"] for t in c["triggers"]) for u, c in hi]
+            rest = ", ".join(f"{u['title']} [{u['id']}] ({c['tier']})" for u, c in rows if (u, c) not in hi)
+            txt = (f"{len(hi)} of the {len(rows)} AI use cases are high risk or prohibited:\n" + "\n".join(lines) if hi
+                   else f"None of the {len(rows)} AI use cases is high risk.") + (f"\nThe others: {rest}." if rest else "")
+            return {"answer": txt, "citations": _cite(self.kg, [u["id"] for u in ucs]), "mermaid": None}
+        if re.search(r"how much|cost|spend|budget", low) and apps:
+            total = sum(a["annual_cost_usd"] for a in apps)
+            lines = [f"- {a['name']} [{a['id']}] — {_usd(a['annual_cost_usd'])}/yr" for a in sorted(apps, key=lambda a: -a["annual_cost_usd"])]
+            return {"answer": f"Together they cost **{_usd(total)}** a year:\n" + "\n".join(lines),
+                    "citations": _cite(self.kg, [a["id"] for a in apps]), "mermaid": None}
+        if re.search(r"who owns|owner", low) and (apps or dsets or ucs):
+            rows = []
+            for r in apps + [d for d in dsets if d] + [{**u, "name": u["title"]} for u in ucs]:
+                owner = self.kg.node(r["owner_user_id"]) if r.get("owner_user_id") else None
+                rows.append(f"- {r['name']} [{r['id']}] — " + (f"{owner['name']} [{owner['id']}]" if owner else "no owner recorded"))
+            ids = [r["id"] for r in apps + [d for d in dsets if d] + ucs]
+            return {"answer": "Owners:\n" + "\n".join(rows), "citations": _cite(self.kg, ids), "mermaid": None}
+        if re.search(r"renew|contract", low) and apps:
+            cs = [c for c in self.repo.all("contracts") if set(c["app_ids"]) & {a["id"] for a in apps}]
+            lines = [f"- {next(a['name'] for a in apps if a['id'] in c['app_ids'])} [{c['id']}] — renews {c['renewal_date']}"
+                     f"{' (auto-renew)' if c['auto_renew'] else ''}, {_usd(c['annual_value_usd'])}/yr" for c in sorted(cs, key=lambda c: c["renewal_date"])]
+            return {"answer": (f"{len(cs)} contracts cover them:\n" + "\n".join(lines)) if cs else "None of them has a vendor contract (in-house).",
+                    "citations": _cite(self.kg, [c["id"] for c in cs] or [a["id"] for a in apps]), "mermaid": None}
+        if re.search(r"pii|personal", low) and (dsets or ucs):
+            if dsets:
+                hit = [d for d in dsets if d and d["pii"]]
+                lines = [f"- {d['name']} [{d['id']}] — {d['classification']}, retention {d['retention_days'] or 'not set'}" for d in hit]
+                return {"answer": f"{len(hit)} of the {len(dsets)} datasets contain personal data:\n" + "\n".join(lines),
+                        "citations": _cite(self.kg, [d["id"] for d in hit] or [d["id"] for d in dsets if d]), "mermaid": None}
+            hit = [u for u in ucs if u["uses_personal_data"]]
+            return {"answer": f"{len(hit)} of the {len(ucs)} use cases use personal data: " + ", ".join(f"{u['title']} [{u['id']}]" for u in hit) + ".",
+                    "citations": _cite(self.kg, [u["id"] for u in ucs]), "mermaid": None}
+        if re.search(r"end of support|eos|unsupported", low) and apps:
+            eos = [a for a in apps if a["vendor_eos_date"]]
+            lines = [f"- {a['name']} [{a['id']}] — vendor EOS {a['vendor_eos_date']}" for a in sorted(eos, key=lambda a: a["vendor_eos_date"])]
+            return {"answer": (f"{len(eos)} of them have a vendor end-of-support date:\n" + "\n".join(lines)) if eos
+                    else "None of them has a published vendor end-of-support date.",
+                    "citations": _cite(self.kg, [a["id"] for a in (eos or apps)]), "mermaid": None}
+        return None
 
     # ---- handlers --------------------------------------------------------------------------
     def owner(self, what: str) -> dict | None:
@@ -291,7 +408,9 @@ class MockCopilot:
         sys_names = ", ".join(f"{self.kg.node(s)['name']} [{s}]" for s in up["systems"])
         return {"answer": f"**{n['name']}** [{n['id']}] — upstream: {len(up['datasets'])} datasets via {len(up['pipelines'])} pipelines "
                           f"(stored in {sys_names}); downstream: {len(down['datasets'])} datasets, {len(down['bi_assets'])} BI assets, "
-                          f"{len(down['ai'])} AI assets/use cases" + (": " + ", ".join(f"{self.kg.node(a)['name']} [{a}]" for a in down["ai"][:5]) if down["ai"] else "") + ".",
+                          f"{len(down['ai'])} AI assets/use cases" + (": " + ", ".join(f"{self.kg.node(a)['name']} [{a}]" for a in down["ai"][:5]) if down["ai"] else "") + "."
+                          + ("\n- Upstream datasets: " + ", ".join(f"{self.kg.node(d)['name']} [{d}]" for d in up["datasets"][:8]) if up["datasets"] else "")
+                          + ("\n- Downstream datasets: " + ", ".join(f"{self.kg.node(d)['name']} [{d}]" for d in down["datasets"][:8]) if down["datasets"] else ""),
                 "citations": _cite(self.kg, [n["id"]] + up["systems"] + down["ai"][:5] + down["bi_assets"][:3]), "mermaid": data_flow(self.kg, n["id"])}
 
     def dup_apis(self) -> dict:
@@ -498,11 +617,11 @@ def ask(tenant_id: str, question: str, history: list[dict] | None = None, user_i
             res = _ask_live(tenant_id, question, history or [])
             mode = "live"
         except Exception as exc:  # noqa: BLE001
-            res = MockCopilot(tenant_id).answer(question)
+            res = MockCopilot(tenant_id).answer(question, history)
             res["answer"] += f"\n\n_(Live copilot unavailable — answered deterministically: {exc})_"
             mode = "live-fallback"
     else:
-        res = MockCopilot(tenant_id).answer(question)
+        res = MockCopilot(tenant_id).answer(question, history)
     res["mode"] = mode
     res["duration_ms"] = int((time.time() - t0) * 1000)
     audit.log(tenant_id, "agent", "shared.copilot", "copilot_answered", "question", question[:80],
