@@ -135,8 +135,11 @@ Note the address: this is `<public-ip>` from now on, and `<site>` is it with das
   macOS/Linux). *EC2 Instance Connect* also works, but it connects from AWS's address range, not
   *My IP*; open the SSH rule to that range or use your own client.
 
-Session Manager opens a `sh` shell as `ssm-user`; type `bash` first. Every block below is pasted
-into that terminal, and each is safe to paste again if it was interrupted.
+Session Manager opens a plain `sh` shell as `ssm-user` (prompt `$`). **Type `bash` and press Enter
+first**, every time you connect. Then paste the blocks below **in order**, one block at a time, and
+press **Enter** after each paste so its last line runs too — some browser terminals join the last
+line of one paste to the first line of the next. Each block is safe to paste again if it was
+interrupted, and each starts by checking that the step before it has been done.
 
 ---
 
@@ -185,6 +188,7 @@ id archoffice >/dev/null 2>&1 || sudo useradd --system --create-home --shell /us
 
 [ -d /opt/arch-office ] || sudo git clone https://github.com/CloudKatasani/Fractional-AI-Architecture-Office.git /opt/arch-office
 sudo chown -R archoffice:archoffice /opt/arch-office
+ls -ld /opt/arch-office    # must show: archoffice archoffice
 ```
 
 > **Private repository:** clone with a GitHub personal access token,
@@ -195,8 +199,10 @@ sudo chown -R archoffice:archoffice /opt/arch-office
 
 ```bash
 cd /opt/arch-office
-sudo -u archoffice bash -c '
+sudo chown -R archoffice:archoffice /opt/arch-office    # repeated from 5.1 in case that line did not run
+sudo -H -u archoffice bash -c '
   set -e
+  cd /opt/arch-office    # stops here if 5.1 has not been run
   # Configuration. DEMO_TODAY pins every synthetic date to the install day (C3).
   [ -f .env ] || cp .env.example .env
   sed -i "s/^DEMO_TODAY=.*/DEMO_TODAY=$(date +%F)/" .env
@@ -415,7 +421,7 @@ restart. To remove the key entirely, blank `ANTHROPIC_API_KEY` too.
 
 ```bash
 cd /opt/arch-office
-sudo -u archoffice bash -c '
+sudo -H -u archoffice bash -c '
   set -e
   git pull --ff-only
   .venv/bin/pip install -r requirements.txt -q
@@ -437,7 +443,7 @@ cd /opt/arch-office
 sudo systemctl stop arch-office
 # optional: move the demo to today's date first (C3)
 # sudo -u archoffice sed -i "s/^DEMO_TODAY=.*/DEMO_TODAY=$(date +%F)/" .env
-sudo -u archoffice bash -c 'PYTHONPATH=backend:. .venv/bin/python -m data_gen.generate --all'
+sudo -H -u archoffice bash -c 'PYTHONPATH=backend:. .venv/bin/python -m data_gen.generate --all'
 sudo systemctl start arch-office
 ```
 
@@ -638,6 +644,8 @@ Live LLM mode adds Anthropic API usage, billed by Anthropic. S3 backups cost cen
 | **UI loads, panels show `503 … has no data yet`** | `data/*.db` missing (C2): re-run the generator line from §5.2 as `archoffice` |
 | **Password prompt keeps reappearing** | Wrong user name or password, or the Caddyfile was edited without a reload. `sudo cat /root/arch-office-credentials.txt`; change it per §8.7 |
 | **Session Manager: instance not listed / "not connected"** | IAM role `arch-office-ec2` with `AmazonSSMManagedInstanceCore` not attached (instance → *Actions → Security → Modify IAM role*), or the instance has no outbound internet. Wait 2 minutes after attaching |
+| **`cp: cannot create regular file '.env': Permission denied`** (or `Permission denied` from `pip`/`npm`) | `/opt/arch-office` is still owned by root — the `chown` line in §5.1 did not run (often a paste that joined two lines). Run `sudo chown -R archoffice:archoffice /opt/arch-office`, check with `ls -ld /opt/arch-office`, and paste §5.2 again |
+| **`sh: cd: can't cd to /opt/arch-office`** | §5.2 was pasted before §5.1 finished. Run §5.1, then §5.2 |
 | **`npm run build` ends with `Killed`** | Out of memory — `swapon --show` must list `/swapfile` (§4); or build on t3a.medium |
 | **`pip install` fails** | Python older than 3.12 — use the Ubuntu 24.04 image |
 | **Live mode still shows mock narratives** | `curl -s 127.0.0.1:8000/api/health` must say `live`; check the key in `.env`, restart, and look for `arch_office.llm` lines in `journalctl -u arch-office` |
