@@ -104,7 +104,7 @@ EC2 → **Instances** → **Launch instance**.
 | Setting | Value |
 |---|---|
 | Name | `arch-office` |
-| Application and OS image | **Ubuntu** → **Ubuntu Server 24.04 LTS** (HVM, SSD Volume Type), **64-bit (x86)** |
+| Application and OS image | **Ubuntu** → **Ubuntu Server 24.04 LTS** (HVM, SSD Volume Type), **64-bit (x86)**. 26.04 LTS also works |
 | Instance type | **t3a.small** (2 vCPU, 2 GB) — see [§9](#9-sizing-and-cost) |
 | Key pair | **Proceed without a key pair** if you use Session Manager; otherwise create one (`arch-office`, RSA, `.pem`) |
 | Network settings → **Edit** | VPC: default · Subnet: no preference · **Auto-assign public IP: Enable** · Firewall: **Select existing security group** → `arch-office` |
@@ -156,6 +156,9 @@ fi
 sudo apt-get update -y
 sudo apt-get install -y git curl make sqlite3 python3 python3-venv python3-pip \
   debian-keyring debian-archive-keyring apt-transport-https gnupg
+# venv support for the exact Python version (e.g. python3.12-venv on 24.04, python3.14-venv on 26.04)
+PYV=$(python3 -c 'import sys; print(f"{sys.version_info[0]}.{sys.version_info[1]}")')
+sudo apt-get install -y "python${PYV}-venv"
 
 # Node.js 22 LTS — only used to build the UI (needs Node 18+)
 curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
@@ -209,7 +212,7 @@ sudo -H -u archoffice bash -c '
   chmod 600 .env
 
   # Python dependencies
-  python3 -m venv .venv
+  [ -x .venv/bin/pip ] || { rm -rf .venv; python3 -m venv .venv; }   # recreates a half-made venv
   .venv/bin/pip install --upgrade pip -q
   .venv/bin/pip install -r requirements.txt -q
 
@@ -647,6 +650,7 @@ Live LLM mode adds Anthropic API usage, billed by Anthropic. S3 backups cost cen
 | **`cp: cannot create regular file '.env': Permission denied`** (or `Permission denied` from `pip`/`npm`) | `/opt/arch-office` is still owned by root — the `chown` line in §5.1 did not run (often a paste that joined two lines). Run `sudo chown -R archoffice:archoffice /opt/arch-office`, check with `ls -ld /opt/arch-office`, and paste §5.2 again |
 | **`sh: cd: can't cd to /opt/arch-office`** | §5.2 was pasted before §5.1 finished. Run §5.1, then §5.2 |
 | **`npm run build` ends with `Killed`** | Out of memory — `swapon --show` must list `/swapfile` (§4); or build on t3a.medium |
+| **`ensurepip is not available` / `apt install python3.X-venv`** | The venv package for the installed Python is missing (§4 not fully run, or a newer Ubuntu). `sudo apt-get install -y python3-venv "python$(python3 -c 'import sys;print(f"{sys.version_info[0]}.{sys.version_info[1]}")')-venv"`, then `sudo rm -rf /opt/arch-office/.venv` and paste §5.2 again |
 | **`pip install` fails** | Python older than 3.12 — use the Ubuntu 24.04 image |
 | **Live mode still shows mock narratives** | `curl -s 127.0.0.1:8000/api/health` must say `live`; check the key in `.env`, restart, and look for `arch_office.llm` lines in `journalctl -u arch-office` |
 | **Approvals or audit events vanished** | Someone reset a tenant (§6.4, B2) or ran §8.3. Restore from §8.4 |
