@@ -28,6 +28,9 @@ Open http://localhost:5173 and follow [`docs/DEMO_SCRIPT.md`](docs/DEMO_SCRIPT.m
 | `make docs` | regenerate `docs/AGENT_CATALOG.md`, `docs/DEMO_SCRIPT.md`, `data_gen/README.md` |
 | `make lint` | ruff + TypeScript + eslint |
 
+**Hosting it for others:** [`docs/AWS.md`](docs/AWS.md) runs it on one EC2 instance behind Caddy with a free `sslip.io` HTTPS
+address and a password; read [`docs/hosting-prerequisites.md`](docs/hosting-prerequisites.md) first.
+
 Requirements: Python 3.12+, Node 18+. Configuration (`.env`): `LLM_MODE`, `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL`, `SEED`,
 `DEMO_TODAY` (all synthetic dates are relative to it), `DATA_DIR`.
 
