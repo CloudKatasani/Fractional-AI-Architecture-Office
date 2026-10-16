@@ -367,10 +367,55 @@ Pick what fits the audience — they combine:
 - **Office-only:** in the `arch-office` security group, change the **443** rule's source from
   *Anywhere* to your office or VPN CIDR. Leave **80** open to *Anywhere* so certificate renewal keeps
   working (Caddy only redirects there; nothing is served on 80).
-- **Open link, no password** (a public showcase): remove the `basic_auth { … }` block from
-  `/etc/caddy/Caddyfile` and `sudo systemctl reload caddy`. Every visitor can then do everything listed
-  in §6.4. Leave `ANTHROPIC_API_KEY` unset on such a server, and put the password back afterwards by
-  re-running §6.1.
+- **Open link, no password** (a public showcase): see §6.6.
+
+### 6.6 Share an open link (no password)
+
+This replaces the Caddyfile with one that has no `basic_auth`, keeps the same site address, and
+blocks the two endpoints that let one visitor spoil the demo for everyone else (B2): tenant reset
+(`/api/v1/admin/*`) and the mock ↔ live switch (`PATCH /api/v1/config`). Both return `403`; everything
+else, including approvals, keeps working.
+
+```bash
+SITE=$(sudo head -1 /etc/caddy/Caddyfile | awk '{print $1}')
+echo "Site: $SITE"
+sudo cp /etc/caddy/Caddyfile /etc/caddy/Caddyfile.with-password
+sudo tee /etc/caddy/Caddyfile >/dev/null <<EOF
+$SITE {
+	encode zstd gzip
+	@admin {
+		path /api/v1/admin/*
+	}
+	@config_change {
+		method PATCH PUT POST DELETE
+		path /api/v1/config
+	}
+	respond @admin "Disabled on the shared demo" 403
+	respond @config_change "Disabled on the shared demo" 403
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+		-Server
+	}
+	reverse_proxy 127.0.0.1:8000
+}
+EOF
+sudo caddy validate --config /etc/caddy/Caddyfile --adapter caddyfile && sudo systemctl reload caddy
+sudo sed -i -E 's/^(User|Password):.*/\1:     (none - open link)/' /root/arch-office-credentials.txt
+```
+
+Check that `Site:` shows your `….sslip.io` name before trusting the rest. From your laptop,
+`curl -sI https://<site>/` should return `HTTP/2 200` with no password prompt.
+
+What anyone with the link can still do: pick any demo user (including the principal architect) and
+approve or reject proposals, change autonomy levels and run agents (B1). The data is synthetic (C5),
+so the cost is a messy demo, not a leak — reset it between audiences (§8.3) and back it up (§8.4) if a
+session's decisions matter. Leave `ANTHROPIC_API_KEY` unset on an open server: the switch is blocked
+in the browser, but if `LLM_MODE=live` is in `.env` every visitor's agent run spends your credit.
+
+To put the password back:
+`sudo cp /etc/caddy/Caddyfile.with-password /etc/caddy/Caddyfile && sudo systemctl reload caddy`.
 
 ---
 
